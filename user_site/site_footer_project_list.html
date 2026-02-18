@@ -2,54 +2,21 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Site Footer</title>
+  <title>Footer - イベントリスト</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
-  <!-- カスタムCSS -->
-  <link rel="stylesheet" href="../style.css">
   <style>
     body, html { width: 100%; max-width: 393px; margin: 0 auto; }
-    .footer-item {
-      flex: 1;
-      text-align: center;
-    }
-    .footer-icon {
-      font-size: 1.5rem;
-      display: block;
-      margin: 0 auto;
-    }
-    .footer-text {
-      font-size: 0.5rem;
-      margin-top: 0.2rem;
-    }
-    .footer-badge {
-      font-size: 0.55rem;
-      margin-left: 0.25rem;
-      vertical-align: middle;
-    }
+    .footer-item { flex: 1; text-align: center; }
+    .footer-icon { font-size: 1.5rem; display: block; margin: 0 auto; }
+    .footer-text { font-size: 0.5rem; margin-top: 0.2rem; }
   </style>
 </head>
 <body>
   <footer class="text-center" style="background-color: black; color: white; width: 100%; max-width: 393px; margin: 0 auto;">
     <div class="container py-2" style="max-width: 393px;">
       <div class="d-flex justify-content-around align-items-center">
-        <!-- 受付QR -->
-        <div class="footer-item">
-          <a href="site_project_detail_program.html" class="footer-link text-white text-decoration-none" title="受付QR">
-            <i class="bi bi-qr-code footer-icon"></i>
-            <div class="footer-text">受付QR</div>
-          </a>
-        </div>
-        <!-- VIP来場 -->
-        <div class="footer-item">
-          <a href="site_notifications.html" class="footer-link text-white text-decoration-none">
-            <i class="bi bi-bell-fill footer-icon"></i>
-            <div class="footer-text">VIP来場 <span class="badge bg-danger footer-badge">8</span></div>
-          </a>
-        </div>
         <!-- 山田太郎 -->
         <div class="footer-item">
           <a href="site_myprof.html" class="footer-link text-white text-decoration-none">
@@ -69,6 +36,11 @@
             <li><a class="dropdown-item" href="site_terms.html">利用規約</a></li>
             <li><a class="dropdown-item" href="site_privacy.html">プライバシーポリシー</a></li>
             <li><hr class="dropdown-divider"></li>
+            <li><span class="d-block px-3 py-1 small text-muted">株式会社ビジネスフォーラム事務局</span></li>
+            <li><span class="d-block px-3 py-1 small text-muted">イベント入退場管理システム</span></li>
+            <li><span class="d-block px-3 py-1 small text-muted">Copyright © 2026. All rights reserved.</span></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle me-1"></i>バージョン情報</a></li>
+            <li><hr class="dropdown-divider"></li>
             <li class="px-2 py-1">
               <a href="../index.html" class="btn btn-outline-secondary btn-sm w-100">モックアップ入口（indexに戻る）</a>
             </li>
@@ -80,7 +52,6 @@
     </div>
   </footer>
 
-  <!-- Bootstrap JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

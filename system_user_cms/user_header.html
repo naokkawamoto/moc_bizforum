@@ -1,92 +1,50 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <title>User Header</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap CSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons CDN -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
-  <!-- Optional custom CSS -->
-  <link rel="stylesheet" href="../style.css">
-</head>
-<body>
-  <header class="navbar navbar-expand-lg" style="background-color: black; color: white;">
-    <div class="container-fluid">
-      <!-- ハンバーガーメニュボタン（左端） -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
-      </button>
-      <!-- ロゴ・ブランド部分 -->
-      <a class="navbar-brand d-flex align-items-center" href="user_project_list.html" style="color: white;">
-        <img src="../images/logo_white.svg" alt="S.T.K Logo" style="height: 2em; width: auto;" class="d-inline-block align-text-top mx-2">
-        S.T.K
-      </a>
-      <!-- offcanvas（スマホ表示時に左からスライド） -->
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header" style="background-color: black; color: white;">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
-            <a class="navbar-brand" href="user_dashboard.html" style="color: white;">
-              <img src="../images/company_logo.png" alt="Logo" width="45" height="45" class="d-inline-block align-top">
-              RENOVATION USER CMS（クライアント管理画面）
-            </a>
-          </h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body" style="background-color: black;">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link" href="user_nortification.html" id="mypageLink" style="color: white;">
-                <i class="bi bi-info"></i>お知らせ<span class="badge bg-danger">2</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="user_chat_all.html" id="mypageLink" style="color: white;">
-                <i class="bi bi-chat"></i>チャット<span class="badge bg-danger">4</span>
-              </a>
-            </li>
-            <!-- 設定ドロップダウン -->
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false" style="color: white;">
-                設定
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="settingsDropdown" style="font-size:small;">
-                <li><a class="dropdown-item" href="user_settings_work_type.html">工事種類設定（システム管理者）</a></li>
-                <li><a class="dropdown-item" href="user_settings_staff.html">社内担当者設定（システム管理者）</a></li>
-                <li><a class="dropdown-item" href="user_settings_partner.html">協力業者登録（システム管理者）</a></li>
-              </ul>
-            </li>
-            <!-- 山田太郎（マイページ） -->
-            <li class="nav-item">
-              <a class="nav-link" href="user_myprof.html" id="mypageLink" style="color: white;">
-                <i class="bi bi-person-circle"></i> 山田太郎
-              </a>
-            </li>
-            <!-- ログアウト -->
-            <li class="nav-item">
-              <a class="nav-link" href="../index.html" style="color: white;">
-                <i class="bi bi-box-arrow-right"></i> Logout
-              </a>
-            </li>
-          </ul>
-        </div>
+<header class="navbar navbar-expand-lg" style="background-color: black; color: white;">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="user_project_list.html" style="color: white;">
+      クライアント名
+    </a>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header" style="background-color: black; color: white;">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+          <a class="navbar-brand" href="user_dashboard.html" style="color: white;">
+            入退場管理システム（管理画面）
+          </a>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <!-- /offcanvas -->
+      <div class="offcanvas-body" style="background-color: black;">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html" style="color: white;">モックアップ入口</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">設定</a>
+            <ul class="dropdown-menu" aria-labelledby="settingsDropdown" style="font-size: small;">
+              <li><a class="dropdown-item" href="user_settings_staff.html">社内担当者設定（システム管理者）</a></li>
+              <li><a class="dropdown-item" href="user_settings_contract.html">契約情報（システム管理者）</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="user_terms.html">利用規約</a></li>
+              <li><a class="dropdown-item" href="user_privacy.html">プライバシーポリシー</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><span class="dropdown-item-text text-muted small">Ver 1.0.0</span></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="user_myprof.html" style="color: white;">
+              <i class="bi bi-person-circle"></i> 山田太郎
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html" style="color: white;">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </header>
-
-  <!-- 必要なJSライブラリ -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../style.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      applyCustomSettings();
-      // マイページはクリックで user_myprof.html へ遷移するのでモーダルは無効にしています。
-    });
-  </script>
-</body>
-</html>
+  </div>
+</header>

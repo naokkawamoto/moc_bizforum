@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>工事管理システム 要件定義書</title>
+  <title>イベント入退場管理システム 要件定義書</title>
   <style>
     body { font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif; margin: 20px; font-size: 12px; }
     h1 { font-size: 18px; border-bottom: 2px solid #333; padding-bottom: 10px; }
@@ -20,36 +20,33 @@
   </style>
 </head>
 <body>
-  <h1>工事管理システム 要件定義書（system_user_cms）</h1>
-  <p>作成日: 2026年1月26日</p>
-  <p><strong>対象デバイス:</strong> iPad Pro（1024×1366px）</p>
-  <p><strong>注意:</strong> user_site用の要件定義は <code>user_site/requirements_specification.html</code> を参照してください。</p>
+  <h1>イベント入退場管理システム 要件定義書（system_user_cms）</h1>
+  <p>作成日: 2026年2月17日</p>
+  <p><strong>対象デバイス:</strong> デスクトップ・タブレット（表示幅 1024px 以上を想定。例：iPad Pro 1024×1366px）</p>
+  <p><strong>対応ブラウザ:</strong> Google Chrome、Safari、Microsoft Edge の各ブラウザについて、リリースから1年以内のバージョンを対象とする（例：2026年2月時点では各ブラウザの直近1年分のメジャーバージョン）。</p>
+  <p><strong>注意:</strong> 受付アプリ（スマートフォン向け）の要件定義は <code>user_site/requirements_specification.html</code> を参照してください。</p>
 
   <!-- 目次 -->
   <h2>目次</h2>
   <ol>
-    <li><a href="#page1">user_project_list.html - 工事リスト</a></li>
-    <li><a href="#page2">user_project_create.html - 新規工事登録</a></li>
-    <li><a href="#page3">user_project_detail.html - 工事進捗</a></li>
-    <li><a href="#page4">user_project_detail_report.html - 工事日誌一覧</a></li>
-    <li><a href="#page5">user_project_detail_report_detail.html - 工事日誌詳細</a></li>
-    <li><a href="#page6">user_project_detail_schedule.html - スケジュール</a></li>
-    <li><a href="#page7">user_project_detail_overview.html - 工事概要</a></li>
-    <li><a href="#page8">user_project_detail_drawing.html - 図面</a></li>
-    <li><a href="#page9">user_project_detail_budget.html - 予算</a></li>
-    <li><a href="#page10">user_project_detail_staff.html - 社内担当者</a></li>
-    <li><a href="#page11">user_project_detail_partner.html - 外部協力会社</a></li>
-    <li><a href="#page12">user_project_detail_other.html - 資料</a></li>
-    <li><a href="#page13">user_settings_work_type.html - 工事種類設定（システム管理者）</a></li>
-    <li><a href="#page14">user_settings_staff.html - 社内担当者設定（システム管理者）</a></li>
-    <li><a href="#page15">user_settings_partner.html - 協力業者登録（システム管理者）</a></li>
-    <li><a href="#page16">user_chat_all.html - チャット一覧</a></li>
-    <li><a href="#page17">user_nortification.html - お知らせ・通知</a></li>
-    <li><a href="#page18">user_user_detail.html - ユーザー詳細</a></li>
+    <li><a href="#page1">user_project_list.html - イベントリスト</a></li>
+    <li><a href="#page2">user_project_create.html - 新規イベント登録</a></li>
+    <li><a href="#page3">user_project_detail.html - イベントトップ（ダッシュボード）</a></li>
+    <li><a href="#page4">user_project_detail_report.html - 来場者・入退室</a></li>
+    <li><a href="#page5">user_visitor_detail.html - 入場者詳細</a></li>
+    <li><a href="#page6">user_staff_detail.html - 担当者別詳細</a></li>
+    <li><a href="#page7">user_nortification.html - VIP来場のお知らせ</a></li>
+    <li><a href="#page8">user_myprof.html - マイプロフィール</a></li>
+    <li><a href="#page9">user_header.html - 共通ヘッダー</a></li>
+    <li><a href="#page10">user_footer.html - 共通フッター</a></li>
+    <li><a href="#page11">user_terms.html - 利用規約</a></li>
+    <li><a href="#page12">user_privacy.html - プライバシーポリシー</a></li>
+    <li><a href="#page13">user_settings_contract.html - 契約情報（システム管理者）</a></li>
+    <li><a href="#page14">user_settings_staff.html - 担当者設定（システム管理者）</a></li>
   </ol>
 
-  <!-- ===== ページ1: 工事リスト ===== -->
-  <h2 id="page1">1. user_project_list.html - 工事リスト</h2>
+  <!-- ===== ページ1: イベントリスト ===== -->
+  <h2 id="page1">1. user_project_list.html - イベントリスト</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -57,11 +54,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>工事管理</td>
+      <td>イベント入退場管理</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>登録済みの工事案件を一覧表示するメインページ。パネル/リスト切り替え、ステータスフィルタリング機能あり。</td>
+      <td>登録済みのイベントを一覧表示するメインページ。パネル/リスト切り替え、ステータスフィルタリング（準備中/受付中/終了）機能あり。</td>
     </tr>
   </table>
 
@@ -75,17 +72,17 @@
     <tr>
       <td>左カラム</td>
       <td>300px</td>
-      <td>工事名リスト（リンク一覧）→ クリックで詳細ページへ遷移</td>
+      <td>イベント名リスト（リンク一覧）→ クリックで詳細ページへ遷移</td>
     </tr>
     <tr>
       <td>中央カラム</td>
       <td>可変</td>
-      <td>メインコンテンツ（カード/テーブル表示）</td>
+      <td>メインコンテンツ（イベントカード/テーブル表示）</td>
     </tr>
     <tr>
       <td>右カラム</td>
       <td>300px</td>
-      <td>お知らせ・通知タブ</td>
+      <td>お知らせ・VIP来場通知タブ</td>
     </tr>
   </table>
 
@@ -100,8 +97,8 @@
       <td colspan="3">ヘッダー部</td>
     </tr>
     <tr>
-      <td>新規作成ボタン</td>
-      <td>クリックで新規工事登録ページへ遷移</td>
+      <td>新規イベント作成ボタン</td>
+      <td>大きく目立つ赤いボタン（btn-danger）。クリックで新規イベント登録ページへ遷移</td>
       <td class="nav-link">→ user_project_create.html</td>
     </tr>
     <tr class="section-header">
@@ -110,7 +107,7 @@
     <tr>
       <td>フィルタータブ</td>
       <td>ステータス別にフィルタリング</td>
-      <td>すべて / 案件登録済み / 工事中 / 工事完了 / 出来方完了<br>※各タブに件数表示</td>
+      <td>すべて / 準備中 / 受付中 / 終了<br>※各タブに件数表示</td>
     </tr>
     <tr class="section-header">
       <td colspan="3">表示切替</td>
@@ -124,30 +121,30 @@
       <td colspan="3">パネルビュー（カード表示）</td>
     </tr>
     <tr>
-      <td>工事カード</td>
+      <td>イベントカード</td>
       <td>カードクリックで詳細ページへ遷移</td>
-      <td>工事名 / ステータスバッジ / 工事画像 / 工事場所 / 工事種類 / 担当者 / 契約日 / 工事開始日 / 完了予定日 / 進捗率 / 未読メッセージ数 / 状況</td>
+      <td>イベント名 / VIP来場アイコン・バッジ / ステータスバッジ / イベント画像 / 開催日時 / 開催場所 / 担当者 / 登録者数 / 入室実績</td>
     </tr>
     <tr class="section-header">
       <td colspan="3">リストビュー（テーブル表示）</td>
     </tr>
     <tr>
-      <td>工事テーブル</td>
+      <td>イベントテーブル</td>
       <td>行クリックで詳細ページへ遷移</td>
-      <td>状況 / 工事名 / 工事種類 / 工事場所 / 担当者 / 完了予定日 / 未読数</td>
+      <td>状況 / イベント名（VIP来場アイコン付き） / VIP来場（バッジ表示） / 開催日時 / 開催形式 / 担当者 / 登録者数 / 入場済</td>
     </tr>
     <tr class="section-header">
       <td colspan="3">右サイドバー</td>
     </tr>
     <tr>
-      <td>お知らせ・通知</td>
+      <td>お知らせ・VIP来場通知</td>
       <td>タブ切り替えで表示内容変更</td>
-      <td>お知らせリスト / 通知リスト（各未読バッジ付き）</td>
+      <td>お知らせリスト / VIP来場お知らせ（未読バッジ付き）</td>
     </tr>
   </table>
 
-  <!-- ===== ページ2: 新規工事登録 ===== -->
-  <h2 id="page2">2. user_project_create.html - 新規工事登録</h2>
+  <!-- ===== ページ2: 新規イベント登録 ===== -->
+  <h2 id="page2">2. user_project_create.html - イベント情報登録フォーム</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -155,11 +152,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>新規工事登録</td>
+      <td>イベント情報登録フォーム</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>新規工事案件を登録するためのフォームページ。7つのセクションに分かれ、スクロールスパイ連動のナビゲーション付き。</td>
+      <td>イベント概要・担当者・プログラム・来場予約を登録するためのフォームページ。各セクションに保存ボタンがあり、個別に保存可能。CSVアップロード機能あり。</td>
     </tr>
   </table>
 
@@ -173,45 +170,27 @@
     </tr>
     <tr>
       <td>1</td>
-      <td class="feature">工事概要</td>
-      <td>入力フォーム<br>基幹システム取り込み</td>
-      <td>工事名 <span class="required">*必須</span> / 工事種類 <span class="required">*必須</span>（セレクト：アスファルト舗装工事/コンクリート舗装工事/補修工事/区画線工事/その他）/ 工事場所 <span class="required">*必須</span> / 発注者 / 契約金額（円）/ 工期開始日 / 工期終了日 / 責任者（社内）/ 現場代理人 / 備考</td>
+      <td class="feature">イベント概要</td>
+      <td>入力フォーム<br>CSVアップロード<br>保存ボタン</td>
+      <td>イベント名 <span class="required">*必須</span> / 開催日時 <span class="required">*必須</span> / 開催場所 / 入場予定数 / セッション参加予定数（自由記述）/ 参加対象 / インフォメーション・備考<br>※CSVアップロードボタンで一括取り込み可能</td>
     </tr>
     <tr>
       <td>2</td>
-      <td class="feature">スケジュール</td>
-      <td>テーブル入力<br>基幹システム取り込み</td>
-      <td>工種 / 担当業者 / 開始予定日 / 終了予定日<br>※行の追加・削除可能</td>
+      <td class="feature">担当者登録</td>
+      <td>テーブル入力<br>保存ボタン<br>登録人数バッジ</td>
+      <td>担当者名 / 役割（受付・営業）/ メール<br>※行の追加・削除可能。登録人数をバッジで表示</td>
     </tr>
     <tr>
       <td>3</td>
-      <td class="feature">図面登録</td>
-      <td>ファイルアップロード</td>
-      <td>画像・PDFファイル（ドラッグ＆ドロップ対応）</td>
+      <td class="feature">プログラム登録</td>
+      <td>テーブル入力<br>CSVアップロード<br>保存ボタン</td>
+      <td>休憩（チェックボックス）/ 講演タイトル / 内容 / ROOM / 講演者 / 肩書 / 開始時間 / 終了時間<br>※行の追加・削除可能。CSVアップロードで一括取り込み可能</td>
     </tr>
     <tr>
       <td>4</td>
-      <td class="feature">予算</td>
-      <td>テーブル入力<br>基幹システム取り込み</td>
-      <td>工種 / 仕様 / 単位 / 数量 / 単価 / 金額（自動計算）<br>※行の追加・削除可能</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td class="feature">社内担当者</td>
-      <td>メンバー選択<br>権限付与</td>
-      <td>登録済みメンバー選択（ドロップダウン）/ 権限（管理者/編集者/閲覧者）<br>※選択後バッジ表示、個別削除可能</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td class="feature">外部協力会社</td>
-      <td>会社選択<br>工種割当</td>
-      <td>登録済み協力会社選択（ドロップダウン）/ 担当工種（セレクト）<br>※選択後バッジ表示、個別削除可能</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td class="feature">資料</td>
-      <td>ファイルアップロード<br>分類チェック</td>
-      <td>ファイル選択 / 資料分類チェックボックス（KY活動記録表/安全施工サイクル/施工計画書/品質管理計画書/道路使用許可/契約書類）</td>
+      <td class="feature">来場者リスト</td>
+      <td>テーブル表示<br>CSVアップロード<br>保存ボタン<br>登録人数バッジ<br>QRコード表示</td>
+      <td>UserID / 姓名 / 会社名 / 担当者名 / QRコード（クリックでモーダル表示）<br>※CSVアップロードで一括登録可能。QRコードをクリックするとモーダルでQRコードを表示</td>
     </tr>
   </table>
 
@@ -222,25 +201,29 @@
       <th width="80%">詳細</th>
     </tr>
     <tr>
-      <td>基幹システムから取り込み</td>
-      <td>工事概要/スケジュール/予算の各セクションに配置。クリックでAPIを呼び出しデータ自動入力（実装時）</td>
+      <td>各セクション保存</td>
+      <td>各セクション（イベント概要・担当者登録・プログラム登録・来場者リスト）に個別の保存ボタンあり。クリックで該当セクションのみ保存</td>
     </tr>
     <tr>
-      <td>スクロールスパイ</td>
-      <td>左ナビゲーションが現在表示中のセクションに連動してハイライト</td>
+      <td>CSVアップロード</td>
+      <td>イベント概要・プログラム登録・来場者リストにCSVアップロードボタンあり。クリックでファイル選択ダイアログ表示（実装時）</td>
     </tr>
     <tr>
-      <td>登録ボタン</td>
-      <td>左ナビ下部＋ページ下部固定。クリックで確認ダイアログ→登録処理→一覧ページへ遷移</td>
+      <td>登録ボタン（ページ下部固定）</td>
+      <td>ページ下部に固定表示。クリックで確認ダイアログ→全セクションを一括登録処理→一覧ページへ遷移</td>
     </tr>
     <tr>
       <td>キャンセルボタン</td>
-      <td>一覧ページへ遷移</td>
+      <td>ページ下部に表示。クリックで一覧ページへ遷移</td>
+    </tr>
+    <tr>
+      <td>QRコードモーダル</td>
+      <td>来場者リストのQRコードセルをクリックすると、UserID・姓名とQRコードを表示するモーダルが開く</td>
     </tr>
   </table>
 
-  <!-- ===== ページ3: 工事進捗 ===== -->
-  <h2 id="page3">3. user_project_detail.html - 工事進捗</h2>
+  <!-- ===== ページ3: イベントトップ（ダッシュボード） ===== -->
+  <h2 id="page3">3. user_project_detail.html - イベントトップ（ダッシュボード）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -248,11 +231,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（概要）</td>
+      <td>イベント管理（トップ）</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事案件のダッシュボード。工事概要、予算・実績、工事日誌、スケジュールを1画面でサマリー表示。</td>
+      <td>イベントのダッシュボード。イベント名・バナー・説明を表示し、プログラム別の入室予定・実績をカード形式でサマリー表示。CSV/PDF出力ボタンあり。</td>
     </tr>
   </table>
 
@@ -263,53 +246,35 @@
       <th width="20%">メニュー項目</th>
       <th width="75%">遷移先</th>
     </tr>
-    <tr><td>1</td><td>工事進捗</td><td>user_project_detail.html</td></tr>
-    <tr><td>2</td><td>工事日誌</td><td>user_project_detail_report.html</td></tr>
-    <tr><td>3</td><td>スケジュール</td><td>user_project_detail_schedule.html</td></tr>
-    <tr><td>4</td><td>工事概要</td><td>user_project_detail_overview.html</td></tr>
-    <tr><td>5</td><td>図面</td><td>user_project_detail_drawing.html</td></tr>
-    <tr><td>6</td><td>予算</td><td>user_project_detail_budget.html</td></tr>
-    <tr><td>7</td><td>社内担当者</td><td>user_project_detail_staff.html</td></tr>
-    <tr><td>8</td><td>外部協力会社</td><td>user_project_detail_partner.html</td></tr>
-    <tr><td>9</td><td>資料</td><td>user_project_detail_other.html</td></tr>
+    <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
+    <tr><td>2</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>3</td><td>VIP来場のお知らせ</td><td>user_nortification.html（未読バッジ表示あり）</td></tr>
   </table>
 
   <h3>メインコンテンツ</h3>
   <table>
     <tr>
-      <th width="15%">カード名</th>
+      <th width="15%">要素</th>
       <th width="45%">表示内容</th>
       <th width="20%">操作</th>
       <th width="20%">遷移先</th>
     </tr>
     <tr>
-      <td class="feature">工事概要カード</td>
-      <td>工事種類 / 責任者（社内）/ 状況（ドロップダウン＋保存ボタン）/ 協力業者リスト（業者名・担当工種・責任者・電話番号）</td>
-      <td>状況変更・保存<br>カードクリック</td>
-      <td>user_project_detail_overview.html</td>
+      <td class="feature">イベントヘッダー</td>
+      <td>イベント名（VIPアイコン）/ イベントトップタイトル / 説明文 / CSVボタン / PDFボタン</td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-      <td class="feature">予算・実績カード</td>
-      <td>項目 / 予算 / 実績 / 進捗率（直接工事費・各工種内訳・経費・合計）/ 進捗バー</td>
-      <td>カードクリック</td>
-      <td>user_project_detail_budget.html</td>
-    </tr>
-    <tr>
-      <td class="feature">工事日誌カード</td>
-      <td>直近2日間の工事日誌（日付 / 業者 / 工種 / 予算 / 当日実績）</td>
-      <td>カードクリック</td>
+      <td class="feature">プログラム（コンテンツ）テーブル</td>
+      <td>時間 / ROOM / 講演タイトル・内容 / 講演者 / 入室予定数 / 入室数 / 退室数（進捗表示）。編集・保存ボタンあり</td>
+      <td>テーブル行クリックで来場者・入退室ページへ（実装による）</td>
       <td>user_project_detail_report.html</td>
-    </tr>
-    <tr>
-      <td class="feature">スケジュールカード</td>
-      <td>簡易ガントチャート（3月カレンダー / 作業項目 / 予定・実績バー）/ 凡例</td>
-      <td>カードクリック</td>
-      <td>user_project_detail_schedule.html</td>
     </tr>
   </table>
 
-  <!-- ===== ページ4: 工事日誌一覧 ===== -->
-  <h2 id="page4">4. user_project_detail_report.html - 工事日誌一覧</h2>
+  <!-- ===== ページ4: 来場者・入退室 ===== -->
+  <h2 id="page4">4. user_project_detail_report.html - 来場者・入退室</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -317,11 +282,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（工事日誌）</td>
+      <td>イベント管理（来場者・入退出）</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事日誌を日付降順で一覧表示。1日あたり最大3社の工事日誌を表示。</td>
+      <td>来場者・入退出一覧を表示。担当者絞り込み・セッション絞り込みでフィルタ可能。行クリックで入場者詳細へ、担当者名クリックで担当者別詳細へ遷移。</td>
     </tr>
   </table>
 
@@ -333,31 +298,198 @@
     </tr>
     <tr>
       <td>ヘッダー</td>
-      <td>「工事日誌一覧」タイトル / 件数表示（白文字・黒背景バッジ）例：全25件中 1-15件表示</td>
+      <td>イベント名 / 「来場者・入退室」タイトル / 開催日時</td>
     </tr>
     <tr>
-      <td class="data">工事日誌テーブル</td>
-      <td>
-        <b>列構成：</b>業者名 / 工種 / 予算 / 当日実績<br>
-        <b>行構成：</b><br>
-        ・日付ヘッダー行（例：2026/03/14（土））<br>
-        ・業者行（1社2行構成：工種行＋経費行）<br>
-        ・1日あたり最大3社表示<br>
-        <b>表示日数：</b>約5日分
-      </td>
+      <td class="data">絞り込み</td>
+      <td>来場者名検索（テキスト）/ 担当者絞り込み（セレクト：山田 太郎・佐藤 花子・鈴木 次郎等）/ セッション絞り込み（基調講演・セッションA〜D・ダイアログ等）</td>
     </tr>
     <tr>
-      <td>操作</td>
-      <td>各行クリックで工事日誌詳細へ遷移（URLパラメータ：date, company）</td>
+      <td class="data">来場者テーブル</td>
+      <td>来場者名・会社名・担当者（リンク→担当者別詳細）/ 各プログラムの参加・入退室状況（参加/不参加・入室中/退室済等バッジ）/ 行クリックで入場者詳細へ遷移</td>
+    </tr>
+    <tr>
+      <td>遷移</td>
+      <td>行クリック→ user_visitor_detail.html（入場者詳細）/ 担当者名クリック→ user_staff_detail.html（担当者別詳細）</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ5: 入場者詳細 ===== -->
+  <h2 id="page5">5. user_visitor_detail.html - 入場者詳細</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>入場者詳細</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>来場者・入退室一覧から遷移する入場者1件の詳細表示。基本情報・セッション別参加・入退室状況の表示・編集が可能。</td>
+    </tr>
+  </table>
+
+  <h3>表示構成</h3>
+  <table>
+    <tr>
+      <th width="20%">要素</th>
+      <th width="80%">詳細</th>
+    </tr>
+    <tr>
+      <td>パンくず</td>
+      <td>イベントトップ > 来場者・入退出 > 入場者詳細</td>
+    </tr>
+    <tr>
+      <td class="data">基本情報</td>
+      <td>入場者ID / 来場者名 / 会社名 等</td>
+    </tr>
+    <tr>
+      <td class="data">セッション別</td>
+      <td>各プログラム（基調講演・セッションA〜D等）の参加有無・入退室状況の表示・編集</td>
+    </tr>
+    <tr>
+      <td>遷移</td>
+      <td>来場者・入退室一覧に戻る（user_project_detail_report.html）</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ6: 担当者別詳細 ===== -->
+  <h2 id="page6">6. user_staff_detail.html - 担当者別詳細</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>担当者別詳細</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>来場者・入退室一覧の担当者名クリックから遷移。担当者IDを表示し、担当者に紐づく参加者一覧等を表示するページ（コンテンツは後で定義予定）。</td>
+    </tr>
+  </table>
+
+  <h3>表示構成</h3>
+  <table>
+    <tr>
+      <th width="20%">要素</th>
+      <th width="80%">詳細</th>
+    </tr>
+    <tr>
+      <td>パンくず</td>
+      <td>イベントトップ > 来場者・入退出 > 担当者別</td>
+    </tr>
+    <tr>
+      <td class="data">担当者情報</td>
+      <td>担当者ID 等（担当者に紐づくセミナー参加者一覧等は後で定義）</td>
+    </tr>
+    <tr>
+      <td>遷移</td>
+      <td>来場者一覧に戻る（user_project_detail_report.html）</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ7: VIP来場のお知らせ ===== -->
+  <h2 id="page7">7. user_nortification.html - VIP来場のお知らせ</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>VIP来場のお知らせ</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>VIP来場のお知らせを一覧表示するページ。イベント入退場管理システムの管理画面として、担当者フィルター・検索・絞り込み機能あり。デスクトップ・タブレット表示に最適化。</td>
+    </tr>
+  </table>
+
+  <h3>機能詳細</h3>
+  <table>
+    <tr>
+      <th width="20%">機能名</th>
+      <th width="40%">詳細</th>
+      <th width="40%">データ項目</th>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">ヘッダー</td>
+    </tr>
+    <tr>
+      <td>イベント名</td>
+      <td>ページ上部にイベント名を表示</td>
+      <td>イベント名（例：New Business Creation Strategy 2026）</td>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>「VIP来場のお知らせ」を表示</td>
+      <td>VIP来場のお知らせ</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">担当者フィルター</td>
+    </tr>
+    <tr>
+      <td>担当者チェックボックス</td>
+      <td>担当者名をチェックボックスで選択</td>
+      <td>山田 太郎 / 佐藤 花子 / 鈴木 次郎</td>
+    </tr>
+    <tr>
+      <td>未読のみフィルター</td>
+      <td>チェックボックスで未読のみ表示</td>
+      <td>未読のみ（チェックボックス）</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">検索・絞り込み</td>
+    </tr>
+    <tr>
+      <td>来場者名検索</td>
+      <td>テキスト入力で来場者名を検索</td>
+      <td>来場者名（テキスト入力） / 検索ボタン</td>
+    </tr>
+    <tr>
+      <td>プログラム絞り込み</td>
+      <td>セレクトボックスでプログラムを選択</td>
+      <td>すべて / 基調講演 / セッションA / セッションB / セッションC / セッションD / ダイアログ / ネットワーキング</td>
+    </tr>
+    <tr>
+      <td>リセットボタン</td>
+      <td>検索条件をリセット</td>
+      <td>リセットボタン</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">表示件数</td>
+    </tr>
+    <tr>
+      <td>表示件数選択</td>
+      <td>セレクトボックスで表示件数を選択</td>
+      <td>50件 / 100件</td>
+    </tr>
+    <tr>
+      <td>件数表示</td>
+      <td>全件数を表示</td>
+      <td>全XX件</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">お知らせリスト</td>
+    </tr>
+    <tr>
+      <td>お知らせ表示形式</td>
+      <td>3行構成で表示（タイムスタンプ・会社名・来場者名・プログラム名・アクション）</td>
+      <td>タイムスタンプ（小さな文字、グレー）<br>会社名、来場者名（普通の大きさ、太字）<br>プログラム名、アクション（改行）<br>未読・既読バッジ</td>
     </tr>
     <tr>
       <td>ページネーション</td>
-      <td>フッターにページ番号（1〜5）/ 前後ボタン</td>
+      <td>ページ番号と前後ボタンでページ移動</td>
+      <td>ページ番号 / 前へボタン / 次へボタン / ページ情報（例：1-50件目を表示（1/2ページ））</td>
     </tr>
   </table>
 
-  <!-- ===== ページ5: 工事日誌詳細 ===== -->
-  <h2 id="page5">5. user_project_detail_report_detail.html - 工事日誌詳細</h2>
+  <!-- ===== ページ8: マイプロフィール ===== -->
+  <h2 id="page8">8. user_myprof.html - マイプロフィール</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -365,394 +497,105 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（工事日誌詳細）</td>
+      <td>マイプロフィール</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事日誌フォーマットの詳細表示。3Dスキャナによる出来高自動算出機能あり。</td>
-    </tr>
-  </table>
-
-  <h3>セクション構成</h3>
-  <table>
-    <tr>
-      <th width="20%">セクション</th>
-      <th width="80%">データ項目</th>
-    </tr>
-    <tr>
-      <td>パンくずリスト</td>
-      <td>工事日誌一覧 > 工事日誌詳細</td>
-    </tr>
-    <tr>
-      <td class="feature">工事日誌ヘッダー</td>
-      <td>社内工事名 / 協力会社 / 「工事日誌」タイトル / 担当者名 / 確認者 / 作業日時 / 天候 / 作業時間 / 気温（最高/最低）</td>
-    </tr>
-    <tr>
-      <td class="feature">スキャンデータ自動算出<br>（出来高）</td>
-      <td>
-        <b>※自社3Dスキャナアプリ連携機能</b><br>
-        面積差分（㎡）/ 体積差分（㎥）/ 延長差分（m）/ 数量差分（t）<br>
-        スキャン日時 / 解析完了日時 / AI解析済みバッジ
-      </td>
-    </tr>
-    <tr>
-      <td class="data">作業内容・出来高</td>
-      <td>工種 / 作業内容 / 作業箇所 / 単位 / 出来高</td>
-    </tr>
-    <tr>
-      <td class="data">使用機械・作業員</td>
-      <td>使用機械名 / 台数 / 下請業者名 / 人数</td>
-    </tr>
-    <tr>
-      <td class="data">搬入材料</td>
-      <td>品名 / 規格・寸法 / 単位 / 台帳数量 / 受入及材名 / 数量</td>
-    </tr>
-    <tr>
-      <td class="data">使用計測機器</td>
-      <td>バッジ表示：巻尺 / 外気温度計 / コンパクトメーター / 路面温度計 / 3Dスキャナ（自社アプリ）</td>
-    </tr>
-    <tr>
-      <td class="data">日常点検結果</td>
-      <td>ラジオボタン：異常なし / 異常あり</td>
-    </tr>
-    <tr>
-      <td class="data">記事</td>
-      <td>特記事項・連絡事項（自由記述テキスト）</td>
-    </tr>
-    <tr>
-      <td class="data">作業写真</td>
-      <td>着工前 / 施工中 / 完了後 / 3Dスキャン</td>
-    </tr>
-    <tr>
-      <td>フッターボタン</td>
-      <td>工事日誌一覧に戻る / 印刷</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ6: スケジュール ===== -->
-  <h2 id="page6">6. user_project_detail_schedule.html - スケジュール</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（スケジュール）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事工程を詳細ガントチャートで表示。予定vs実績の比較、進捗率表示。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>凡例・サマリー</td>
-      <td>凡例（予定：青 / 実績：緑 / 本日：黄）/ 全体進捗率 / 各工種進捗率</td>
-    </tr>
-    <tr>
-      <td>ヘッダー</td>
-      <td>工期表示（白文字・黒背景）/ 印刷ボタン / Excel出力ボタン</td>
-    </tr>
-    <tr>
-      <td class="feature">ガントチャート</td>
-      <td>
-        <b>列：</b>工種 / 担当業者 / 区分（予定・実績）/ 3月1日〜31日（曜日付き）/ 進捗率<br>
-        <b>カテゴリ：</b><br>
-        ・撤去工（舗装版撤去 / As廃材運搬処分）<br>
-        ・アスファルト舗装工（路盤工 / 基層工 / 表層工）<br>
-        ・区画線工（区画線）<br>
-        <b>スタイル：</b><br>
-        ・本日（10日）：黄色ハイライト<br>
-        ・週末：グレー背景<br>
-        ・日曜：薄赤背景
-      </td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ7: 工事概要 ===== -->
-  <h2 id="page7">7. user_project_detail_overview.html - 工事概要</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（工事概要）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事の基本情報と契約情報を2カラムで詳細表示。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">カード</th>
-      <th width="80%">データ項目</th>
-    </tr>
-    <tr>
-      <td class="data">工事概要カード</td>
-      <td>工事名 / 工事種類 / 工事場所 / 発注者 / 契約金額 / 工期 / 責任者（社内）/ 現場代理人 / 主任技術者 / 状況（ドロップダウン＋保存ボタン）/ 進捗率 / 備考<br>※編集ボタン付き</td>
-    </tr>
-    <tr>
-      <td class="data">契約情報カード</td>
-      <td>舗装厚 / 使用材料 / 施工面積 / 施工延長 / 車線規制 / 作業時間 / 騒音規制 / 振動規制 / 排水勾配 / 品質基準 / 養生期間 / 保証期間<br>※編集ボタン付き</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ8: 図面 ===== -->
-  <h2 id="page8">8. user_project_detail_drawing.html - 図面</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（図面）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事に関連する図面をグリッド表示。ライトボックスで拡大表示可能。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>ヘッダー</td>
-      <td>「図面一覧」タイトル / 件数表示（白文字・黒背景バッジ）</td>
-    </tr>
-    <tr>
-      <td class="feature">図面カードグリッド</td>
-      <td>
-        <b>カード構成：</b>サムネイル画像 / タイトル / 説明<br>
-        <b>図面例：</b>平面図 / 断面図 / 舗装構成図 / 舗装展開図 / 区画線図<br>
-        <b>操作：</b>カードクリックでライトボックス表示
-      </td>
-    </tr>
-    <tr>
-      <td>ライトボックス</td>
-      <td>拡大画像 / タイトル / 閉じるボタン（×ボタン / ESCキー / 背景クリック）</td>
-    </tr>
-    <tr>
-      <td>図面追加カード</td>
-      <td>破線枠カード / クリックでファイル選択ダイアログ（画像・PDF対応）</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ9: 予算 ===== -->
-  <h2 id="page9">9. user_project_detail_budget.html - 予算</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（予算）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>日次出来高対比表形式で予算vs実績を詳細比較。収益予測機能付き。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>ヘッダー</td>
-      <td>基準日表示（白文字・黒背景）/ 印刷ボタン / Excel出力ボタン</td>
-    </tr>
-    <tr>
-      <td class="feature">日次出来高対比表</td>
-      <td>
-        <b>列構成：</b>工種 / 仕様 / 単位 / 数量 / 予算単価 / 予算金額 / 出来高数量（前日まで・当日・当日迄）/ 当日迄予算 / 当月迄支出額 / 差異<br>
-        <b>カテゴリ：</b><br>
-        ・アスファルト舗装工（路盤工 / 基層工 / 表層工）<br>
-        ・撤去工（舗装版撤去 / As廃材運搬処分）<br>
-        ・区画線工（区画線）<br>
-        ・経費（給与引当金 / 残業 / 法定福利費 / 他）<br>
-        <b>小計行：</b>直接工事費 計 / 経費 小計 / 予算原価 計<br>
-        <b>差異表示：</b>プラス＝緑、マイナス＝赤
-      </td>
-    </tr>
-    <tr>
-      <td class="data">契約情報サマリー</td>
-      <td>取決め金額 / S経費 / 粗利益 / 粗利益率</td>
-    </tr>
-    <tr>
-      <td class="data">予想収益サマリー</td>
-      <td>変更見込 / 最終金額 / 予想利益 / 予想利益率</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ10: 社内担当者 ===== -->
-  <h2 id="page10">10. user_project_detail_staff.html - 社内担当者</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（社内担当者）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事に関与する社内メンバーを管理。登録済みメンバーから選択して追加。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>新規追加ボタン</td>
-      <td>クリックで追加モーダル表示</td>
-    </tr>
-    <tr>
-      <td class="data">担当者テーブル</td>
-      <td>支店名 / 名前 / 職種 / 権限 / メール / 電話番号 / 削除ボタン</td>
-    </tr>
-    <tr>
-      <td>追加モーダル</td>
-      <td>支店名（セレクト）/ 職種（セレクト）/ 名前（セレクト：登録済みメンバーから選択）</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ11: 外部協力会社 ===== -->
-  <h2 id="page11">11. user_project_detail_partner.html - 外部協力会社</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（外部協力会社）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>協力会社ごとにタブ切替で詳細情報・担当者・工事日誌を表示。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>会社タブ</td>
-      <td>東京舗装(株) / (株)関東建設 / 首都圏道路(株) ※タブクリックで切替</td>
-    </tr>
-    <tr>
-      <td class="data">会社概要カード</td>
-      <td>会社名 / 代表者 / 所在地 / 電話番号 / FAX / 担当工種 / 契約金額</td>
-    </tr>
-    <tr>
-      <td class="data">担当者リストカード</td>
-      <td>名前 / 役職 / 電話番号 / メール</td>
-    </tr>
-    <tr>
-      <td class="data">工事日誌カード</td>
-      <td>日付（リンク）/ 天候 / 作業内容 / 作業員数 / 状況<br>※リンククリックで工事日誌詳細へ遷移</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ12: 資料 ===== -->
-  <h2 id="page12">12. user_project_detail_other.html - 資料</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（資料）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事関連資料をカテゴリ別に一覧管理。KY活動記録等の安全書類含む。</td>
-    </tr>
-  </table>
-
-  <h3>表示構成</h3>
-  <table>
-    <tr>
-      <th width="20%">要素</th>
-      <th width="80%">詳細</th>
-    </tr>
-    <tr>
-      <td>ヘッダー</td>
-      <td>「資料一覧」タイトル / 新規登録ボタン（モーダル表示）</td>
-    </tr>
-    <tr>
-      <td class="data">資料テーブル</td>
-      <td>
-        <b>列：</b>No / 分類（バッジ）/ 資料名称 / ファイル数 / 登録日 / アクション（表示・アップロード）<br>
-        <b>カテゴリ：</b><br>
-        ・安全関連書類：KY活動記録表 / 安全施工サイクル実施記録 / 新規入場者教育記録 / 作業手順書<br>
-        ・施工関連書類：施工計画書 / 品質管理計画書 / アスファルト合材配合設計書 / 舗装出来形管理表<br>
-        ・許可・届出書類：道路使用許可申請書 / 道路占用許可申請書 / 交通規制図<br>
-        ・契約・保険書類：工事請負契約書 / 建設工事保険証券 / 下請負契約書
-      </td>
-    </tr>
-    <tr>
-      <td>アップロードモーダル</td>
-      <td>資料名（入力）/ ファイル選択 / アップロードボタン</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ13: 工事種類設定（システム管理者） ===== -->
-  <h2 id="page13">13. user_settings_work_type.html - 工事種類設定（システム管理者）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>工事種類設定（システム管理者）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>工事種類マスタの一覧・追加・編集・削除。iPad Proサイズに最適化。</td>
+      <td>ログインユーザーのアカウント情報の表示・編集。名前・メール・パスワード（パスワード忘れボタン）を編集可能。一覧に戻るでイベントリストへ遷移。</td>
     </tr>
     <tr>
       <td>データ項目</td>
-      <td>番号 / 工事種類名 / 工種（セレクト）/ 表示のON/OFF</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>追加ボタン / 編集アイコン / 削除アイコン</td>
+      <td>名前 / メール / パスワード（********表示・読み取り専用＋パスワード忘れボタン）/ 保存ボタン / 一覧に戻る</td>
     </tr>
   </table>
 
-  <!-- ===== ページ14: 社内担当者設定（システム管理者） ===== -->
-  <h2 id="page14">14. user_settings_staff.html - 社内担当者設定（システム管理者）</h2>
+  <!-- ===== ページ9: 共通ヘッダー ===== -->
+  <h2 id="page9">9. user_header.html - 共通ヘッダー</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>全ページ共通のヘッダー（黒背景・白文字）。ナビゲーションブランドでイベントリストへ、オフキャンバスメニューで設定・利用規約・プライバシー・マイプロフィール・ログアウト等へ遷移。</td>
+    </tr>
+    <tr>
+      <td>表示</td>
+      <td>クライアント名（user_project_list.html へリンク）/ ハンバーガーメニュー（オフキャンバス：入退場管理システム（管理画面）/ モックアップ入口 / 設定ドロップダウン / ユーザー名（マイプロフィールへ））</td>
+    </tr>
+    <tr>
+      <td>設定メニュー</td>
+      <td>社内担当者設定（システム管理者）/ 契約情報（システム管理者）/ 利用規約 / プライバシーポリシー / バージョン情報</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ10: 共通フッター ===== -->
+  <h2 id="page10">10. user_footer.html - 共通フッター</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>全ページ共通のフッター（黒背景・白文字・中央揃え）。</td>
+    </tr>
+    <tr>
+      <td>表示</td>
+      <td>株式会社ビジネスフォーラム事務局 / イベント入退場管理システム / Copyright © 2026. All rights reserved.</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ11: 利用規約 ===== -->
+  <h2 id="page11">11. user_terms.html - 利用規約</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>利用規約の表示ページ。ヘッダー設定メニューから遷移。</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ12: プライバシーポリシー ===== -->
+  <h2 id="page12">12. user_privacy.html - プライバシーポリシー</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>プライバシーポリシーの表示ページ。ヘッダー設定メニューから遷移。</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ13: 契約情報（システム管理者） ===== -->
+  <h2 id="page13">13. user_settings_contract.html - 契約情報（システム管理者）</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>契約情報（システム管理者）</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>会社情報・契約情報・支払い情報をタブで切替表示。システム管理者向け設定ページ。ヘッダー設定メニューから遷移。</td>
+    </tr>
+    <tr>
+      <td>タブ構成</td>
+      <td>会社情報（会社名・代表電話・代表者・住所・HP・システム管理者名等）/ 契約情報 / 支払い情報</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ14: 担当者設定（システム管理者） ===== -->
+  <h2 id="page14">14. user_settings_staff.html - 担当者設定（システム管理者）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -764,7 +607,7 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>社内担当者の一覧・追加・削除。iPad Proサイズに最適化。</td>
+      <td>イベント担当者（社内担当者）の一覧・追加・削除。デスクトップ・タブレット表示に最適化。ヘッダー設定メニューから遷移。</td>
     </tr>
     <tr>
       <td>データ項目</td>
@@ -776,103 +619,32 @@
     </tr>
   </table>
 
-  <!-- ===== ページ15: 協力業者登録（システム管理者） ===== -->
-  <h2 id="page15">15. user_settings_partner.html - 協力業者登録（システム管理者）</h2>
+  <hr>
+  <h2>共通仕様</h2>
   <table>
     <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
+      <th width="20%">項目</th>
+      <th width="80%">内容</th>
     </tr>
     <tr>
-      <td>ページタイトル</td>
-      <td>協力業者登録（システム管理者）</td>
+      <td>対象デバイス</td>
+      <td>デスクトップ・タブレット（表示幅 1024px 以上。例：iPad Pro 1024×1366px）</td>
     </tr>
     <tr>
-      <td>概要</td>
-      <td>協力業者の一覧・登録・編集・削除。iPad Proサイズに最適化。</td>
+      <td>対応ブラウザ</td>
+      <td>Google Chrome、Safari、Microsoft Edge の各ブラウザについて、リリースから1年以内のバージョンを対象とする。</td>
     </tr>
     <tr>
-      <td>データ項目</td>
-      <td>会社名 / 代表者 / 所在地 / 電話番号 / FAX / 担当工種</td>
+      <td>システム名</td>
+      <td>イベント入退場管理システム（受付アプリは user_site を参照）</td>
     </tr>
     <tr>
-      <td>操作</td>
-      <td>新規登録ボタン（モーダル表示）/ 編集ボタン / 削除ボタン</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ16: チャット一覧 ===== -->
-  <h2 id="page16">16. user_chat_all.html - チャット一覧</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
+      <td>レイアウト</td>
+      <td>イベントリスト：左カラム（イベント名リスト）＋中央メイン＋右カラム（お知らせ・VIP来場通知）。イベントトップ・来場者・入退室：左サイドメニュー（イベントトップ／来場者・入退室／VIP来場のお知らせ）＋中央メイン。</td>
     </tr>
     <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（チャット）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>全チャットの一覧表示。iPad Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>チャットタイトル / 案件名 / 最終メッセージプレビュー / 時刻</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>項目クリックでチャット詳細遷移</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ17: お知らせ・通知 ===== -->
-  <h2 id="page17">17. user_nortification.html - お知らせ・通知</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>お知らせと通知</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>お知らせ・通知をタブで切り替え表示。iPad Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>お知らせ：タイトル / 日付 / 内容 / 未読・既読バッジ<br>通知：通知内容 / 日付 / 未読・既読バッジ</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>タブ切り替え / 項目クリック</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ18: ユーザー詳細 ===== -->
-  <h2 id="page18">18. user_user_detail.html - ユーザー詳細</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>ユーザー詳細</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ユーザー情報の表示・編集。iPad Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>メール / パスワード / 支店名 / 名前 / カナ / 職種 / 資格 / 担当工事種別 / 所属部署 / 電話番号</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>変更ボタンクリック</td>
+      <td>現行ファイル</td>
+      <td>本要件定義に記載の14ページ＋共通ヘッダー・フッターのみ。削除済みファイル（report_detail, schedule, overview, drawing, budget, staff, partner, other, work_type, partner設定, chat, user_detail）は対象外。</td>
     </tr>
   </table>
 

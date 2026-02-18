@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>受付プログラムリスト - 受付アプリ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <style>
+    body, html { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; width: 100%; max-width: 393px; margin: 0 auto; }
+    .container-fluid { max-width: 393px; margin: 0 auto; padding-bottom: 80px; }
+    .small-text { font-size: 0.7rem; }
+    .program-table { font-size: 0.65rem; }
+    .program-table th, .program-table td { padding: 0.35rem 0.25rem; vertical-align: middle; }
+    .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
+    .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
+    .qr-icon-link { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit; }
+    .qr-icon-link i { font-size: 1.2rem; }
+    .qr-icon-link .qr-text { font-size: 0.5rem; margin-top: 0.2rem; }
+    #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container-fluid px-0">
+    <div class="event-header bg-dark text-white py-2 px-3 mb-2">
+      <h4 class="mb-0 fw-bold text-white">New Business Creation Strategy 2026</h4>
+    </div>
+
+    <div class="px-2">
+      <h5 class="mb-2 mt-2 small-text fw-bold">受付プログラムリスト</h5>
+      
+      <div class="card mb-2">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table program-table table-bordered mb-0" id="programTable">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 70px;">時間</th>
+                  <th style="width: 55px;">ROOM</th>
+                  <th>講演タイトル</th>
+                  <th style="width: 60px;">講演者</th>
+                  <th class="text-center" style="width: 45px;">入室予定</th>
+                  <th class="text-center" style="width: 45px;">入室実績</th>
+                  <th class="text-center" style="width: 45px;">退室数</th>
+                  <th class="text-center" style="width: 70px;">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>13:00-13:30</td>
+                  <td>メインホール</td>
+                  <td>特別講演Ⅰ　社内企業家を…</td>
+                  <td>若林 直樹 氏</td>
+                  <td class="text-center">150</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">
+                    <a href="site_read_keynote.html" class="qr-icon-link">
+                      <i class="bi bi-qr-code"></i>
+                      <span class="qr-text">受付QR</span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>13:30-14:00</td>
+                  <td>メインホール</td>
+                  <td>協賛社講演Ⅰ　AIを…</td>
+                  <td>阿部 拓貴 氏</td>
+                  <td class="text-center">150</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">
+                    <a href="site_read_sponsor.html" class="qr-icon-link">
+                      <i class="bi bi-qr-code"></i>
+                      <span class="qr-text">受付QR</span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>14:10-14:30</td>
+                  <td>ROOM A</td>
+                  <td>ゲスト講演Ⅰ　大企業から…</td>
+                  <td>伊藤 悠一 氏</td>
+                  <td class="text-center">80</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">
+                    <a href="site_read_session_a.html" class="qr-icon-link">
+                      <i class="bi bi-qr-code"></i>
+                      <span class="qr-text">受付QR</span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>14:10-14:30</td>
+                  <td>ROOM B</td>
+                  <td>ゲスト講演Ⅱ　ソニー発…</td>
+                  <td>伊藤 健二 氏</td>
+                  <td class="text-center">70</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">
+                    <a href="site_read_session_b.html" class="qr-icon-link">
+                      <i class="bi bi-qr-code"></i>
+                      <span class="qr-text">受付QR</span>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>15:20-15:40</td>
+                  <td>ROOM C</td>
+                  <td>ゲスト講演Ⅲ　事業化へ…</td>
+                  <td>阿久津 智紀 氏</td>
+                  <td class="text-center">60</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">0</td>
+                  <td class="text-center">
+                    <a href="site_read_session_c.html" class="qr-icon-link">
+                      <i class="bi bi-qr-code"></i>
+                      <span class="qr-text">受付QR</span>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    fetch('site_footer.html').then(r=>r.text()).then(html=>{var e=document.getElementById('footer-container');if(e)e.innerHTML=html;}).catch(function(){});
+  </script>
+</body>
+</html>

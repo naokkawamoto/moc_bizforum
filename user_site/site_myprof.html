@@ -2,166 +2,87 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>マイページ</title>
+  <title>マイプロフィール - 受付アプリ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
-  <!-- カスタムCSS -->
   <link rel="stylesheet" href="../style.css">
   <style>
-    /* iPhone 17 Pro 393×852向け最適化 */
-    body, html {
-      width: 393px;
-      height: 852px;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-    .container-fluid {
-      max-width: 393px;
-      padding-bottom: 70px;
-      margin-top: 0.5rem;
-    }
+    body, html { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; width: 100%; max-width: 393px; margin: 0 auto; }
+    .container-fluid { max-width: 393px; margin: 0 auto; padding-bottom: 80px; }
     .small-text { font-size: 0.7rem; }
-    .project-title { white-space: nowrap; font-size: 0.9rem; }
-    .info-table { font-size: 0.65rem; }
-    .info-table th { background-color: #f8f9fa; white-space: nowrap; }
-    .info-table td { word-break: break-word; }
-    /* Footer fixed */
-    #footer-container {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 393px;
-      z-index: 1000;
-    }
-    #footer-container footer {
-      width: 100%;
-    }
-    .user-photo {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-    }
-    .modal-dialog {
-      max-width: 350px;
-    }
-    .modal-title {
-      font-size: 0.9rem;
-    }
-    .form-label {
-      font-size: 0.7rem;
-      font-weight: bold;
-      margin-bottom: 0.25rem;
-    }
-    .form-control {
-      font-size: 0.65rem;
-      padding: 0.4rem 0.5rem;
-    }
+    .event-list-header { width: 100%; max-width: 393px; margin: 0 auto; }
+    .event-list-header h4 { font-size: 1rem; line-height: 1.3; }
+    .form-label { font-size: 0.75rem; font-weight: bold; }
+    .form-control { font-size: 0.8rem; }
+    #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
   </style>
 </head>
 <body>
-  <div class="container-fluid px-2">
-    <!-- タイトル -->
-    <h5 class="mb-2 mt-2 project-title fw-bold text-center">山田太郎 - マイページ</h5>
+  <div class="container-fluid px-0">
+    <div class="event-list-header bg-dark text-white py-2 px-3 mb-2">
+      <h4 class="mb-0 fw-bold text-white">イベント入退場受付アプリ</h4>
+    </div>
 
-    <!-- ユーザー情報カード -->
-    <div class="card mb-2">
-      <div class="card-body p-2">
-        <div class="row">
-          <!-- ユーザー写真 -->
-          <div class="col-12 text-center mb-2">
-            <img src="../images/nk_icon.gif" alt="User Photo" class="rounded-circle user-photo">
+    <div class="px-2">
+      <h5 class="mb-3 mt-2 fw-bold">マイプロフィール</h5>
+
+      <div class="card mb-3">
+        <div class="card-header py-2 d-flex justify-content-between align-items-center">
+          <span class="fw-bold small-text">アカウント情報</span>
+          <button type="button" class="btn btn-sm btn-primary" onclick="saveProfile()" style="font-size: 0.7rem;"><i class="bi bi-check-lg me-1"></i>保存</button>
+        </div>
+        <div class="card-body p-2">
+          <div class="mb-3">
+            <label class="form-label">名前</label>
+            <input type="text" class="form-control" id="profileName" value="山田 太郎" placeholder="名前">
           </div>
-          <!-- ユーザー情報 -->
-          <div class="col-12">
-            <table class="table table-bordered info-table mb-2">
-              <tbody>
-                <tr><th style="width: 100px;">支店名</th><td>東京支店</td></tr>
-                <tr><th>名前</th><td>山田 太郎</td></tr>
-                <tr><th>カナ</th><td>ヤマダ タロウ</td></tr>
-                <tr><th>職種</th><td>工事部長</td></tr>
-                <tr><th>資格</th><td>1級土木施工管理技士、測量士</td></tr>
-                <tr><th>担当工事種別</th><td>舗装工事、道路改良、駐車場造成</td></tr>
-                <tr><th>所属部署</th><td>土木部 舗装課</td></tr>
-                <tr><th>電話番号</th><td>090-1234-5678</td></tr>
-                <tr><th>メール</th><td>yamada@example.com</td></tr>
-              </tbody>
-            </table>
-            <div class="d-flex align-items-center justify-content-between">
-              <span class="small-text">パスワード: ********</span>
-              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changePasswordModal" style="font-size: 0.65rem;">
-                変更
+          <div class="mb-3">
+            <label class="form-label">メール</label>
+            <input type="email" class="form-control" id="profileEmail" value="yamada.taro@example.com" placeholder="メールアドレス">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">パスワード</label>
+            <input type="password" class="form-control" id="profilePassword" value="********" placeholder="********" readonly>
+            <div class="mt-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="forgotPassword()" style="font-size: 0.7rem;">
+                <i class="bi bi-key me-1"></i>パスワード忘れ
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  
-  <!-- パスワード変更モーダル -->
-  <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="changePasswordModalLabel">パスワード変更</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
-        </div>
-        <div class="modal-body">
-          <form id="changePasswordForm">
-            <div class="mb-3">
-              <label for="newPassword" class="form-label">新しいパスワード</label>
-              <input type="password" class="form-control" id="newPassword" required>
-            </div>
-            <div class="mb-3">
-              <label for="confirmPassword" class="form-label">パスワード確認</label>
-              <input type="password" class="form-control" id="confirmPassword" required>
-            </div>
-            <div class="text-end">
-              <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal" style="font-size: 0.7rem;">キャンセル</button>
-              <button type="submit" class="btn btn-primary btn-sm" style="font-size: 0.7rem;">保存</button>
-            </div>
-          </form>
-        </div>
+
+      <div class="mb-2">
+        <a href="site_project_list.html" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>一覧に戻る</a>
       </div>
     </div>
   </div>
-  
-  <!-- フッター -->
+
   <div id="footer-container"></div>
-  
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../style.js"></script>
   <script>
-    fetch('site_footer.html')
+    fetch('site_footer_project_list.html')
       .then(r => r.text())
       .then(html => {
-        document.getElementById('footer-container').innerHTML = html;
-      });
+        var el = document.getElementById('footer-container');
+        if (el) el.innerHTML = html;
+      })
+      .catch(function(){});
 
-    // パスワード変更フォームの処理
-    document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const newPassword = document.getElementById('newPassword').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      if (newPassword !== confirmPassword) {
-        alert('パスワードが一致しません。');
-      } else {
-        alert('パスワードを変更しました。');
-        // パスワード変更の処理を実装
-        const modalEl = document.getElementById('changePasswordModal');
-        const modal = bootstrap.Modal.getInstance(modalEl);
-        modal.hide();
-        // フォームをリセット
-        document.getElementById('changePasswordForm').reset();
-      }
-    });
+    function saveProfile() {
+      var name = document.getElementById('profileName').value.trim();
+      var email = document.getElementById('profileEmail').value.trim();
+      if (!name) { alert('名前を入力してください。'); return; }
+      if (!email) { alert('メールを入力してください。'); return; }
+      alert('プロフィールを保存しました。');
+    }
+
+    function forgotPassword() {
+      alert('パスワード再設定用のメールを送信しました。');
+    }
   </script>
 </body>
 </html>

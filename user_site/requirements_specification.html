@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>工事管理システム（user_site）要件定義書</title>
+  <title>イベント入退場受付アプリ（user_site）要件定義書</title>
   <style>
     body { font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif; margin: 20px; font-size: 12px; }
     h1 { font-size: 18px; border-bottom: 2px solid #333; padding-bottom: 10px; }
@@ -20,40 +20,26 @@
   </style>
 </head>
 <body>
-  <h1>工事管理システム（user_site）要件定義書</h1>
-  <p>作成日: 2026年1月26日</p>
-  <p><strong>対象デバイス:</strong> iPhone 17 Pro（393×852px）</p>
+  <h1>イベント入退場受付アプリ（user_site）要件定義書</h1>
+  <p>作成日: 2026年2月17日</p>
+  <p><strong>対象デバイス:</strong> iPhone 16以降、Android（スマートフォン）。表示幅は393px基準で最適化。</p>
+  <p><strong>対応OS:</strong> iOS はリリースから2年以内のバージョン（例：2026年時点では iOS 18 以降）、Android はリリースから2年以内のOS（例：2026年時点では Android 14 以降）を対象とする。</p>
 
   <!-- 目次 -->
   <h2>目次</h2>
   <ol>
-    <li><a href="#page1">site_project_list.html - 工事管理</a></li>
-    <li><a href="#page2">site_project_detail.html - 案件トップ</a></li>
-    <li><a href="#page3">site_project_detail_report.html - 工事日誌一覧</a></li>
-    <li><a href="#page4">site_project_detail_report_detail.html - 工事日誌詳細</a></li>
-    <li><a href="#page5">site_project_detail_report_create.html - 工事日誌作成（ステップ1）</a></li>
-    <li><a href="#page6">site_project_detail_report_create_step2.html - 工事日誌作成（ステップ2）</a></li>
-    <li><a href="#page7">site_project_detail_report_create_step3.html - 工事日誌作成（ステップ3）</a></li>
-    <li><a href="#page8">site_project_detail_report_create_step4.html - 工事日誌作成（ステップ4）</a></li>
-    <li><a href="#page9">site_project_detail_report_create_step5.html - 工事日誌作成（ステップ5）</a></li>
-    <li><a href="#page10">site_project_detail_report_create_step6.html - 工事日誌作成（ステップ6）</a></li>
-    <li><a href="#page11">site_project_detail_report_create_step7.html - 工事日誌作成（ステップ7）</a></li>
-    <li><a href="#page12">site_project_detail_report_create_step8.html - 工事日誌作成（ステップ8）</a></li>
-    <li><a href="#page13">site_project_detail_report_create_preview.html - 工事日誌プレビュー</a></li>
-    <li><a href="#page14">site_project_detail_schedule.html - スケジュール</a></li>
-    <li><a href="#page15">site_project_detail_drawing.html - 図面</a></li>
-    <li><a href="#page16">site_project_detail_budget.html - 予算</a></li>
-    <li><a href="#page17">site_chat_list.html - チャット一覧</a></li>
-    <li><a href="#page18">site_notifications.html - お知らせ</a></li>
-    <li><a href="#page19">site_myprof.html - マイページ</a></li>
-    <li><a href="#page20">site_footer.html - フッターメニュー</a></li>
-    <li><a href="#page21">site_login.html - ログイン</a></li>
-    <li><a href="#page22">site_signup.html - サインアップ</a></li>
-    <li><a href="#page23">site_settings.html - システム設定</a></li>
+    <li><a href="#page1">site_project_list.html - イベントリスト</a></li>
+    <li><a href="#page2">site_project_detail.html - イベント概要</a></li>
+    <li><a href="#page2-1">site_project_detail_program.html - 受付プログラムリスト</a></li>
+    <li><a href="#page3">site_read_keynote.html - 読み取り（基調講演）</a></li>
+    <li><a href="#page4">site_notifications.html - VIP来場のお知らせ</a></li>
+    <li><a href="#page5">site_myprof.html - マイプロフィール</a></li>
+    <li><a href="#page6">site_footer.html - フッターメニュー</a></li>
+    <li><a href="#page7">site_footer_project_list.html - イベントリスト用フッター</a></li>
   </ol>
 
-  <!-- ===== ページ1: 工事管理 ===== -->
-  <h2 id="page1">1. site_project_list.html - 工事管理</h2>
+  <!-- ===== ページ1: イベントリスト ===== -->
+  <h2 id="page1">1. site_project_list.html - イベントリスト</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -61,15 +47,15 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>工事管理</td>
+      <td>イベントリスト</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>登録済みの工事案件を一覧表示するメインページ。iPhone 17 Proサイズ（393×852px）に最適化。パネル/リスト切り替え、ステータスフィルタリング機能あり。</td>
+      <td>登録済みのイベントを一覧表示するメインページ。iPhone 16以降・Android を想定したスマートフォン表示（幅393px基準）に最適化。ステータスフィルタリング機能あり。</td>
     </tr>
     <tr>
-      <td>デバイスサイズ</td>
-      <td>iPhone 17 Pro（393×852px）</td>
+      <td>デバイス</td>
+      <td>iPhone 16以降 / Android（OSは2年以内）。表示幅393px基準。</td>
     </tr>
   </table>
 
@@ -81,9 +67,14 @@
       <th width="70%">機能・要件</th>
     </tr>
     <tr>
+      <td>ヘッダー</td>
+      <td>393px</td>
+      <td>黒背景、白文字で「イベント入退場受付アプリ」とその下に「クライアント名」を表示</td>
+    </tr>
+    <tr>
       <td>メインコンテンツ</td>
       <td>393px</td>
-      <td>カード/テーブル表示（1カラム縦並び）</td>
+      <td>イベントカード表示（1カラム縦並び）</td>
     </tr>
   </table>
 
@@ -93,6 +84,14 @@
       <th width="20%">機能名</th>
       <th width="40%">詳細</th>
       <th width="40%">データ項目</th>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">ヘッダー</td>
+    </tr>
+    <tr>
+      <td>アプリタイトル・クライアント名</td>
+      <td>黒背景、白文字で「イベント入退場受付アプリ」を表示し、その下に「クライアント名」を小さめのフォントで表示</td>
+      <td>イベント入退場受付アプリ / クライアント名</td>
     </tr>
     <tr class="section-header">
       <td colspan="3">ステータスタブ</td>
@@ -100,36 +99,20 @@
     <tr>
       <td>フィルタータブ</td>
       <td>ステータス別にフィルタリング（横スクロールボタン型）</td>
-      <td>すべて / 工事中 / 工事完了 / 出来方完了<br>※各タブに件数表示</td>
+      <td>すべて / 準備中 / 受付中 / 終了<br>※各タブに件数表示</td>
     </tr>
     <tr class="section-header">
-      <td colspan="3">表示切替</td>
+      <td colspan="3">イベントカード</td>
     </tr>
     <tr>
-      <td>パネル/リスト切替</td>
-      <td>ボタンでカード表示⇔テーブル表示を切り替え</td>
-      <td>-</td>
-    </tr>
-    <tr class="section-header">
-      <td colspan="3">パネルビュー（カード表示）</td>
-    </tr>
-    <tr>
-      <td>工事カード</td>
-      <td>カードクリックで詳細ページへ遷移（1カラム縦並び、画像左・情報右）</td>
-      <td>工事名 / ステータスバッジ / 工事画像（100×100px） / 工事場所 / 工事種類 / 担当者 / 契約日 / 工事開始日 / 完了予定日 / 進捗率 / 未読メッセージ数 / 状況</td>
-    </tr>
-    <tr class="section-header">
-      <td colspan="3">リストビュー（テーブル表示）</td>
-    </tr>
-    <tr>
-      <td>工事テーブル</td>
-      <td>行クリックで詳細ページへ遷移</td>
-      <td>状況 / 工事名 / 工事種類 / 工事場所 / 担当者 / 完了予定日 / 未読数</td>
+      <td>イベントカード</td>
+      <td>カードクリックで詳細ページへ遷移（1カラム縦並び）</td>
+      <td>イベント名 / VIP来場アイコン（ベル）・バッジ / ステータスバッジ / イベント画像 / 開催日時 / 開催場所 / 担当者 / 登録者数 / 入室実績</td>
     </tr>
   </table>
 
-  <!-- ===== ページ2: 案件トップ ===== -->
-  <h2 id="page2">2. site_project_detail.html - 案件トップ</h2>
+  <!-- ===== ページ2: イベント概要 ===== -->
+  <h2 id="page2">2. site_project_detail.html - イベント概要</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -137,11 +120,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（概要）</td>
+      <td>イベント概要</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事の概要情報を表示するトップページ。iPhone 17 Proサイズに最適化。各カードをクリックで詳細ページへ遷移。</td>
+      <td>イベントの概要情報を表示するページ。スマートフォン表示（幅393px基準）に最適化。ヘッダーにイベント名を表示。</td>
     </tr>
   </table>
 
@@ -153,46 +136,82 @@
       <th width="40%">データ項目</th>
     </tr>
     <tr class="section-header">
-      <td colspan="3">工事概要カード</td>
+      <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>工事基本情報</td>
-      <td>工事種類/責任者（社内）/状況（ドロップダウン・保存ボタン）/協力業者リスト</td>
-      <td>工事種類 / 責任者（社内） / 状況 / 協力業者リスト（業者名・担当工種・責任者・電話番号）</td>
-    </tr>
-    <tr class="section-header">
-      <td colspan="3">予算・実績カード</td>
-    </tr>
-    <tr>
-      <td>予算実績サマリー</td>
-      <td>1カラム縦並びで表示</td>
-      <td>項目 / 予算 / 実績 / 進捗率（直接工事費・経費・合計） / 進捗バー</td>
+      <td>イベント名ヘッダー</td>
+      <td>黒背景、白文字でイベント名を大きく表示</td>
+      <td>イベント名（例：New Business Creation Strategy 2026）</td>
     </tr>
     <tr class="section-header">
-      <td colspan="3">工事日誌カード</td>
+      <td colspan="3">イベント概要カード</td>
     </tr>
     <tr>
-      <td>工事日誌新規作成ボタン</td>
-      <td>緑グラデーションの目立つボタン（カード上部）</td>
-      <td>-</td>
+      <td>イベントバナー</td>
+      <td>イベント画像を表示</td>
+      <td>イベントバナー画像</td>
     </tr>
     <tr>
-      <td>直近2日間の工事日誌</td>
-      <td>1カラム縦並びで表示</td>
-      <td>日付 / 業者 / 工種 / 予算 / 当日実績</td>
+      <td>イベント基本情報</td>
+      <td>テーブル形式で表示</td>
+      <td>開催日時 / 開催場所 / 来場予定数 / 来場数実績 / セッション参加予定数 / 状況</td>
+    </tr>
+    <tr>
+      <td>担当者情報</td>
+      <td>テーブル形式で表示</td>
+      <td>担当者名 / 役割 / メール</td>
+    </tr>
+  </table>
+
+  <!-- ===== ページ2-1: 受付プログラムリスト ===== -->
+  <h2 id="page2-1">2-1. site_project_detail_program.html - 受付プログラムリスト</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>受付プログラムリスト</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>イベントの受付プログラム一覧を表示する独立ページ。スマートフォン表示（幅393px基準）に最適化。各プログラムにQR読み取りリンクあり。</td>
+    </tr>
+  </table>
+
+  <h3>機能詳細</h3>
+  <table>
+    <tr>
+      <th width="20%">機能名</th>
+      <th width="40%">詳細</th>
+      <th width="40%">データ項目</th>
     </tr>
     <tr class="section-header">
-      <td colspan="3">スケジュールカード</td>
+      <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>ガントチャート（簡易版）</td>
-      <td>作業項目/区分（予定・実績）/3月カレンダー/凡例</td>
-      <td>作業項目 / 区分（予定・実績） / 3月カレンダー / 凡例</td>
+      <td>イベント名ヘッダー</td>
+      <td>黒背景、白文字でイベント名を表示</td>
+      <td>イベント名</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">プログラムテーブル</td>
+    </tr>
+    <tr>
+      <td>プログラム一覧</td>
+      <td>テーブル形式で表示</td>
+      <td>時間 / ROOM / 講演タイトル / 講演者 / 入室予定 / 入室実績 / 退室数 / 操作（QRアイコン＋「受付QR」テキスト）</td>
+    </tr>
+    <tr>
+      <td>QR読み取りリンク</td>
+      <td>QRアイコンと「受付QR」テキストで表示、クリックで読み取りページへ遷移</td>
+      <td>QRアイコン（bi-qr-code） / 「受付QR」テキスト</td>
     </tr>
   </table>
 
-  <!-- ===== ページ3: 工事日誌一覧 ===== -->
-  <h2 id="page3">3. site_project_detail_report.html - 工事日誌一覧</h2>
+  <!-- ===== ページ3: 読み取り（基調講演） ===== -->
+  <h2 id="page3">3. site_read_keynote.html - 読み取り（基調講演）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -200,11 +219,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（工事日誌）</td>
+      <td>読み取り - 基調講演</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事日誌を日付降順で一覧表示。iPhone 17 Proサイズに最適化。</td>
+      <td>QRコード・バーコードを読み取るためのページ。スマートフォン表示（幅393px基準）に最適化。ヘッダーにイベント名を表示。</td>
     </tr>
   </table>
 
@@ -215,20 +234,39 @@
       <th width="40%">詳細</th>
       <th width="40%">データ項目</th>
     </tr>
-    <tr>
-      <td>工事日誌リスト</td>
-      <td>日付ヘッダー/業者名/工種/予算/当日実績（1社2行構成：工種行・経費行）</td>
-      <td>日付ヘッダー / 業者名 / 工種 / 予算 / 当日実績</td>
+    <tr class="section-header">
+      <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>ページネーション</td>
-      <td>ページ番号/前後ボタン</td>
-      <td>ページ番号 / 前後ボタン</td>
+      <td>イベント名ヘッダー</td>
+      <td>黒背景、白文字でイベント名を表示</td>
+      <td>イベント名</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">プログラム情報カード</td>
+    </tr>
+    <tr>
+      <td>プログラム名</td>
+      <td>カードヘッダーに「プログラム名：基調講演」と表示</td>
+      <td>プログラム名：基調講演</td>
+    </tr>
+    <tr>
+      <td>プログラム詳細</td>
+      <td>テーブル形式で表示</td>
+      <td>時間 / ROOM / 講演タイトル / 講演者 / 入室予定数 / 入室実績 / 退室実績</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">読み取りエリア</td>
+    </tr>
+    <tr>
+      <td>QRコード読み取り</td>
+      <td>高さ400pxの読み取りエリア（破線枠、QRアイコン、説明テキスト）</td>
+      <td>QRコード／バーコードを読み取る</td>
     </tr>
   </table>
 
-  <!-- ===== ページ4: 工事日誌詳細 ===== -->
-  <h2 id="page4">4. site_project_detail_report_detail.html - 工事日誌詳細</h2>
+  <!-- ===== ページ4: VIP来場のお知らせ ===== -->
+  <h2 id="page4">4. site_notifications.html - VIP来場のお知らせ</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -236,11 +274,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（工事日誌詳細）</td>
+      <td>VIP来場のお知らせ</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事日誌の詳細情報を表示。iPhone 17 Proサイズに最適化。</td>
+      <td>VIP来場のお知らせを一覧表示するページ。スマートフォン表示（幅393px基準）に最適化。担当者フィルター、検索・絞り込み機能あり。</td>
     </tr>
   </table>
 
@@ -251,55 +289,55 @@
       <th width="40%">詳細</th>
       <th width="40%">データ項目</th>
     </tr>
-    <tr>
-      <td>工事日誌ヘッダー</td>
-      <td>基本情報表示</td>
-      <td>社内工事名 / 協力会社 / 工事日誌タイトル / 担当者名 / 確認者 / 作業日時 / 天候 / 作業時間 / 気温</td>
+    <tr class="section-header">
+      <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>スキャンデータ自動算出</td>
-      <td>3Dスキャナによる出来高自動検出</td>
-      <td>面積差分（㎡） / 体積差分（㎥） / 延長差分（m） / 数量差分（t） / スキャン日時 / 解析完了日時 / AI解析済みバッジ</td>
+      <td>イベント名ヘッダー</td>
+      <td>黒背景、白文字でイベント名を表示</td>
+      <td>イベント名</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">担当者フィルター</td>
     </tr>
     <tr>
-      <td>作業内容・出来高</td>
-      <td>作業詳細テーブル</td>
-      <td>工種 / 作業内容 / 作業箇所 / 単位 / 出来高</td>
+      <td>担当者チェックボックス</td>
+      <td>担当者名をチェックボックスで選択</td>
+      <td>山田 太郎 / 佐藤 花子 / 鈴木 次郎</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">検索・絞り込み</td>
     </tr>
     <tr>
-      <td>使用機械・作業員</td>
-      <td>機械・人員テーブル</td>
-      <td>使用機械名 / 台数 / 協力業者名 / 人数</td>
+      <td>来場者名検索</td>
+      <td>テキスト入力で来場者名を検索</td>
+      <td>来場者名（テキスト入力）</td>
     </tr>
     <tr>
-      <td>搬入材料</td>
-      <td>材料テーブル</td>
-      <td>品名 / 規格・寸法 / 単位 / 台帳数量 / 受入材料名 / 数量</td>
+      <td>プログラム絞り込み</td>
+      <td>セレクトボックスでプログラムを選択</td>
+      <td>すべて / 基調講演 / セッションA / セッションB / セッションC / セッションD / ダイアログ / ネットワーキング</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">表示件数</td>
     </tr>
     <tr>
-      <td>使用計測機器</td>
-      <td>計測機器バッジ</td>
-      <td>巻尺 / 外気温度計 / コンパクトメーター / 路面温度計 / 3Dスキャナ（自社アプリ）</td>
+      <td>表示件数選択</td>
+      <td>セレクトボックスで表示件数を選択</td>
+      <td>50件 / 100件</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">お知らせリスト</td>
     </tr>
     <tr>
-      <td>日常点検結果</td>
-      <td>点検ラジオボタン</td>
-      <td>異常なし / 異常あり</td>
-    </tr>
-    <tr>
-      <td>記事</td>
-      <td>特記事項テキスト</td>
-      <td>自由記述テキスト</td>
-    </tr>
-    <tr>
-      <td>作業写真</td>
-      <td>写真プレースホルダー</td>
-      <td>着工前 / 施工中 / 完了後 / 3Dスキャン</td>
+      <td>お知らせ表示形式</td>
+      <td>3行構成で表示（タイムスタンプ・会社名・来場者名・プログラム名・アクション）</td>
+      <td>タイムスタンプ（小さな文字、グレー）<br>会社名、来場者名（普通の大きさ、太字）<br>プログラム名、アクション（改行）</td>
     </tr>
   </table>
 
-  <!-- ===== ページ5: 工事日誌作成（ステップ1） ===== -->
-  <h2 id="page5">5. site_project_detail_report_create.html - 工事日誌作成（ステップ1）</h2>
+  <!-- ===== ページ5: マイプロフィール ===== -->
+  <h2 id="page5">5. site_myprof.html - マイプロフィール</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -307,11 +345,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>案件管理（工事日誌作成）</td>
+      <td>マイプロフィール</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>工事日誌を8ステップで作成する最初のページ。ステップ1：概要の入力。</td>
+      <td>アカウント情報の表示・編集ページ。スマートフォン表示（幅393px基準）に最適化。ヘッダーに「イベント入退場受付アプリ」を表示。</td>
     </tr>
   </table>
 
@@ -322,81 +360,46 @@
       <th width="40%">詳細</th>
       <th width="40%">データ項目</th>
     </tr>
-    <tr>
-      <td>ステップインジケーター</td>
-      <td>8ステップ進行状況表示（丸の中に数値、下に小さな文字）</td>
-      <td>1.概要（アクティブ） / 2.スキャン / 3.作・高 / 4.機・人 / 5.材料 / 6.計器 / 7.点検・記 / 8.写真</td>
+    <tr class="section-header">
+      <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>プレビューボタン</td>
-      <td>横幅いっぱいのボタン（プレビューアイコン付き）</td>
-      <td>-</td>
+      <td>アプリタイトル</td>
+      <td>黒背景、白文字で「イベント入退場受付アプリ」を表示</td>
+      <td>イベント入退場受付アプリ</td>
+    </tr>
+    <tr class="section-header">
+      <td colspan="3">アカウント情報カード</td>
     </tr>
     <tr>
-      <td>工事日誌タイトル</td>
-      <td>カード上部に「工事日誌作成」を表示</td>
-      <td>-</td>
+      <td>名前</td>
+      <td>テキスト入力フィールド</td>
+      <td>名前（初期値：山田 太郎）</td>
     </tr>
     <tr>
-      <td>工事日誌ヘッダー</td>
-      <td>基本情報入力</td>
-      <td>社内工事名 / 協力会社（セレクト） / 担当者名（セレクト） / 確認者</td>
+      <td>メール</td>
+      <td>メールアドレス入力フィールド</td>
+      <td>メール（初期値：yamada.taro@example.com）</td>
     </tr>
     <tr>
-      <td>ステップ1：概要</td>
-      <td>基本情報入力フォーム</td>
-      <td>作業日時（日付選択） / 天候（セレクト） / 作業時間（開始・終了時刻） / 気温（最高・最低）</td>
+      <td>パスワード</td>
+      <td>読み取り専用フィールド＋パスワード忘れボタン</td>
+      <td>パスワード（********表示） / パスワード忘れボタン</td>
     </tr>
     <tr>
-      <td>アクションボタン</td>
-      <td>下書き保存・次へボタン</td>
-      <td>下書き保存 / 次へ</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ6: 工事日誌作成（ステップ2） ===== -->
-  <h2 id="page6">6. site_project_detail_report_create_step2.html - 工事日誌作成（ステップ2）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
+      <td>保存ボタン</td>
+      <td>カードヘッダーに配置</td>
+      <td>保存ボタン</td>
     </tr>
     <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（工事日誌作成 - ステップ2）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ2：スキャンデータ取得ページ。</td>
+      <td>一覧に戻る</td>
+      <td>イベントリストページへのリンク</td>
+      <td>一覧に戻るボタン</td>
     </tr>
   </table>
 
-  <h3>機能詳細</h3>
-  <table>
-    <tr>
-      <th width="20%">機能名</th>
-      <th width="40%">詳細</th>
-      <th width="40%">データ項目</th>
-    </tr>
-    <tr>
-      <td>ステップインジケーター</td>
-      <td>ステップ1完了（緑）、ステップ2アクティブ（青）</td>
-      <td>1.概要（完了） / 2.スキャン（アクティブ） / 3-8（未完了）</td>
-    </tr>
-    <tr>
-      <td>スキャン開始ボタン</td>
-      <td>オレンジグラデーションの目立つボタン（カード幅いっぱい）</td>
-      <td>-</td>
-    </tr>
-    <tr>
-      <td>スキャンデータ自動算出</td>
-      <td>スキャンデータ表示</td>
-      <td>面積差分（㎡） / 体積差分（㎥） / 延長差分（m） / 数量差分（t） / スキャン日時 / 解析完了日時</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ7-12: 工事日誌作成（ステップ3-8） ===== -->
-  <h2 id="page7">7. site_project_detail_report_create_step3.html - 工事日誌作成（ステップ3）</h2>
+  <!-- ===== ページ6: フッターメニュー ===== -->
+  <h2 id="page6">6. site_footer.html - フッターメニュー</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -404,324 +407,36 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>ステップ3：作業内容・出来高入力ページ。作業項目の追加・削除が可能。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>工種（セレクト） / 作業内容（テキスト） / 作業箇所（テキスト） / 単位（セレクト） / 出来高（数値）</td>
-    </tr>
-  </table>
-
-  <h2 id="page8">8. site_project_detail_report_create_step4.html - 工事日誌作成（ステップ4）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ4：使用機械・協力業者入力ページ。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>使用機械名（セレクト） / 台数（数値） / 協力業者名（セレクト） / 人数（数値）</td>
-    </tr>
-  </table>
-
-  <h2 id="page9">9. site_project_detail_report_create_step5.html - 工事日誌作成（ステップ5）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ5：搬入材料・受入材料入力ページ。材料名選択時に規格寸法・単位が自動設定される。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>材料名（セレクト・規格寸法・単位自動設定） / 台帳数量（数値） / 受入材料名（セレクト・単位自動設定） / 数量（数値）</td>
-    </tr>
-  </table>
-
-  <h2 id="page10">10. site_project_detail_report_create_step6.html - 工事日誌作成（ステップ6）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ6：使用計測機器選択ページ。チェックボックスで複数選択可能。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>巻尺 / 外気温度計 / コンパクトメーター / 路面温度計 / 3Dスキャナ（自社アプリ）</td>
-    </tr>
-  </table>
-
-  <h2 id="page11">11. site_project_detail_report_create_step7.html - 工事日誌作成（ステップ7）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ7：日常点検結果・特記事項入力ページ。音声入力機能付き。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>日常点検結果（ラジオボタン：異常なし/異常あり） / 特記事項（音声入力ボタン・フリーテキスト入力）</td>
-    </tr>
-  </table>
-
-  <h2 id="page12">12. site_project_detail_report_create_step8.html - 工事日誌作成（ステップ8）</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ステップ8：作業写真アップロードページ。4カテゴリ（着工前/施工中/完了後/スキャン）。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>着工前 / 施工中 / 完了後 / スキャン（プラスボタンでカメラ/ファイル選択/スキャン開始ページへ）</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ13: 工事日誌プレビュー ===== -->
-  <h2 id="page13">13. site_project_detail_report_create_preview.html - 工事日誌プレビュー</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>案件管理（工事日誌プレビュー）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>作成中の工事日誌をプレビュー表示。すべての項目が表示される。</td>
-    </tr>
-    <tr>
-      <td>表示内容</td>
-      <td>工事日誌ヘッダー / スキャンデータ / 作業内容・出来高 / 使用機械・作業員 / 搬入材料・受入材料 / 使用計測機器 / 日常点検結果 / 特記事項 / 作業写真</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ14-17: その他詳細ページ ===== -->
-  <h2 id="page14">14. site_project_detail_schedule.html - スケジュール</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ガントチャート表示。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>工種 / 担当業者 / 区分（予定・実績） / 3月1日〜31日カレンダー / 日付ヘッダー（曜日付き） / 進捗率</td>
-    </tr>
-  </table>
-
-  <h2 id="page15">15. site_project_detail_drawing.html - 図面</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>図面サムネイル表示（2カラム）。ライトボックス機能付き。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>図面画像 / 図面タイトル / 図面説明</td>
-    </tr>
-  </table>
-
-  <h2 id="page16">16. site_project_detail_budget.html - 予算</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>予算vs実績テーブル。契約情報・予想収益サマリー。iPhone 17 Proサイズに最適化。1カラム縦並び。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>工種 / 仕様 / 単位 / 数量 / 予算単価 / 予算金額 / 出来高数量 / 当日迄予算 / 当月迄支出額 / 差異 / 契約概要 / 収益予測</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ17: チャット一覧 ===== -->
-  <h2 id="page17">17. site_chat_list.html - チャット一覧</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>チャット一覧</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>チャットリストを1カラムで表示。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>チャットタイトル / 案件名 / 最終メッセージプレビュー / 時刻</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ18: お知らせ ===== -->
-  <h2 id="page18">18. site_notifications.html - お知らせ</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>お知らせ</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>お知らせ・通知をタブで切り替え表示。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>お知らせ：タイトル / 日付 / 内容 / 未読・既読バッジ<br>通知：通知内容 / 日付 / 未読・既読バッジ</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ19: マイページ ===== -->
-  <h2 id="page19">19. site_myprof.html - マイページ</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>マイページ</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>ユーザー情報表示・編集。パスワード変更機能付き。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>ユーザー写真（円形） / 支店名 / 名前 / カナ / 職種 / 資格 / 担当工事種別 / 所属部署 / 電話番号 / メール / パスワード変更</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ20: フッターメニュー ===== -->
-  <h2 id="page20">20. site_footer.html - フッターメニュー</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>固定フッター（黒背景・白文字）。全ページ共通で表示。</td>
+      <td>固定フッター（黒背景・白文字、中央揃え）。全ページ共通で表示。</td>
     </tr>
     <tr>
       <td>メニュー項目</td>
-      <td>案件トップ / 案件一覧 / チャット（未読バッジ） / お知らせ（未読バッジ） / マイページ（ユーザー名） / メニュー（ドロップダウン）</td>
+      <td>受付QR / VIP来場（バッジ8） / 山田太郎 / メニュー（ドロップダウン）</td>
     </tr>
     <tr>
       <td>メニュードロップダウン</td>
-      <td>工事進捗 / 工事日誌 / スケジュール / 工事概要 / 図面 / 予算 / バージョン情報 / ログアウト</td>
-    </tr>
-    <tr>
-      <td>ページ別調整</td>
-      <td>各ページで特定のフッター項目を削除可能（JavaScriptで動的削除）</td>
+      <td>イベント一覧 / 利用規約 / プライバシーポリシー / モックアップ入口 / ログアウト</td>
     </tr>
   </table>
 
-  <!-- ===== ページ21: ログイン ===== -->
-  <h2 id="page21">21. site_login.html - ログイン</h2>
+  <!-- ===== ページ7: イベントリスト用フッター ===== -->
+  <h2 id="page7">7. site_footer_project_list.html - イベントリスト用フッター</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
       <th width="85%">内容</th>
     </tr>
     <tr>
-      <td>ページタイトル</td>
-      <td>ログイン</td>
-    </tr>
-    <tr>
       <td>概要</td>
-      <td>メールアドレスとパスワードでログイン。iPhone 17 Proサイズに最適化。</td>
+      <td>イベントリストページとマイプロフィールページ専用のフッター。固定フッター（黒背景・白文字、中央揃え）。</td>
     </tr>
     <tr>
-      <td>データ項目</td>
-      <td>メールアドレス（ID） / パスワード</td>
+      <td>メニュー項目</td>
+      <td>山田太郎 / メニュー（ドロップダウン）</td>
     </tr>
     <tr>
-      <td>操作</td>
-      <td>ログインボタンクリック / パスワード忘れリンク</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ22: サインアップ ===== -->
-  <h2 id="page22">22. site_signup.html - サインアップ</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>サインアップ</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>新規ユーザー登録フォーム。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>名前 / 住所 / メールアドレス / パスワード</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>サインアップボタンクリック</td>
-    </tr>
-  </table>
-
-  <!-- ===== ページ23: システム設定 ===== -->
-  <h2 id="page23">23. site_settings.html - システム設定</h2>
-  <table>
-    <tr>
-      <th width="15%">項目</th>
-      <th width="85%">内容</th>
-    </tr>
-    <tr>
-      <td>ページタイトル</td>
-      <td>システム設定（サイト用）</td>
-    </tr>
-    <tr>
-      <td>概要</td>
-      <td>通知設定のON/OFF切り替え。iPhone 17 Proサイズに最適化。</td>
-    </tr>
-    <tr>
-      <td>データ項目</td>
-      <td>通知項目（案件新規作成/案件ステータス変更/プラン新規作成/プランステータス変更/業者見積もり依頼/業者見積もり提出/見積もりステータス変更/資金計画ステータス変更/チャット受信/お知らせ/見積もり上長承認または却下/資金計画上長承認または却下）</td>
-    </tr>
-    <tr>
-      <td>操作</td>
-      <td>チェックボックス切り替え / 設定保存ボタン</td>
+      <td>メニュードロップダウン</td>
+      <td>イベント一覧 / 利用規約 / プライバシーポリシー / 株式会社ビジネスフォーラム事務局 / イベント入退場管理システム / Copyright © 2026. All rights reserved. / バージョン情報 / モックアップ入口 / ログアウト</td>
     </tr>
   </table>
 
@@ -733,8 +448,12 @@
       <th width="80%">内容</th>
     </tr>
     <tr>
-      <td>デバイスサイズ</td>
-      <td>iPhone 17 Pro（393×852px）</td>
+      <td>対象デバイス</td>
+      <td>iPhone 16以降、Android（スマートフォン）。表示幅393px基準。</td>
+    </tr>
+    <tr>
+      <td>対応OS</td>
+      <td>iOS：リリースから2年以内のバージョン（例：2026年時点では iOS 18 以降）。Android：リリースから2年以内のOS（例：2026年時点では Android 14 以降）。</td>
     </tr>
     <tr>
       <td>フッター</td>
@@ -750,7 +469,7 @@
     </tr>
     <tr>
       <td>コンテンツ</td>
-      <td>土木工事（舗装工事など）向けにカスタマイズ</td>
+      <td>イベント入退場受付アプリ向けにカスタマイズ</td>
     </tr>
   </table>
 

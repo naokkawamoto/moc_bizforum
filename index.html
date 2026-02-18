@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to MOC SKT</title>
+    <title>Welcome to イベント入退場管理システム</title>
 
     <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,82 +16,12 @@
 
     <!-- Optional custom CSS -->
     <link rel="stylesheet" href="style.css">
-    <style>
-        #password-protection {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-        #password-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
-        #password-form h2 {
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-        #password-input {
-            width: 100%;
-            padding: 0.75rem;
-            font-size: 1rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-        }
-        #password-input:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-        #password-submit {
-            width: 100%;
-            padding: 0.75rem;
-            font-size: 1rem;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #password-submit:hover {
-            background-color: #0056b3;
-        }
-        #password-error {
-            color: red;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            display: none;
-        }
-        .hidden {
-            display: none !important;
-        }
-    </style>
 
 </head>
 <body id="index-page">
-    <!-- パスワード保護 -->
-    <div id="password-protection">
-        <div id="password-form">
-            <h2>パスワードを入力してください</h2>
-            <input type="password" id="password-input" placeholder="パスワードを入力" autofocus>
-            <button id="password-submit" onclick="checkPassword()">ログイン</button>
-            <div id="password-error">パスワードが正しくありません</div>
-        </div>
-    </div>
     <!-- ヘッダー -->
     <header class="text-center">
-        <h1>Welcome to MOC SKT</h1>
+        <h1>Welcome to イベント入退場管理システム</h1>
     </header>
 
     <!-- コンテンツ -->
@@ -112,10 +42,10 @@
                 </div>
             </div>
             
-            <!-- USER SITE（現場監督アプリ） -->
+            <!-- USER SITE（受付アプリ） -->
             <div class="col-md-5 mb-4">
                 <a href="user_site/site_project_list.html" class="btn btn-primary btn-lg w-100 mb-3" style="background-color: darkgreen; font-size: 1.2rem; padding: 1.5rem;">
-                    USER SITE（現場監督アプリ）
+                    USER SITE（受付アプリ）
                 </a>
                 <div class="d-flex gap-2 justify-content-center">
                     <a href="user_site/requirements_specification.html" target="_blank" class="btn btn-outline-secondary" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
@@ -136,41 +66,5 @@
 
     <!-- Custom JavaScript -->
     <script src="style.js"></script>
-    <script>
-        const CORRECT_PASSWORD = 'ot2026';
-        
-        // パスワード入力フィールドでEnterキーを押したときもチェック
-        document.getElementById('password-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
-        });
-        
-        function checkPassword() {
-            const input = document.getElementById('password-input').value;
-            const errorDiv = document.getElementById('password-error');
-            
-            if (input === CORRECT_PASSWORD) {
-                // パスワードが正しい場合、保護画面を非表示にしてコンテンツを表示
-                document.getElementById('password-protection').classList.add('hidden');
-                // セッションストレージに認証済みフラグを保存（ページリロード時も有効）
-                sessionStorage.setItem('authenticated', 'true');
-            } else {
-                // パスワードが間違っている場合
-                errorDiv.style.display = 'block';
-                document.getElementById('password-input').value = '';
-                document.getElementById('password-input').focus();
-            }
-        }
-        
-        // ページ読み込み時に認証状態をチェック
-        window.addEventListener('DOMContentLoaded', function() {
-            if (sessionStorage.getItem('authenticated') === 'true') {
-                document.getElementById('password-protection').classList.add('hidden');
-            } else {
-                document.getElementById('password-input').focus();
-            }
-        });
-    </script>
 </body>
 </html>

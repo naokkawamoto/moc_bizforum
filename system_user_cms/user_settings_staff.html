@@ -40,114 +40,63 @@
           </div>
           <!-- テーブル（上下左右にマージン） -->
           <div class="table-responsive m-3">
-            <table class="table table-hover table-bordered small-text">
+            <table class="table table-hover table-bordered small-text" id="staffTable">
               <thead class="table-light">
                 <tr>
-                  <th>支店名</th>
                   <th>名前</th>
-                  <th>職種</th>
+                  <th>メールアドレス</th>
                   <th>権限</th>
-                  <th>メール</th>
-                  <th>電話番号</th>
-                  <th style="font-size:0.5rem;">操作</th>
+                  <th style="width: 100px;">操作</th>
                 </tr>
               </thead>
-              <tbody>
-                <!-- 営業 -->
-                <tr>
-                  <td>東京支店</td>
+              <tbody id="staffTableBody">
+                <tr data-name="佐藤 花子" data-email="hanako.sato@example.com" data-role="一般">
                   <td>佐藤 花子</td>
-                  <td>営業</td>
-                  <td>案件管理者</td>
                   <td>hanako.sato@example.com</td>
-                  <td>090-1111-1111</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- 現場監督 -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="鈴木 次郎" data-email="jiro.suzuki@example.com" data-role="一般">
                   <td>鈴木 次郎</td>
-                  <td>現場監督</td>
-                  <td>管理職</td>
                   <td>jiro.suzuki@example.com</td>
-                  <td>090-2222-2222</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- 設計 -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="高橋 三郎" data-email="sabu.takahashi@example.com" data-role="システム管理者">
                   <td>高橋 三郎</td>
-                  <td>設計</td>
-                  <td>システム管理者</td>
                   <td>sabu.takahashi@example.com</td>
-                  <td>090-3333-3333</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>システム管理者</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- インテリアコーディネーター -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="田中 美咲" data-email="misaki.tanaka@example.com" data-role="一般">
                   <td>田中 美咲</td>
-                  <td>インテリアコーディネーター</td>
-                  <td>一般</td>
                   <td>misaki.tanaka@example.com</td>
-                  <td>090-4444-4444</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- 職人 -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="伊藤 翔" data-email="sho.ito@example.com" data-role="一般">
                   <td>伊藤 翔</td>
-                  <td>職人</td>
-                  <td>一般</td>
                   <td>sho.ito@example.com</td>
-                  <td>090-5555-5555</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- 管理職 -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="渡辺 智子" data-email="tomoko.watanabe@example.com" data-role="一般">
                   <td>渡辺 智子</td>
-                  <td>管理職</td>
-                  <td>管理職</td>
                   <td>tomoko.watanabe@example.com</td>
-                  <td>090-6666-6666</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <!-- 事務 -->
-                <tr>
-                  <td>東京支店</td>
+                <tr data-name="中村 健" data-email="ken.nakamura@example.com" data-role="一般">
                   <td>中村 健</td>
-                  <td>事務</td>
-                  <td>一般</td>
                   <td>ken.nakamura@example.com</td>
-                  <td>090-7777-7777</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
-                </tr>
-                <!-- 積算 -->
-                <tr>
-                  <td>東京支店</td>
-                  <td>小林 愛</td>
-                  <td>積算</td>
                   <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
+                </tr>
+                <tr data-name="小林 愛" data-email="ai.kobayashi@example.com" data-role="一般">
+                  <td>小林 愛</td>
                   <td>ai.kobayashi@example.com</td>
-                  <td>090-8888-8888</td>
-                  <td>
-                    <button class="btn btn-danger btn-sm">削除</button>
-                  </td>
+                  <td>一般</td>
+                  <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
               </tbody>
             </table>
@@ -176,52 +125,47 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="staffBranch" class="form-label">支店名</label>
-                <input type="text" class="form-control" id="staffBranch" required>
-              </div>
+            <form id="addStaffForm">
               <div class="mb-3">
                 <label for="staffName" class="form-label">名前</label>
-                <input type="text" class="form-control" id="staffName" required>
+                <input type="text" class="form-control" id="staffName" required placeholder="例：山田 太郎">
               </div>
               <div class="mb-3">
-                <label for="staffPosition" class="form-label">職種</label>
-                <select class="form-select" id="staffPosition" required>
-                  <option value="">選択してください</option>
-                  <option value="営業">営業</option>
-                  <option value="現場監督">現場監督</option>
-                  <option value="設計">設計</option>
-                  <option value="インテリアコーディネーター">インテリアコーディネーター</option>
-                  <option value="職人">職人</option>
-                  <option value="管理職">管理職</option>
-                  <option value="事務">事務</option>
-                  <option value="積算">積算</option>
-                </select>
+                <label for="staffEmail" class="form-label">メールアドレス</label>
+                <input type="email" class="form-control" id="staffEmail" required placeholder="例：yamada@example.com">
               </div>
               <div class="mb-3">
                 <label for="staffPermission" class="form-label">権限</label>
                 <select class="form-select" id="staffPermission" required>
                   <option value="">選択してください</option>
                   <option value="システム管理者">システム管理者</option>
-                  <option value="案件管理者">案件管理者</option>
-                  <option value="管理職">管理職</option>
                   <option value="一般">一般</option>
                 </select>
-              </div>
-              <div class="mb-3">
-                <label for="staffEmail" class="form-label">メール</label>
-                <input type="email" class="form-control" id="staffEmail" required>
-              </div>
-              <div class="mb-3">
-                <label for="staffPhone" class="form-label">電話番号</label>
-                <input type="tel" class="form-control" id="staffPhone" required>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-            <button type="button" class="btn btn-primary">保存</button>
+            <button type="button" class="btn btn-primary" onclick="saveNewStaff()">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 削除確認モーダル -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteConfirmModalLabel">削除の確認</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-0" id="deleteConfirmMessage">この担当者を削除してもよろしいですか？</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-danger" id="deleteConfirmBtn">削除する</button>
           </div>
         </div>
       </div>
@@ -236,6 +180,41 @@
     fetch('user_header.html')
       .then(r => r.text())
       .then(html => document.getElementById('header-container').innerHTML = html);
+
+    var deleteTargetRow = null;
+
+    function openDeleteModal(btn) {
+      var tr = btn.closest('tr');
+      var name = tr.getAttribute('data-name') || tr.cells[0].textContent.trim();
+      deleteTargetRow = tr;
+      document.getElementById('deleteConfirmMessage').textContent = '「' + name + '」を削除してもよろしいですか？';
+      var modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+      modal.show();
+      document.getElementById('deleteConfirmBtn').onclick = function () {
+        if (deleteTargetRow) deleteTargetRow.remove();
+        deleteTargetRow = null;
+        bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+      };
+    }
+
+    function saveNewStaff() {
+      var nameEl = document.getElementById('staffName');
+      var emailEl = document.getElementById('staffEmail');
+      var roleEl = document.getElementById('staffPermission');
+      if (!nameEl.value.trim()) { alert('名前を入力してください。'); return; }
+      if (!emailEl.value.trim()) { alert('メールアドレスを入力してください。'); return; }
+      if (!roleEl.value) { alert('権限を選択してください。'); return; }
+      var tbody = document.getElementById('staffTableBody');
+      var tr = document.createElement('tr');
+      tr.setAttribute('data-name', nameEl.value.trim());
+      tr.setAttribute('data-email', emailEl.value.trim());
+      tr.setAttribute('data-role', roleEl.value);
+      tr.innerHTML = '<td>' + (nameEl.value.trim()) + '</td><td>' + (emailEl.value.trim()) + '</td><td>' + (roleEl.value) + '</td>' +
+        '<td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>';
+      tbody.appendChild(tr);
+      bootstrap.Modal.getInstance(document.getElementById('addStaffModal')).hide();
+      nameEl.value = ''; emailEl.value = ''; roleEl.value = '';
+    }
   </script>
 </body>
 </html>

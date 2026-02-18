@@ -2,294 +2,150 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>案件管理（工事日誌）</title>
+  <title>イベント管理（来場者・入退出）</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap CSS (5系) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
-  <!-- カスタムCSS -->
   <link rel="stylesheet" href="../style.css">
   <style>
     .sidebar { max-height: 80vh; overflow-y: auto; }
     .col-fixed { padding-left: 0; padding-right: 0; }
     .small-text { font-size: 0.75rem; }
-    .report-table { font-size: 0.85rem; }
-    .report-table th { background-color: #f8f9fa; white-space: nowrap; }
-    .report-table td { vertical-align: middle; }
-    .date-header { background-color: #e9ecef; font-weight: bold; }
-    .company-row { cursor: pointer; }
-    .company-row:hover { background-color: #f1f3f5; }
-    .expense-row { background-color: #fafafa; }
+    .visitor-table { font-size: 0.8rem; }
+    .visitor-table th { background-color: #f8f9fa; white-space: nowrap; }
+    .visitor-row { cursor: pointer; }
+    .visitor-row:hover { background-color: #f1f3f5; }
+    .staff-link { text-decoration: none; font-weight: 500; }
+    .staff-link:hover { text-decoration: underline; }
+    .badge-join { background-color: #198754; }
+    .badge-nojoin { background-color: #6c757d; }
+    .badge-status-joining { background-color: #dc3545; color: #fff; animation: blink-red 1s ease-in-out infinite; }
+    .badge-status-done { background-color: #198754; color: #fff; }
+    .badge-status-none { background-color: #6c757d; color: #fff; }
+    @keyframes blink-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem 1rem; }
   </style>
 </head>
 <body>
-  <!-- ヘッダー -->
   <div id="header-container"></div>
 
   <div class="container-fluid mt-4 px-4">
     <div class="row">
-      <!-- 左サイドメニュー -->
       <nav class="col-fixed" style="width:240px;">
         <div class="sidebar px-2">
-          <div class="list-group small-text" id="overviewSubTabs" role="tablist">
-            <a href="user_project_detail.html" class="list-group-item list-group-item-action">工事進捗</a>
-            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action active">工事日誌</a>
-            <a href="user_project_detail_schedule.html" class="list-group-item list-group-item-action">スケジュール</a>
-            <a href="user_project_detail_overview.html" class="list-group-item list-group-item-action">工事概要</a>
-            <a href="user_project_detail_drawing.html" class="list-group-item list-group-item-action">図面</a>
-            <a href="user_project_detail_budget.html" class="list-group-item list-group-item-action">予算</a>
-            <a href="user_project_detail_staff.html" class="list-group-item list-group-item-action">社内担当者</a>
-            <a href="user_project_detail_partner.html" class="list-group-item list-group-item-action">外部協力会社</a>
-            <a href="user_project_detail_other.html" class="list-group-item list-group-item-action">資料</a>
+          <div class="list-group small-text">
+            <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
+            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action active">来場者・入退室</a>
+            <a href="user_nortification.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">VIP来場のお知らせ <span class="badge bg-danger">8</span></a>
           </div>
         </div>
       </nav>
 
-      <!-- メインコンテンツエリア -->
       <main class="col px-3" style="padding-bottom: 80px;">
-        <!-- タイトル -->
-        <h4 class="mb-3 fw-bold">国道９号舗装工事 <i class="bi bi-star"></i></h4>
-        
-        <!-- 工事日誌コンテンツ -->
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+          <div>
+            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026 <i class="bi bi-star"></i></h4>
+            <p class="mb-0 fw-bold">来場者・入退室</p>
+          </div>
+          <span class="fw-bold" style="font-size: 1.25rem;">2026年3月5日（木）13:00～17:40</span>
+        </div>
+        <p class="text-muted small mb-3">来場者・入退出一覧（社内担当者は複数の参加者を担当します）</p>
+
+        <!-- 絞り込み -->
+        <div class="card mb-3">
+          <div class="card-body filter-bar">
+            <div class="row g-2 align-items-end flex-wrap">
+              <div class="col-auto">
+                <label class="form-label small mb-0">来場者名で検索</label>
+                <input type="text" class="form-control form-control-sm" id="filterName" placeholder="来場者名" style="min-width: 140px;">
+              </div>
+              <div class="col-auto">
+                <label class="form-label small mb-0">担当者絞り込み</label>
+                <select class="form-select form-select-sm" id="filterStaff" style="min-width: 160px;">
+                  <option value="">すべて</option>
+                  <option value="yamada">山田 太郎</option>
+                  <option value="sato">佐藤 花子</option>
+                  <option value="suzuki">鈴木 次郎</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <label class="form-label small mb-0">セッション絞り込み</label>
+                <select class="form-select form-select-sm" id="filterSession" style="min-width: 160px;">
+                  <option value="">すべて</option>
+                  <option value="keynote">基調講演 参加</option>
+                  <option value="session_a">セッションA 参加</option>
+                  <option value="session_b">セッションB 参加</option>
+                  <option value="session_c">セッションC 参加</option>
+                  <option value="session_d">セッションD 参加</option>
+                  <option value="dialog">ダイアログセッション 参加</option>
+                  <option value="networking">ネットワーキング 参加</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button type="button" class="btn btn-primary btn-sm" id="btnApply">適用</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnReset">リセット</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 表示件数・ページネーション用 -->
+        <div class="d-flex flex-wrap align-items-center mb-2 gap-2">
+          <label class="form-label small mb-0">表示</label>
+          <select class="form-select form-select-sm" id="perPage" style="width: auto;">
+            <option value="50" selected>50件</option>
+            <option value="100">100件</option>
+          </select>
+        </div>
+
+        <!-- 一覧テーブル -->
         <div class="card">
-          <div class="card-header py-2 d-flex justify-content-between align-items-center">
-            <span class="fw-bold">工事日誌一覧</span>
-            <span class="text-white small fw-bold bg-dark px-2 py-1 rounded">全25件中 1-15件表示</span>
+          <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-bold">来場者一覧</span>
+            <div class="d-flex align-items-center gap-2">
+              <button type="button" class="btn btn-success px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-spreadsheet me-2"></i>CSV</button>
+              <button type="button" class="btn btn-danger px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-pdf me-2"></i>PDF</button>
+              <span class="text-white small fw-bold bg-dark px-2 py-1 rounded" id="countLabel">全20件</span>
+            </div>
           </div>
           <div class="card-body p-0">
-            <table class="table table-bordered report-table mb-0">
-              <thead>
-                <tr>
-                  <th style="width: 150px;">業者名</th>
-                  <th style="width: 180px;">工種</th>
-                  <th style="width: 130px;" class="text-end">予算</th>
-                  <th style="width: 130px;" class="text-end">当日実績</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- 2026/03/14 -->
-                <tr class="date-header">
-                  <td colspan="4"><i class="bi bi-calendar-event me-1"></i>2026/03/14（土）</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=1'">
-                  <td rowspan="2" class="align-middle text-center">東京舗装(株)</td>
-                  <td>アスファルト舗装工</td>
-                  <td class="text-end">28,000,000</td>
-                  <td class="text-end">850,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=1'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">5,000,000</td>
-                  <td class="text-end">45,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=2'">
-                  <td rowspan="2" class="align-middle text-center">(株)関東建設</td>
-                  <td>撤去工事</td>
-                  <td class="text-end">8,000,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=2'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,500,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=3'">
-                  <td rowspan="2" class="align-middle text-center">首都圏道路(株)</td>
-                  <td>区画線工</td>
-                  <td class="text-end">9,000,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-14&company=3'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,200,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-
-                <!-- 2026/03/13 -->
-                <tr class="date-header">
-                  <td colspan="4"><i class="bi bi-calendar-event me-1"></i>2026/03/13（金）</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=1'">
-                  <td rowspan="2" class="align-middle text-center">東京舗装(株)</td>
-                  <td>アスファルト舗装工</td>
-                  <td class="text-end">28,000,000</td>
-                  <td class="text-end">920,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=1'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">5,000,000</td>
-                  <td class="text-end">38,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=2'">
-                  <td rowspan="2" class="align-middle text-center">(株)関東建設</td>
-                  <td>撤去工事</td>
-                  <td class="text-end">8,000,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=2'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,500,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=3'">
-                  <td rowspan="2" class="align-middle text-center">首都圏道路(株)</td>
-                  <td>区画線工</td>
-                  <td class="text-end">9,000,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-13&company=3'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,200,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-
-                <!-- 2026/03/12 -->
-                <tr class="date-header">
-                  <td colspan="4"><i class="bi bi-calendar-event me-1"></i>2026/03/12（木）</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-12&company=1'">
-                  <td rowspan="2" class="align-middle text-center">東京舗装(株)</td>
-                  <td>アスファルト舗装工</td>
-                  <td class="text-end">28,000,000</td>
-                  <td class="text-end">880,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-12&company=1'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">5,000,000</td>
-                  <td class="text-end">42,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-12&company=2'">
-                  <td rowspan="2" class="align-middle text-center">(株)関東建設</td>
-                  <td>撤去工事</td>
-                  <td class="text-end">8,000,000</td>
-                  <td class="text-end">450,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-12&company=2'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,500,000</td>
-                  <td class="text-end">25,000</td>
-                </tr>
-
-                <!-- 2026/03/11 -->
-                <tr class="date-header">
-                  <td colspan="4"><i class="bi bi-calendar-event me-1"></i>2026/03/11（水）</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=1'">
-                  <td rowspan="2" class="align-middle text-center">東京舗装(株)</td>
-                  <td>アスファルト舗装工</td>
-                  <td class="text-end">28,000,000</td>
-                  <td class="text-end">950,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=1'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">5,000,000</td>
-                  <td class="text-end">48,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=2'">
-                  <td rowspan="2" class="align-middle text-center">(株)関東建設</td>
-                  <td>撤去工事</td>
-                  <td class="text-end">8,000,000</td>
-                  <td class="text-end">520,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=2'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,500,000</td>
-                  <td class="text-end">28,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=3'">
-                  <td rowspan="2" class="align-middle text-center">首都圏道路(株)</td>
-                  <td>区画線工</td>
-                  <td class="text-end">9,000,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-11&company=3'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,200,000</td>
-                  <td class="text-end">0</td>
-                </tr>
-
-                <!-- 2026/03/10 -->
-                <tr class="date-header">
-                  <td colspan="4"><i class="bi bi-calendar-event me-1"></i>2026/03/10（火）</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-10&company=1'">
-                  <td rowspan="2" class="align-middle text-center">東京舗装(株)</td>
-                  <td>アスファルト舗装工</td>
-                  <td class="text-end">28,000,000</td>
-                  <td class="text-end">890,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-10&company=1'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">5,000,000</td>
-                  <td class="text-end">41,000</td>
-                </tr>
-                <tr class="company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-10&company=2'">
-                  <td rowspan="2" class="align-middle text-center">(株)関東建設</td>
-                  <td>撤去工事</td>
-                  <td class="text-end">8,000,000</td>
-                  <td class="text-end">480,000</td>
-                </tr>
-                <tr class="expense-row company-row" onclick="location.href='user_project_detail_report_detail.html?date=2026-03-10&company=2'">
-                  <td class="ps-3 text-muted">└ 経費</td>
-                  <td class="text-end">1,500,000</td>
-                  <td class="text-end">22,000</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-bordered visitor-table mb-0" id="visitorTable">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">userID</th>
+                    <th style="min-width: 100px;">来場者名</th>
+                    <th style="min-width: 140px;">会社名</th>
+                    <th style="min-width: 110px;">社内担当者名</th>
+                    <th style="width: 70px;" class="text-center">来場</th>
+                    <th style="width: 60px;" class="text-center">VIP</th>
+                    <th style="width: 72px;" class="text-center">基調講演</th>
+                    <th style="width: 72px;" class="text-center">セッションA</th>
+                    <th style="width: 72px;" class="text-center">セッションB</th>
+                    <th style="width: 72px;" class="text-center">セッションC</th>
+                    <th style="width: 72px;" class="text-center">セッションD</th>
+                    <th style="width: 72px;" class="text-center">ダイアログ</th>
+                    <th style="width: 80px;" class="text-center">ネットワーキング</th>
+                  </tr>
+                </thead>
+                <tbody id="visitorTbody">
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="card-footer bg-white">
-            <!-- ページネーション -->
-            <nav aria-label="工事日誌ページネーション">
-              <ul class="pagination pagination-sm justify-content-center mb-0">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                    <i class="bi bi-chevron-left"></i>
-                  </a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                  <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">5</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">
-                    <i class="bi bi-chevron-right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div class="card-footer py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="small text-muted" id="pageInfo">1-20件目を表示（1/5ページ）</span>
+            <ul class="pagination pagination-sm mb-0" id="paginationList"></ul>
           </div>
         </div>
       </main>
     </div>
   </div>
 
-  <!-- フッター -->
   <div id="footer-container"></div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- カスタムスクリプト -->
   <script src="../style.js"></script>
-  <script>
-    fetch('user_header.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('header-container').innerHTML = html);
-    fetch('user_footer.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('footer-container').innerHTML = html);
-  </script>
+  <script src="user_project_detail_report.js"></script>
 </body>
 </html>

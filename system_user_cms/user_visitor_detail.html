@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>入場者詳細</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .col-fixed { padding-left: 0; padding-right: 0; }
+    .info-table th { background-color: #f8f9fa; width: 160px; }
+    .session-table th { background-color: #f8f9fa; width: 140px; }
+    .edit-hide { display: none; }
+    /* 表示時：フォーム系は非表示、表示用のみ表示 */
+    #sessionCard .session-form,
+    #sessionCard input.session-form { display: none !important; }
+    /* 編集時：表示用を非表示、フォーム系を表示 */
+    #sessionCard.edit-mode .session-view,
+    #sessionCard.edit-mode .session-view.join-btn-group { display: none !important; }
+    #sessionCard.edit-mode .session-form,
+    #sessionCard.edit-mode input.session-form { display: block !important; }
+    #sessionCard.edit-mode .session-form.join-btn-group { display: inline-block !important; }
+    .join-btn-group .btn { min-width: 64px; }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <div class="container-fluid mt-4 px-4">
+    <div class="row">
+      <nav class="col-fixed" style="width:240px;">
+        <div class="list-group list-group-flush small">
+          <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
+          <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場者・入退室</a>
+        </div>
+      </nav>
+      <main class="col px-3" style="padding-bottom: 80px;">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="user_project_detail.html">イベントトップ</a></li>
+            <li class="breadcrumb-item"><a href="user_project_detail_report.html">来場者・入退出</a></li>
+            <li class="breadcrumb-item active" aria-current="page">入場者詳細</li>
+          </ol>
+        </nav>
+
+        <div id="contentU001">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">入場者詳細</h4>
+            <div>
+              <button type="button" class="btn btn-outline-primary btn-sm" id="btnEdit" onclick="typeof window.visitorEnterEdit === 'function' && window.visitorEnterEdit()">編集</button>
+              <span class="edit-hide" id="editButtons">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSave" onclick="typeof window.visitorSaveEdit === 'function' && window.visitorSaveEdit()">保存</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnCancel" onclick="typeof window.visitorCancelEdit === 'function' && window.visitorCancelEdit()">キャンセル</button>
+              </span>
+            </div>
+          </div>
+
+          <!-- 基本情報（編集なし・表示のみ） -->
+          <div class="card mb-4">
+            <div class="card-header py-2 fw-bold">基本情報</div>
+            <div class="card-body">
+              <table class="table table-bordered info-table mb-0">
+                <tbody>
+                  <tr>
+                    <th>UserID</th>
+                    <td>U001</td>
+                  </tr>
+                  <tr>
+                    <th>入場者名</th>
+                    <td>田中 一郎</td>
+                  </tr>
+                  <tr>
+                    <th>会社名</th>
+                    <td>株式会社サンプル</td>
+                  </tr>
+                  <tr>
+                    <th>社内担当者名</th>
+                    <td>山田 太郎</td>
+                  </tr>
+                  <tr>
+                    <th>VIPマーク</th>
+                    <td><span class="badge bg-danger">VIP</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 参加不参加・入退場時間（表示時はテキスト、編集時のみフォーム） -->
+          <div class="card mb-4" id="sessionCard">
+            <div class="card-header py-2 fw-bold">参加不参加・入場退場時間</div>
+            <div class="card-body p-0">
+              <table class="table table-bordered session-table mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>プログラム</th>
+                    <th>参加・不参加</th>
+                    <th>入場時間</th>
+                    <th>退場時間</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-key="keynote">
+                    <th>基調講演</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">13:02</span><input type="text" class="session-form form-control form-control-sm" value="13:02" placeholder="HH:MM"></td>
+                    <td><span class="session-view">13:28</span><input type="text" class="session-form form-control form-control-sm" value="13:28" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionA">
+                    <th>セッションA</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">14:12</span><input type="text" class="session-form form-control form-control-sm" value="14:12" placeholder="HH:MM"></td>
+                    <td><span class="session-view">14:28</span><input type="text" class="session-form form-control form-control-sm" value="14:28" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionB">
+                    <th>セッションB</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>参加</button><button type="button" class="btn btn-primary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-primary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
+                    <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionC">
+                    <th>セッションC</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">15:22</span><input type="text" class="session-form form-control form-control-sm" value="15:22" placeholder="HH:MM"></td>
+                    <td><span class="session-view">15:38</span><input type="text" class="session-form form-control form-control-sm" value="15:38" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionD">
+                    <th>セッションD</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>参加</button><button type="button" class="btn btn-primary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-primary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
+                    <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="dialog">
+                    <th>ダイアログ</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">16:42</span><input type="text" class="session-form form-control form-control-sm" value="16:42" placeholder="HH:MM"></td>
+                    <td><span class="session-view">17:35</span><input type="text" class="session-form form-control form-control-sm" value="17:35" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="net">
+                    <th>ネットワーキング</th>
+                    <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td><span class="session-view">17:45</span><input type="text" class="session-form form-control form-control-sm" value="17:45" placeholder="HH:MM"></td>
+                    <td><span class="session-view">18:15</span><input type="text" class="session-form form-control form-control-sm" value="18:15" placeholder="HH:MM"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="contentOther" style="display: none;">
+          <h4 class="mb-3">入場者詳細</h4>
+          <div class="card">
+            <div class="card-body">
+              <p class="text-muted mb-2">入場者ID: <span id="visitorId">—</span></p>
+              <p class="mb-0">このページのコンテンツは後で定義します。</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="user_project_detail_report.html" class="btn btn-outline-secondary mt-3">来場者一覧に戻る</a>
+      </main>
+    </div>
+  </div>
+
+  <div id="footer-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../style.js"></script>
+  <script>
+    fetch('user_header.html').then(r => r.text()).then(html => { var el = document.getElementById('header-container'); if (el) el.innerHTML = html; }).catch(function(){});
+    fetch('user_footer.html').then(r => r.text()).then(html => { var el = document.getElementById('footer-container'); if (el) el.innerHTML = html; }).catch(function(){});
+
+    function initVisitorPage() {
+      var params = new URLSearchParams(location.search);
+      var id = (params.get('id') || '').trim().toUpperCase();
+      var isU001 = (id === 'U001');
+
+      var elU001 = document.getElementById('contentU001');
+      var elOther = document.getElementById('contentOther');
+      if (elU001 && elOther) {
+        if (isU001) {
+          elU001.style.display = 'block';
+          elOther.style.display = 'none';
+        } else {
+          elU001.style.display = 'none';
+          elOther.style.display = 'block';
+          var elId = document.getElementById('visitorId');
+          if (elId) elId.textContent = id || '—';
+        }
+      }
+
+      if (!isU001) return;
+
+      window.visitorEnterEdit = null;
+      window.visitorSaveEdit = null;
+      window.visitorCancelEdit = null;
+
+      var card = document.getElementById('sessionCard');
+      if (card) card.classList.remove('edit-mode');
+
+      var sessionData = [
+        { key: 'keynote', join: 1, in: '13:02', out: '13:28' },
+        { key: 'sessionA', join: 1, in: '14:12', out: '14:28' },
+        { key: 'sessionB', join: 0, in: '', out: '' },
+        { key: 'sessionC', join: 1, in: '15:22', out: '15:38' },
+        { key: 'sessionD', join: 0, in: '', out: '' },
+        { key: 'dialog', join: 1, in: '16:42', out: '17:35' },
+        { key: 'net', join: 1, in: '17:45', out: '18:15' }
+      ];
+
+      var btnEditEl = document.getElementById('btnEdit');
+      var editButtonsEl = document.getElementById('editButtons');
+
+      function setEditMode(editing) {
+        if (!card) return;
+        if (editing) {
+          card.classList.add('edit-mode');
+          if (btnEditEl) { btnEditEl.classList.add('edit-hide'); btnEditEl.style.display = 'none'; }
+          if (editButtonsEl) { editButtonsEl.classList.remove('edit-hide'); editButtonsEl.style.display = 'inline-block'; }
+          bindJoinButtons();
+        } else {
+          card.classList.remove('edit-mode');
+          if (btnEditEl) { btnEditEl.classList.remove('edit-hide'); btnEditEl.style.display = ''; }
+          if (editButtonsEl) { editButtonsEl.classList.add('edit-hide'); editButtonsEl.style.display = 'none'; }
+        }
+      }
+
+      function getRow(key) {
+        return document.querySelector('#sessionCard tr[data-key="' + key + '"]');
+      }
+
+      function updateViewFromData() {
+        sessionData.forEach(function (d) {
+          var row = getRow(d.key);
+          if (!row) return;
+          var cells = row.querySelectorAll('td');
+          var viewJoin = cells[0].querySelector('.session-view.join-btn-group');
+          if (viewJoin) {
+            var btns = viewJoin.querySelectorAll('.btn');
+            if (btns.length >= 2) {
+              btns[0].className = 'btn btn-sm ' + (d.join ? 'btn-primary' : 'btn-outline-secondary');
+              btns[1].className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-primary');
+            }
+          }
+          var inSpan = cells[1].querySelector('.session-view');
+          var outSpan = cells[2].querySelector('.session-view');
+          if (inSpan) inSpan.textContent = d.in || '—';
+          if (outSpan) outSpan.textContent = d.out || '—';
+        });
+      }
+
+      function readFormToData() {
+        sessionData.forEach(function (d) {
+          var row = getRow(d.key);
+          if (!row) return;
+          var cells = row.querySelectorAll('td');
+          var joinPrimary = cells[0].querySelector('.session-form .btn-primary');
+          d.join = joinPrimary && joinPrimary.getAttribute('data-join') === '1' ? 1 : 0;
+          var inInput = cells[1].querySelector('.session-form input');
+          var outInput = cells[2].querySelector('.session-form input');
+          d.in = inInput && inInput.value ? inInput.value.trim() : '';
+          d.out = outInput && outInput.value ? outInput.value.trim() : '';
+        });
+      }
+
+      function writeDataToForm() {
+        sessionData.forEach(function (d) {
+          var row = getRow(d.key);
+          if (!row) return;
+          var cells = row.querySelectorAll('td');
+          var formJoin = cells[0].querySelector('.session-form.join-btn-group');
+          if (formJoin) {
+            var btns = formJoin.querySelectorAll('.btn[data-join]');
+            if (btns.length >= 2) {
+              btns[0].className = 'btn btn-sm ' + (d.join ? 'btn-primary' : 'btn-outline-secondary');
+              btns[1].className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-primary');
+            }
+          }
+          var inInput = cells[1].querySelector('.session-form input');
+          var outInput = cells[2].querySelector('.session-form input');
+          if (inInput) inInput.value = d.in || '';
+          if (outInput) outInput.value = d.out || '';
+        });
+      }
+
+      function bindJoinButtons() {
+        sessionData.forEach(function (d) {
+          var row = getRow(d.key);
+          if (!row) return;
+          var cells = row.querySelectorAll('td');
+          var group = cells[0] && cells[0].querySelector('.session-form.join-btn-group');
+          if (!group) return;
+          var btns = group.querySelectorAll('.btn[data-join]');
+          btns.forEach(function (btn) {
+            btn.onclick = function () {
+              var isJoin = btn.getAttribute('data-join') === '1';
+              btns[0].className = 'btn btn-sm ' + (isJoin ? 'btn-primary' : 'btn-outline-secondary');
+              btns[1].className = 'btn btn-sm ' + (isJoin ? 'btn-outline-secondary' : 'btn-primary');
+            };
+          });
+        });
+      }
+
+      // イベント委譲で編集・保存・キャンセルを確実に処理（ボタンまたはその子要素のクリックにも対応）
+      if (elU001) {
+        elU001.addEventListener('click', function (e) {
+          var t = e.target;
+          var id = (t && t.id) || (t && t.closest && t.closest('button[id]') && t.closest('button[id]').id);
+          if (!id) return;
+          if (id === 'btnEdit') {
+            e.preventDefault();
+            e.stopPropagation();
+            setEditMode(true);
+            return;
+          }
+          if (id === 'btnSave') {
+            e.preventDefault();
+            e.stopPropagation();
+            readFormToData();
+            updateViewFromData();
+            setEditMode(false);
+            alert('保存しました。');
+            return;
+          }
+          if (id === 'btnCancel') {
+            e.preventDefault();
+            e.stopPropagation();
+            writeDataToForm();
+            setEditMode(false);
+            return;
+          }
+        });
+      }
+
+      window.visitorEnterEdit = function () { setEditMode(true); };
+      window.visitorSaveEdit = function () { readFormToData(); updateViewFromData(); setEditMode(false); alert('保存しました。'); };
+      window.visitorCancelEdit = function () { writeDataToForm(); setEditMode(false); };
+
+      try { updateViewFromData(); } catch (err) { console.warn('updateViewFromData:', err); }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initVisitorPage);
+    } else {
+      initVisitorPage();
+    }
+  </script>
+</body>
+</html>

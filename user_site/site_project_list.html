@@ -2,361 +2,118 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>工事管理</title>
+  <title>イベントリスト - 受付アプリ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
   <style>
-    /* iPhone 17 Pro 393×852向け最適化 */
-    body, html {
-      width: 393px;
-      height: 852px;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-    .container-fluid {
-      max-width: 393px;
-      padding-bottom: 60px; /* フッター分のスペース */
-      margin-top: 0.5rem;
-    }
-    /* カード内文字サイズ */
+    body, html { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+    .container-fluid { max-width: 393px; margin: 0 auto; padding-bottom: 80px; }
     .card-project { font-size: 0.75rem; }
-    .card-project .card-header {
-      font-size: 0.7rem;
-      padding: 0.4rem 0.5rem;
-    }
-    .card-project .card-body {
-      padding: 0.5rem;
-    }
-    .card-project .card-body p {
-      font-size: 0.65rem;
-      margin-bottom: 0.25rem;
-      line-height: 1.2;
-    }
-    .card-project .card-image {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 0.25rem;
-    }
-    .card-project .card-content-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-    /* Footer fixed */
-    #footer-container {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 393px;
-      z-index: 1000;
-      background-color: white;
-    }
-    #footer-container footer {
-      width: 100%;
-    }
-    /* タブの調整（ボタン型、横スクロール） */
-    .tab-scroll-container {
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      white-space: nowrap;
-      padding: 0.5rem 0;
-      margin-bottom: 1rem;
-    }
-    .tab-scroll-container::-webkit-scrollbar {
-      display: none;
-    }
-    .tab-buttons {
-      display: inline-flex;
-      gap: 0.5rem;
-      padding: 0 0.5rem;
-    }
-    .tab-btn {
-      font-size: 0.7rem;
-      padding: 0.4rem 0.8rem;
-      white-space: nowrap;
-      border-radius: 0.375rem;
-      border: 1px solid #dee2e6;
-      background-color: white;
-      color: #495057;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .tab-btn:hover {
-      background-color: #f8f9fa;
-    }
-    .tab-btn.active {
-      background-color: #0d6efd;
-      color: white;
-      border-color: #0d6efd;
-    }
-    /* ボタンの調整 */
-    .btn {
-      font-size: 0.75rem;
-      padding: 0.3rem 0.6rem;
-    }
+    .card-project .card-header { font-size: 0.7rem; padding: 0.4rem 0.5rem; }
+    .card-project .card-body { padding: 0.5rem; }
+    .card-project .card-body p { font-size: 0.65rem; margin-bottom: 0.25rem; line-height: 1.2; }
+    .card-project .card-img-top { width: 100%; height: 120px; object-fit: contain; object-position: center; background: #f0f0f0; }
+    #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
+    .tab-scroll-container { overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; padding: 0.5rem 0; margin-bottom: 0.5rem; }
+    .tab-buttons { display: inline-flex; gap: 0.5rem; padding: 0 0.5rem; }
+    .tab-btn { font-size: 0.7rem; padding: 0.4rem 0.8rem; border-radius: 0.375rem; border: 1px solid #dee2e6; background: #fff; color: #495057; cursor: pointer; }
+    .tab-btn.active { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+    .event-list-header { width: 100%; max-width: 393px; margin: 0 auto; }
+    .event-list-header h4 { font-size: 1rem; line-height: 1.3; }
+    .card-project .vip-badge { font-size: 0.6rem; margin-left: 0.25rem; }
   </style>
 </head>
 <body>
-  <div class="container-fluid mt-4">
-    <!-- ヘッダー行 -->
-    <div class="mb-2 px-2">
-      <h5 class="mb-0">工事リスト</h5>
+  <div class="container-fluid px-0">
+    <div class="event-list-header bg-dark text-white py-2 px-3 mb-2">
+      <h4 class="mb-0 fw-bold text-white">イベント入退場受付アプリ</h4>
+      <p class="mb-0 text-white" style="font-size: 0.85rem; margin-top: 0.25rem;">クライアント名</p>
     </div>
-    <!-- ステータスタブ（ボタン型、横スクロール） -->
-    <div class="tab-scroll-container px-2">
+  <div class="px-2">
+    <h5 class="mb-2 mt-2 fw-bold">イベントリスト</h5>
+    <div class="tab-scroll-container">
       <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab(this, 'all')">すべて (5)</button>
-        <button class="tab-btn" onclick="switchTab(this, 'registered')">案件登録済み (1)</button>
-        <button class="tab-btn" onclick="switchTab(this, 'in-progress')">工事中 (2)</button>
-        <button class="tab-btn" onclick="switchTab(this, 'completed')">工事完了 (1)</button>
-        <button class="tab-btn" onclick="switchTab(this, 'finished')">出来方完了 (1)</button>
-      </div>
-    </div>
-    <!-- 切替ボタン -->
-    <div class="d-flex justify-content-end mb-2 px-2">
-      <button id="panelViewBtn" class="btn btn-outline-primary btn-sm me-2">パネル</button>
-      <button id="listViewBtn" class="btn btn-outline-secondary btn-sm">リスト</button>
-    </div>
-
-    <!-- パネル表示 -->
-    <div id="panelView" class="px-2">
-      <!-- カード1：国道9号線舗装工事 -->
-      <div class="mb-2">
-        <a href="site_project_detail.html" class="text-decoration-none text-reset">
-          <div class="card card-project">
-            <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-              <span>国道9号線舗装工事</span>
-              <span class="badge bg-warning">工事中</span>
-            </div>
-            <div class="card-body p-2 small-text">
-              <div class="card-content-row">
-                <img src="../images/improveroad.webp" class="card-image" alt="工事画像">
-                <div class="flex-grow-1">
-                  <p class="mb-1">工事場所: 東京都港区</p>
-                  <p class="mb-1">工事種類: アスファルト舗装工事</p>
-                  <p class="mb-1">担当者: 山田太郎</p>
-                  <p class="mb-1">契約日: 2025/05/15</p>
-                  <p class="mb-1">工事開始日: 2025/06/01</p>
-                  <p class="mb-1">完了予定日: 2025/07/15</p>
-                  <p class="mb-1">進捗率: 45%</p>
-                  <p class="mb-1"><i class="bi bi-chat"></i> <span class="badge bg-danger">3</span></p>
-                  <p class="mb-0">状況: 工事中</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <!-- カード2：本社駐車場舗装工事 -->
-      <div class="mb-2">
-        <a href="site_project_detail.html" class="text-decoration-none text-reset">
-          <div class="card card-project">
-            <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-              <span>本社駐車場舗装工事</span>
-              <span class="badge bg-success">工事完了</span>
-            </div>
-            <div class="card-body p-2 small-text">
-              <div class="card-content-row">
-                <img src="../images/parking.webp" class="card-image" alt="工事画像">
-                <div class="flex-grow-1">
-                  <p class="mb-1">工事場所: 埼玉県さいたま市</p>
-                  <p class="mb-1">工事種類: 駐車場舗装工事</p>
-                  <p class="mb-1">担当者: 佐藤花子</p>
-                  <p class="mb-1">契約日: 2025/04/20</p>
-                  <p class="mb-1">工事開始日: 2025/05/10</p>
-                  <p class="mb-1">完了日: 2025/06/05</p>
-                  <p class="mb-1">進捗率: 100%</p>
-                  <p class="mb-1"><i class="bi bi-chat"></i> <span class="badge bg-danger">1</span></p>
-                  <p class="mb-0">状況: 工事完了</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <!-- カード3：市道拡幅工事 -->
-      <div class="mb-2">
-        <a href="site_project_detail.html" class="text-decoration-none text-reset">
-          <div class="card card-project">
-            <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-              <span>市道拡幅工事</span>
-              <span class="badge bg-info">設計中</span>
-            </div>
-            <div class="card-body p-2 small-text">
-              <div class="card-content-row">
-                <img src="../images/night.webp" class="card-image" alt="工事画像">
-                <div class="flex-grow-1">
-                  <p class="mb-1">工事場所: 千葉県千葉市</p>
-                  <p class="mb-1">工事種類: 道路拡幅工事</p>
-                  <p class="mb-1">担当者: 鈴木次郎</p>
-                  <p class="mb-1">契約日: 2025/06/01</p>
-                  <p class="mb-1">設計開始日: 2025/06/05</p>
-                  <p class="mb-1">工事予定日: 2025/07/20</p>
-                  <p class="mb-1">進捗率: 20%</p>
-                  <p class="mb-1"><i class="bi bi-chat"></i> <span class="badge bg-danger">5</span></p>
-                  <p class="mb-0">状況: 設計中</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <!-- カード4：側溝改修工事 -->
-      <div class="mb-2">
-        <a href="site_project_detail.html" class="text-decoration-none text-reset">
-          <div class="card card-project">
-            <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-              <span>側溝改修工事</span>
-              <span class="badge bg-warning">工事中</span>
-            </div>
-            <div class="card-body p-2 small-text">
-              <div class="card-content-row">
-                <img src="../images/Vgatasokou.webp" class="card-image" alt="工事画像">
-                <div class="flex-grow-1">
-                  <p class="mb-1">工事場所: 神奈川県横浜市</p>
-                  <p class="mb-1">工事種類: 側溝工事</p>
-                  <p class="mb-1">担当者: 田中一郎</p>
-                  <p class="mb-1">契約日: 2025/05/25</p>
-                  <p class="mb-1">工事開始日: 2025/06/10</p>
-                  <p class="mb-1">完了予定日: 2025/07/05</p>
-                  <p class="mb-1">進捗率: 60%</p>
-                  <p class="mb-1"><i class="bi bi-chat"></i> <span class="badge bg-danger">0</span></p>
-                  <p class="mb-0">状況: 工事中</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <!-- カード5：アスファルト補修工事 -->
-      <div class="mb-2">
-        <a href="site_project_detail.html" class="text-decoration-none text-reset">
-          <div class="card card-project">
-            <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-              <span>アスファルト補修工事</span>
-              <span class="badge bg-success">工事完了</span>
-            </div>
-            <div class="card-body p-2 small-text">
-              <div class="card-content-row">
-                <img src="../images/night.webp" class="card-image" alt="工事画像">
-                <div class="flex-grow-1">
-                  <p class="mb-1">工事場所: 東京都新宿区</p>
-                  <p class="mb-1">工事種類: 道路補修工事</p>
-                  <p class="mb-1">担当者: 中村健太</p>
-                  <p class="mb-1">契約日: 2025/05/10</p>
-                  <p class="mb-1">工事開始日: 2025/05/25</p>
-                  <p class="mb-1">完了日: 2025/06/15</p>
-                  <p class="mb-1">進捗率: 100%</p>
-                  <p class="mb-1"><i class="bi bi-chat"></i> <span class="badge bg-danger">0</span></p>
-                  <p class="mb-0">状況: 工事完了</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a>
+        <button type="button" class="tab-btn active">すべて (3)</button>
+        <button type="button" class="tab-btn">準備中 (1)</button>
+        <button type="button" class="tab-btn">受付中 (1)</button>
+        <button type="button" class="tab-btn">終了 (1)</button>
       </div>
     </div>
 
-    <!-- リスト表示 -->
-    <div id="listView" class="table-responsive px-2 small-text" style="display:none;">
-      <table class="table table-hover mb-0" style="font-size: 0.65rem;">
-        <thead class="table-light">
-          <tr>
-            <th>状況</th><th>工事名</th><th>工事種類</th><th>工事場所</th><th>担当者</th><th>完了予定日</th><th>未読</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="badge bg-warning">工事中</span></td>
-            <td>国道9号線舗装工事</td>
-            <td>アスファルト舗装工事</td>
-            <td>東京都港区</td>
-            <td>山田太郎</td>
-            <td>2025/07/15</td>
-            <td><span class="badge bg-danger">3</span></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-success">工事完了</span></td>
-            <td>本社駐車場舗装工事</td>
-            <td>駐車場舗装工事</td>
-            <td>埼玉県さいたま市</td>
-            <td>佐藤花子</td>
-            <td>2025/06/05</td>
-            <td><span class="badge bg-danger">1</span></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-info">設計中</span></td>
-            <td>市道拡幅工事</td>
-            <td>道路拡幅工事</td>
-            <td>千葉県千葉市</td>
-            <td>鈴木次郎</td>
-            <td>2025/07/20</td>
-            <td><span class="badge bg-danger">5</span></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-warning">工事中</span></td>
-            <td>側溝改修工事</td>
-            <td>側溝工事</td>
-            <td>神奈川県横浜市</td>
-            <td>田中一郎</td>
-            <td>2025/07/05</td>
-            <td><span class="badge bg-danger">0</span></td>
-          </tr>
-          <tr>
-            <td><span class="badge bg-success">工事完了</span></td>
-            <td>アスファルト補修工事</td>
-            <td>道路補修工事</td>
-            <td>東京都新宿区</td>
-            <td>中村健太</td>
-            <td>2025/06/15</td>
-            <td><span class="badge bg-danger">0</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <div id="panelView">
+      <div class="mb-2">
+        <a href="site_project_detail.html" class="text-decoration-none text-reset">
+          <div class="card card-project">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span class="d-flex align-items-center">
+                <span>New Business Creation Strategy 2026</span>
+                <i class="bi bi-bell-fill text-warning ms-1" title="VIP来場"></i>
+                <span class="badge bg-danger vip-badge">8</span>
+              </span>
+              <span class="badge bg-info">準備中</span>
+            </div>
+            <img src="../images/bizforumbanner.webp" class="card-img-top" alt="イベント">
+            <div class="card-body p-2">
+              <p class="mb-1">開催日時: 2026/03/05 13:00～17:40</p>
+              <p class="mb-1">開催場所: 会場開催（東京）</p>
+              <p class="mb-1">担当: 鈴木次郎</p>
+              <p class="mb-0">登録者: 0名 / 入室実績: 0</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="mb-2">
+        <a href="site_project_detail.html" class="text-decoration-none text-reset">
+          <div class="card card-project">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span class="d-flex align-items-center">
+                <span>経営DXフォーラム 2026</span>
+                <i class="bi bi-bell-fill text-warning ms-1" title="VIP来場"></i>
+                <span class="badge bg-danger vip-badge">3</span>
+              </span>
+              <span class="badge bg-success">終了</span>
+            </div>
+            <img src="../images/bizforumbanner2.png" class="card-img-top" alt="イベント">
+            <div class="card-body p-2">
+              <p class="mb-1">開催日時: 2026/03/09 14:30～17:45</p>
+              <p class="mb-1">開催場所: 東京都千代田区</p>
+              <p class="mb-1">担当: 佐藤花子</p>
+              <p class="mb-0">登録者: 85名 / 入室実績: 82</p>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="mb-2">
+        <a href="site_project_detail.html" class="text-decoration-none text-reset">
+          <div class="card card-project">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span class="d-flex align-items-center">
+                <span>グローバル／グループ経営フォーラム 2026</span>
+                <i class="bi bi-bell-fill text-warning ms-1" title="VIP来場"></i>
+                <span class="badge bg-danger vip-badge">5</span>
+              </span>
+              <span class="badge bg-primary">受付中</span>
+            </div>
+            <img src="../images/bizforumbanner.webp" class="card-img-top" alt="イベント">
+            <div class="card-body p-2">
+              <p class="mb-1">開催日時: 2026/03/26 10:30～16:30</p>
+              <p class="mb-1">開催場所: オンライン</p>
+              <p class="mb-1">担当: 山田太郎</p>
+              <p class="mb-0">登録者: 120名 / 入室実績: 0</p>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
+  </div>
 
-  <!-- フッター -->
   <div id="footer-container"></div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- カスタムスクリプト -->
-  <script src="../style.js"></script>
-  <!-- フッター読み込み & 切替ロジック -->
   <script>
-    // フッター読み込み
-    fetch('site_footer.html')
-      .then(r => r.text())
-      .then(html => document.getElementById('footer-container').innerHTML = html);
-
-    // タブ切替
-    function switchTab(btn, tabId) {
-      // すべてのタブボタンからactiveクラスを削除
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      // クリックされたボタンにactiveクラスを追加
-      btn.classList.add('active');
-      // ここでフィルタリング処理を実装できます
-      // 例: filterProjects(tabId);
-    }
-
-    // パネル/リスト 切替
-    document.getElementById('panelViewBtn').onclick = () => {
-      document.getElementById('panelView').style.display = 'flex';
-      document.getElementById('listView').style.display = 'none';
-    };
-    document.getElementById('listViewBtn').onclick = () => {
-      document.getElementById('panelView').style.display = 'none';
-      document.getElementById('listView').style.display = 'block';
-    };
+    fetch('site_footer_project_list.html').then(r=>r.text()).then(html=>{var e=document.getElementById('footer-container');if(e)e.innerHTML=html;}).catch(function(){});
   </script>
 </body>
 </html>

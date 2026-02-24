@@ -24,6 +24,7 @@
     /* コンテンツ下部に余白を */
     main { padding-bottom: 80px; }
     .btn-new-event { font-size: 1.1rem; padding: 0.6rem 1.5rem; font-weight: bold; }
+    .btn-delete-card { font-size: 1rem; padding: 0.6rem 1rem; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -55,8 +56,8 @@
         <div id="panelView" class="row g-3">
           <!-- カード1：グローバル／グループ経営フォーラム 2026 -->
           <div class="col-6 col-md-4 col-lg-3">
-            <a href="user_project_detail.html" class="text-decoration-none text-reset">
-              <div class="card card-project h-100">
+            <div class="card card-project h-100">
+              <a href="user_project_detail.html" class="text-decoration-none text-reset">
                 <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
                   <span class="d-flex align-items-center gap-1">
                     <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
@@ -75,13 +76,16 @@
                   <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 0</p>
                   <p class="mb-0">状況: 受付中</p>
                 </div>
+              </a>
+              <div class="card-footer p-2 bg-light border-0">
+                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'グローバル／グループ経営フォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
               </div>
-            </a>
+            </div>
           </div>
           <!-- カード2：経営DXフォーラム 2026 -->
           <div class="col-6 col-md-4 col-lg-3">
-            <a href="user_project_detail.html" class="text-decoration-none text-reset">
-              <div class="card card-project h-100">
+            <div class="card card-project h-100">
+              <a href="user_project_detail.html" class="text-decoration-none text-reset">
                 <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
                   <span class="d-flex align-items-center gap-1">
                     <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
@@ -100,13 +104,16 @@
                   <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 82</p>
                   <p class="mb-0">状況: 終了</p>
                 </div>
+              </a>
+              <div class="card-footer p-2 bg-light border-0">
+                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, '経営DXフォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
               </div>
-            </a>
+            </div>
           </div>
           <!-- カード3：New Business Creation Strategy 2026 -->
           <div class="col-6 col-md-4 col-lg-3">
-            <a href="user_project_detail.html" class="text-decoration-none text-reset">
-              <div class="card card-project h-100">
+            <div class="card card-project h-100">
+              <a href="user_project_detail.html" class="text-decoration-none text-reset">
                 <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
                   <span class="d-flex align-items-center gap-1">
                     <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
@@ -125,13 +132,16 @@
                   <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 0</p>
                   <p class="mb-0">状況: 準備中</p>
                 </div>
+              </a>
+              <div class="card-footer p-2 bg-light border-0">
+                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'New Business Creation Strategy 2026')"><i class="bi bi-trash me-2"></i>削除</button>
               </div>
-            </a>
+            </div>
           </div>
           <!-- カード4：ITガバナンス・フォーラム 2026 -->
           <div class="col-6 col-md-4 col-lg-3">
-            <a href="user_project_detail.html" class="text-decoration-none text-reset">
-              <div class="card card-project h-100">
+            <div class="card card-project h-100">
+              <a href="user_project_detail.html" class="text-decoration-none text-reset">
                 <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
                   <span class="d-flex align-items-center gap-1">
                     <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
@@ -150,13 +160,16 @@
                   <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 90</p>
                   <p class="mb-0">状況: 受付中（開催済）</p>
                 </div>
+              </a>
+              <div class="card-footer p-2 bg-light border-0">
+                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'ITガバナンス・フォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
               </div>
-            </a>
+            </div>
           </div>
           <!-- カード5：M&Aマネジメント2025 -->
           <div class="col-6 col-md-4 col-lg-3">
-            <a href="user_project_detail.html" class="text-decoration-none text-reset">
-              <div class="card card-project h-100">
+            <div class="card card-project h-100">
+              <a href="user_project_detail.html" class="text-decoration-none text-reset">
                 <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
                   <span class="d-flex align-items-center gap-1">
                     <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
@@ -175,8 +188,11 @@
                   <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 62</p>
                   <p class="mb-0">状況: 終了</p>
                 </div>
+              </a>
+              <div class="card-footer p-2 bg-light border-0">
+                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'M&Aマネジメント2025')"><i class="bi bi-trash me-2"></i>削除</button>
               </div>
-            </a>
+            </div>
           </div>
         </div>
         <!-- リスト表示 -->
@@ -245,6 +261,27 @@
     </div>
   </div>
 
+  <!-- 削除確認モーダル -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteConfirmModalLabel">削除の確認</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">データはすべて削除されます。</p>
+          <p class="mb-2">削除する前にデータを保存してください。</p>
+          <p class="mb-0 fw-bold">本当に削除してよいですか？</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+          <button type="button" class="btn btn-danger" id="deleteConfirmYesBtn">はい</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- フッター -->
   <div id="footer-container"></div>
 
@@ -265,6 +302,29 @@
       document.getElementById('panelView').style.display = 'none';
       document.getElementById('listView').style.display = 'block';
     };
+
+    // 削除モーダル
+    var deleteModal = null;
+    var deleteTargetButton = null;
+
+    function openDeleteModal(btn, eventName) {
+      deleteTargetButton = btn;
+      if (!deleteModal) deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+      deleteModal.show();
+    }
+
+    function confirmDelete() {
+      if (deleteModal) deleteModal.hide();
+      if (deleteTargetButton) {
+        var card = deleteTargetButton.closest('.col-6');
+        if (card) card.remove();
+      }
+      deleteTargetButton = null;
+    }
+
+    document.getElementById('deleteConfirmYesBtn').addEventListener('click', function () {
+      confirmDelete();
+    });
   </script>
 </body>
 </html>

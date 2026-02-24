@@ -25,21 +25,40 @@
   <p><strong>対象デバイス:</strong> iPhone 16以降、Android（スマートフォン）。表示幅は393px基準で最適化。</p>
   <p><strong>対応OS:</strong> iOS はリリースから2年以内のバージョン（例：2026年時点では iOS 18 以降）、Android はリリースから2年以内のOS（例：2026年時点では Android 14 以降）を対象とする。</p>
 
+  <p><strong>注意:</strong> 入口は index.html の「USER SITE（受付、VIP管理）」から login.html へ遷移。ログイン後、受付アプリ（site_project_list.html）または VIP管理アプリ（site_project_list_vip.html）に分岐。受付アプリにはVIP来場ページへの遷移はなく、VIP管理アプリには受付QRリーダーはない。</p>
+
   <!-- 目次 -->
   <h2>目次</h2>
   <ol>
-    <li><a href="#page1">site_project_list.html - イベントリスト</a></li>
-    <li><a href="#page2">site_project_detail.html - イベント概要</a></li>
+    <li><a href="#page0">login.html - ログイン（受付・VIP管理）</a></li>
+    <li><a href="#page1">site_project_list.html - イベントリスト（受付アプリ）</a></li>
+    <li><a href="#page1v">site_project_list_vip.html - イベントリスト（VIP管理アプリ）</a></li>
+    <li><a href="#page2">site_project_detail.html - イベント概要（受付アプリ）</a></li>
+    <li><a href="#page2v">site_project_detail_vip.html - イベント概要（VIP管理アプリ）</a></li>
     <li><a href="#page2-1">site_project_detail_program.html - 受付プログラムリスト</a></li>
     <li><a href="#page3">site_read_keynote.html - 読み取り（基調講演）</a></li>
     <li><a href="#page4">site_notifications.html - VIP来場のお知らせ</a></li>
     <li><a href="#page5">site_myprof.html - マイプロフィール</a></li>
-    <li><a href="#page6">site_footer.html - フッターメニュー</a></li>
-    <li><a href="#page7">site_footer_project_list.html - イベントリスト用フッター</a></li>
+    <li><a href="#page6">site_footer.html - フッターメニュー（共通説明）</a></li>
+    <li><a href="#page6r">site_footer_reception.html - 受付アプリ用フッター</a></li>
+    <li><a href="#page6v">site_footer_vip.html - VIP管理アプリ用フッター</a></li>
+    <li><a href="#page7">site_footer_project_list.html - イベントリスト用フッター（受付）</a></li>
+    <li><a href="#page7v">site_footer_project_list_vip.html - イベントリスト用フッター（VIP）</a></li>
   </ol>
 
-  <!-- ===== ページ1: イベントリスト ===== -->
-  <h2 id="page1">1. site_project_list.html - イベントリスト</h2>
+  <!-- ===== ページ0: ログイン ===== -->
+  <h2 id="page0">0. login.html - ログイン（受付・VIP管理）</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>ページタイトル</td><td>ログイン - 受付アプリ / VIP管理アプリ</td></tr>
+    <tr><td>概要</td><td>index の USER SITE（受付、VIP管理）から遷移する中間ログインページ。スマートフォン表示（幅393px基準）。ヘッダーで「受付アプリ」「VIP管理アプリ」を切替。ID・パスワード入力とログインボタン（バリデーションなしで押下時に遷移）。</td></tr>
+    <tr><td>ヘッダー</td><td>受付アプリ | VIP管理アプリ（タブ形式。選択中はハイライト）</td></tr>
+    <tr><td>フォーム</td><td>ID（テキスト）/ パスワード（パスワード）/ ログインボタン</td></tr>
+    <tr><td>遷移</td><td>受付アプリ時：ログインボタンで site_project_list.html へ。VIP管理アプリ時：site_project_list_vip.html へ。</td></tr>
+  </table>
+
+  <!-- ===== ページ1: イベントリスト（受付アプリ） ===== -->
+  <h2 id="page1">1. site_project_list.html - イベントリスト（受付アプリ）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -47,11 +66,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>イベントリスト</td>
+      <td>イベントリスト - 受付アプリ</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>登録済みのイベントを一覧表示するメインページ。iPhone 16以降・Android を想定したスマートフォン表示（幅393px基準）に最適化。ステータスフィルタリング機能あり。</td>
+      <td>ログイン後（受付アプリ）のイベント一覧。VIP来場ページへの遷移はない（フッターは site_footer_project_list.html：山田太郎・メニューのみ）。カードクリックで site_project_detail.html へ。</td>
     </tr>
     <tr>
       <td>デバイス</td>
@@ -111,8 +130,17 @@
     </tr>
   </table>
 
-  <!-- ===== ページ2: イベント概要 ===== -->
-  <h2 id="page2">2. site_project_detail.html - イベント概要</h2>
+  <!-- ===== ページ1v: イベントリスト（VIP管理アプリ） ===== -->
+  <h2 id="page1v">1v. site_project_list_vip.html - イベントリスト（VIP管理アプリ）</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>ページタイトル</td><td>イベントリスト - VIP管理アプリ</td></tr>
+    <tr><td>概要</td><td>ログイン後（VIP管理アプリ）のイベント一覧。受付QRリーダーはない（フッターは site_footer_project_list_vip.html：山田太郎・メニューのみ）。内容は site_project_list.html と同様。カードクリックで site_project_detail_vip.html へ。</td></tr>
+    <tr><td>ヘッダー</td><td>VIP管理アプリ / 主催者株式会社</td></tr>
+  </table>
+
+  <!-- ===== ページ2: イベント概要（受付アプリ） ===== -->
+  <h2 id="page2">2. site_project_detail.html - イベント概要（受付アプリ）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -120,11 +148,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>イベント概要</td>
+      <td>イベント概要 - 受付アプリ</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>イベントの概要情報を表示するページ。スマートフォン表示（幅393px基準）に最適化。ヘッダーにイベント名を表示。</td>
+      <td>イベント概要表示。フッターは site_footer_reception.html（受付QR・山田太郎・メニュー）。VIP来場への遷移はない。</td>
     </tr>
   </table>
 
@@ -161,6 +189,14 @@
       <td>テーブル形式で表示</td>
       <td>担当者名 / 役割 / メール</td>
     </tr>
+  </table>
+
+  <!-- ===== ページ2v: イベント概要（VIP管理アプリ） ===== -->
+  <h2 id="page2v">2v. site_project_detail_vip.html - イベント概要（VIP管理アプリ）</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>ページタイトル</td><td>イベント概要 - VIP管理アプリ</td></tr>
+    <tr><td>概要</td><td>イベント概要表示。内容は site_project_detail.html と同様。フッターは site_footer_vip.html（VIP来場・山田太郎・メニュー）。受付QRリーダーはない。</td></tr>
   </table>
 
   <!-- ===== ページ2-1: 受付プログラムリスト ===== -->
@@ -398,8 +434,8 @@
     </tr>
   </table>
 
-  <!-- ===== ページ6: フッターメニュー ===== -->
-  <h2 id="page6">6. site_footer.html - フッターメニュー</h2>
+  <!-- ===== ページ6: フッターメニュー（共通説明） ===== -->
+  <h2 id="page6">6. フッターメニュー（共通説明）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -407,20 +443,36 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>固定フッター（黒背景・白文字、中央揃え）。全ページ共通で表示。</td>
+      <td>固定フッター（黒背景・白文字、中央揃え）。アプリ種別により読み込むフッターが異なる。</td>
     </tr>
     <tr>
-      <td>メニュー項目</td>
-      <td>受付QR / VIP来場（バッジ8） / 山田太郎 / メニュー（ドロップダウン）</td>
+      <td>受付アプリ</td>
+      <td>site_footer_reception.html（詳細は page6r）/ site_footer_project_list.html（一覧・マイプロフィール時）。受付QRあり。VIP来場への遷移はなし。</td>
     </tr>
     <tr>
-      <td>メニュードロップダウン</td>
-      <td>イベント一覧 / 利用規約 / プライバシーポリシー / モックアップ入口 / ログアウト</td>
+      <td>VIP管理アプリ</td>
+      <td>site_footer_vip.html（詳細は page6v）/ site_footer_project_list_vip.html（一覧時）。VIP来場あり。受付QRリーダーはなし。</td>
     </tr>
   </table>
 
-  <!-- ===== ページ7: イベントリスト用フッター ===== -->
-  <h2 id="page7">7. site_footer_project_list.html - イベントリスト用フッター</h2>
+  <!-- ===== ページ6r: 受付アプリ用フッター ===== -->
+  <h2 id="page6r">6r. site_footer_reception.html - 受付アプリ用フッター</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>概要</td><td>イベント詳細・プログラム・読み取りページで使用。受付QR / 山田太郎 / メニュー。VIP来場への遷移はない。</td></tr>
+    <tr><td>メニュー</td><td>イベント一覧（site_project_list.html）/ 利用規約 / プライバシーポリシー / モックアップ入口 / ログアウト</td></tr>
+  </table>
+
+  <!-- ===== ページ6v: VIP管理アプリ用フッター ===== -->
+  <h2 id="page6v">6v. site_footer_vip.html - VIP管理アプリ用フッター</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>概要</td><td>VIP管理アプリのイベント詳細・VIP来場お知らせページで使用。VIP来場（バッジ） / 山田太郎 / メニュー。受付QRはない。</td></tr>
+    <tr><td>メニュー</td><td>イベント一覧（site_project_list_vip.html）/ 利用規約 / プライバシーポリシー / モックアップ入口 / ログアウト</td></tr>
+  </table>
+
+  <!-- ===== ページ7: イベントリスト用フッター（受付） ===== -->
+  <h2 id="page7">7. site_footer_project_list.html - イベントリスト用フッター（受付）</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -428,7 +480,7 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>イベントリストページとマイプロフィールページ専用のフッター。固定フッター（黒背景・白文字、中央揃え）。</td>
+      <td>受付アプリのイベントリスト・マイプロフィールページで使用。山田太郎 / メニュー（ドロップダウン）。受付QR・VIP来場アイコンはなし。</td>
     </tr>
     <tr>
       <td>メニュー項目</td>
@@ -436,8 +488,16 @@
     </tr>
     <tr>
       <td>メニュードロップダウン</td>
-      <td>イベント一覧 / 利用規約 / プライバシーポリシー / 株式会社ビジネスフォーラム事務局 / イベント入退場管理システム / Copyright © 2026. All rights reserved. / バージョン情報 / モックアップ入口 / ログアウト</td>
+      <td>イベント一覧（site_project_list.html）/ 利用規約 / プライバシーポリシー / 株式会社ビジネスフォーラム事務局 / イベント入退場管理システム / Copyright © 2026. All rights reserved. / バージョン情報 / モックアップ入口 / ログアウト</td>
     </tr>
+  </table>
+
+  <!-- ===== ページ7v: イベントリスト用フッター（VIP） ===== -->
+  <h2 id="page7v">7v. site_footer_project_list_vip.html - イベントリスト用フッター（VIP）</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>概要</td><td>VIP管理アプリのイベントリストで使用。山田太郎 / メニュー。受付QR・VIP来場アイコンはなし。</td></tr>
+    <tr><td>メニュードロップダウン</td><td>イベント一覧（site_project_list_vip.html）/ 利用規約 / プライバシーポリシー / モックアップ入口 / ログアウト</td></tr>
   </table>
 
   <hr>
@@ -469,7 +529,7 @@
     </tr>
     <tr>
       <td>コンテンツ</td>
-      <td>イベント入退場受付アプリ向けにカスタマイズ</td>
+      <td>受付アプリ（受付QRあり・VIP来場への遷移なし）と VIP管理アプリ（VIP来場あり・受付QRなし）の2系統。入口は index → USER SITE → login.html。</td>
     </tr>
   </table>
 

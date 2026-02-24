@@ -57,6 +57,7 @@
         <div class="sidebar px-2">
           <div class="list-group small-text" role="tablist">
             <a href="user_project_detail.html" class="list-group-item list-group-item-action active">イベントトップ</a>
+            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・メール・名札</a>
             <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場者・入退室</a>
             <a href="user_nortification.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">VIP来場のお知らせ <span class="badge bg-danger">8</span></a>
           </div>
@@ -70,7 +71,6 @@
           <div>
             <h4 class="mb-1 fw-bold">New Business Creation Strategy 2026 <i class="bi bi-star"></i></h4>
             <p class="mb-1 fw-bold">イベントトップ</p>
-            <p class="text-muted small mb-0">企業内ベンチャーを成就させたリーダーが語らう、『事業創出』と『事業化』のキーファクター</p>
           </div>
           <div class="d-flex gap-2">
             <button type="button" class="btn btn-success px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-spreadsheet me-2"></i>CSV</button>
@@ -81,7 +81,6 @@
 
         <!-- セクション1：イベント概要（登録・編集可能） -->
         <div class="card mb-4">
-          <img src="../images/bizforumbanner.webp" class="event-overview-banner" alt="イベントバナー">
           <div class="card-header py-2 d-flex justify-content-between align-items-center card-header-actions">
             <span class="fw-bold">イベント概要</span>
             <div class="d-flex gap-2">
@@ -142,18 +141,21 @@
                 <table class="table table-sm table-bordered info-table mb-0">
                   <thead class="table-light">
                     <tr>
+                      <th>会社名</th>
                       <th>担当者名</th>
                       <th style="width: 80px;">役割</th>
                       <th>メール</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td>山田 太郎</td><td>受付</td><td>yamada.taro@example.com</td></tr>
-                    <tr><td>佐藤 花子</td><td>受付</td><td>sato.hanako@example.com</td></tr>
-                    <tr><td>鈴木 次郎</td><td>受付</td><td>suzuki.jiro@example.com</td></tr>
-                    <tr><td>高橋 健一</td><td>営業</td><td>takahashi.kenichi@example.com</td></tr>
-                    <tr><td>伊藤 美咲</td><td>営業</td><td>ito.misaki@example.com</td></tr>
-                    <tr><td>渡辺 直樹</td><td>営業</td><td>watanabe.naoki@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>山田 太郎</td><td>受付</td><td>yamada.taro@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>佐藤 花子</td><td>受付</td><td>sato.hanako@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>鈴木 次郎</td><td>受付</td><td>suzuki.jiro@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>高橋 健一</td><td>営業</td><td>takahashi.kenichi@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>伊藤 美咲</td><td>営業</td><td>ito.misaki@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>渡辺 直樹</td><td>営業</td><td>watanabe.naoki@example.com</td></tr>
+                    <tr><td>ビジネスフォーラム事務局</td><td>進士 淳一</td><td>受付</td><td>shinji.junichi@example.com</td></tr>
+                    <tr><td>ビジネスフォーラム事務局</td><td>小林 真理</td><td>受付</td><td>kobayashi.mari@example.com</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -178,8 +180,7 @@
                   <tr>
                     <th style="width: 100px;">時間</th>
                     <th style="width: 100px;">ROOM</th>
-                    <th>講演タイトル・内容</th>
-                    <th style="width: 200px;">講演者</th>
+                    <th>講演タイトル</th>
                     <th class="text-center" style="width: 90px;">入室予定数</th>
                     <th class="text-center" style="width: 90px;">入室数</th>
                     <th class="text-center" style="width: 90px;">退室数</th>
@@ -193,9 +194,8 @@
                     <td>
                       <span class="session-badge badge bg-primary me-1">基調講演</span>
                       <span class="program-title">特別講演Ⅰ　社内企業家を生かす会社のあり方</span>
-                      <p class="program-desc mt-1 mb-0">日本企業は、国際競争力創出のために、新たな製品やサービスの事業開発が期待されている。社内企業家は、社内においてこうした事業開発を進める創造的なリーダーとしての社員の新たなキャリアモデルである。</p>
+                      <p class="program-speaker mb-0 mt-1 small">若林 直樹 氏 <span class="text-muted">京都大学 経営管理大学院 教授</span></p>
                     </td>
-                    <td class="program-speaker">若林 直樹 氏<br><small class="text-muted">京都大学 経営管理大学院 教授</small></td>
                     <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -206,9 +206,8 @@
                     <td>
                       <span class="session-badge badge bg-success me-1">協賛社講演</span>
                       <span class="program-title">協賛社講演Ⅰ　AIを活用した新規事業 0→1の実践方法</span>
-                      <p class="program-desc mt-1 mb-0">新規事業のどのステップでAI活用すべきか／アイデア創出・事業検証でのAI活用例</p>
+                      <p class="program-speaker mb-0 mt-1 small">阿部 拓貴 氏 <span class="text-muted">株式会社CINCA 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">阿部 拓貴 氏<br><small class="text-muted">株式会社CINCA 代表取締役社長</small></td>
                     <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -216,7 +215,7 @@
                   <tr class="table-secondary">
                     <td class="program-time">14:00 - 14:10</td>
                     <td>—</td>
-                    <td colspan="5">休憩</td>
+                    <td colspan="4">休憩</td>
                   </tr>
                   <!-- セッションA・B（同時間想定の並行セッション） -->
                   <tr>
@@ -225,9 +224,8 @@
                     <td>
                       <span class="session-badge badge bg-info me-1">セッションA</span>
                       <span class="program-title">ゲスト講演Ⅰ　大企業からスタートアップへ ── DigKnowが出向起業で挑んだ"0→1"のリアル</span>
-                      <p class="program-desc mt-1 mb-0">DNPでの社内キャリアから、出向起業型カーブアウトを活用しスタートアップを立ち上げたプロセスを率直に語る。</p>
+                      <p class="program-speaker mb-0 mt-1 small">伊藤 悠一 氏 <span class="text-muted">DigKnow 株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">伊藤 悠一 氏<br><small class="text-muted">DigKnow 株式会社 代表取締役社長</small></td>
                     <td class="program-planned">80</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -238,9 +236,8 @@
                     <td>
                       <span class="session-badge badge bg-info me-1">セッションB</span>
                       <span class="program-title">ゲスト講演Ⅱ　ソニー発スタートアップの新規事業戦略</span>
-                      <p class="program-desc mt-1 mb-0">「着るクーラー」REON POCKETが挑む社会課題解決とグローバル展開。暑さへの懸念、既存技術の転用、クラウドファンディングから一般販売、スピンアウトまでの経営戦略。</p>
+                      <p class="program-speaker mb-0 mt-1 small">伊藤 健二 氏 <span class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">伊藤 健二 氏<br><small class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</small></td>
                     <td class="program-planned">70</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -251,9 +248,8 @@
                     <td>
                       <span class="session-badge badge bg-info me-1">セッションB</span>
                       <span class="program-title">ゲスト講演Ⅱ　ソニー発スタートアップの新規事業戦略（続き）</span>
-                      <p class="program-desc mt-1 mb-0">"暑さ"への懸念、既存の熱設計技術を転用した「着るクーラー」の開発。市場ニーズの検証、クラウドファンディングから一般販売へ。事業拡大、ソニーグループからスピンアウト。20か国展開、グローバル拡大戦略。</p>
+                      <p class="program-speaker mb-0 mt-1 small">伊藤 健二 氏 <span class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">伊藤 健二 氏<br><small class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</small></td>
                     <td class="program-planned">70</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -264,9 +260,8 @@
                     <td>
                       <span class="session-badge badge bg-success me-1">協賛社講演</span>
                       <span class="program-title">協賛社講演Ⅱ　ソニーが手掛ける、イノベーション創出の仕組み</span>
-                      <p class="program-desc mt-1 mb-0">ソニー流・イノベーションを生み出す「仕組み」。事業開発に強い「組織」「人材」育成。1,000件の支援実績から見る共創と成功の事例。</p>
+                      <p class="program-speaker mb-0 mt-1 small">宮崎 祐史 氏 <span class="text-muted">ソニーグループ株式会社 事業開発プラットフォーム Acceleration Service事業部 統括部長</span></p>
                     </td>
-                    <td class="program-speaker">宮崎 祐史 氏<br><small class="text-muted">ソニーグループ株式会社 事業開発プラットフォーム Acceleration Service事業部 統括部長</small></td>
                     <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -274,7 +269,7 @@
                   <tr class="table-secondary">
                     <td class="program-time">15:10 - 15:20</td>
                     <td>—</td>
-                    <td colspan="5">休憩</td>
+                    <td colspan="4">休憩</td>
                   </tr>
                   <!-- セッションC -->
                   <tr>
@@ -283,9 +278,8 @@
                     <td>
                       <span class="session-badge badge bg-warning text-dark me-1">セッションC</span>
                       <span class="program-title">ゲスト講演Ⅲ　事業化へのヒストリーとJR東日本スタートアッププログラムの活用について</span>
-                      <p class="program-desc mt-1 mb-0">事業の着想、JR東日本スタートアッププログラムの活用、JV設立（カーブアウト）、事業化の課題と解決、現在地と今後の展望。</p>
+                      <p class="program-speaker mb-0 mt-1 small">阿久津 智紀 氏 <span class="text-muted">株式会社TOUCH TO GO 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">阿久津 智紀 氏<br><small class="text-muted">株式会社TOUCH TO GO 代表取締役社長</small></td>
                     <td class="program-planned">60</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -297,9 +291,8 @@
                     <td>
                       <span class="session-badge badge bg-warning text-dark me-1">セッションD</span>
                       <span class="program-title">ゲスト講演Ⅳ　マクアケが見出してきた市場のユニークポジション</span>
-                      <p class="program-desc mt-1 mb-0">ビジョンを起点に、Makuake、Makuake Incubation Studio、Makuakeインサイト等の取り組みと、市場のポジショニング変遷。新規事業におけるユニークなポジションの設計と拡張。</p>
+                      <p class="program-speaker mb-0 mt-1 small">中山 亮太郎 氏 <span class="text-muted">株式会社マクアケ 代表取締役社長</span></p>
                     </td>
-                    <td class="program-speaker">中山 亮太郎 氏<br><small class="text-muted">株式会社マクアケ 代表取締役社長</small></td>
                     <td class="program-planned">60</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -311,9 +304,8 @@
                     <td>
                       <span class="session-badge badge bg-primary me-1">基調講演</span>
                       <span class="program-title">特別講演Ⅱ　アントレプレナーシップのメカニズム</span>
-                      <p class="program-desc mt-1 mb-0">アントレプレナーシップの基本的な理解の整理、高い人の特徴、高まる（低くなる）メカニズム。イノベーションに欠かせない要素を考察。</p>
+                      <p class="program-speaker mb-0 mt-1 small">清水 洋 氏 <span class="text-muted">早稲田大学 商学学術院 教授</span></p>
                     </td>
-                    <td class="program-speaker">清水 洋 氏<br><small class="text-muted">早稲田大学 商学学術院 教授</small></td>
                     <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -321,7 +313,7 @@
                   <tr class="table-secondary">
                     <td class="program-time">16:30 - 16:40</td>
                     <td>—</td>
-                    <td colspan="5">休憩</td>
+                    <td colspan="4">休憩</td>
                   </tr>
                   <!-- ダイアログセッション -->
                   <tr>
@@ -330,10 +322,8 @@
                     <td>
                       <span class="session-badge badge bg-secondary me-1">パネル</span>
                       <span class="program-title">ダイアログセッション（パネルセッション）</span>
-                      <p class="program-desc mt-1 mb-0">新規事業を立ち上げた今、重要だったと感じる要素とは? その背景・根拠を徹底考察。新事業創出へのヒントを探る。</p>
-                      <p class="program-desc mt-1 mb-0">パネリスト：伊藤 悠一 氏、伊藤 健二 氏、阿久津 智紀 氏、中山 亮太郎 氏／モデレーター：進士 淳一（株式会社ビジネス・フォーラム事務局）</p>
+                      <p class="program-speaker mb-0 mt-1 small">パネルセッション</p>
                     </td>
-                    <td class="program-speaker">パネルセッション</td>
                     <td class="program-planned">120</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
@@ -345,9 +335,8 @@
                     <td>
                       <span class="session-badge badge bg-warning text-dark me-1">ネットワーキング</span>
                       <span class="program-title">ネットワーク＆懇親会</span>
-                      <p class="program-desc mt-1 mb-0">（＊任意＊）</p>
+                      <p class="program-speaker mb-0 mt-1 small">—</p>
                     </td>
-                    <td class="program-speaker">—</td>
                     <td class="program-planned">100</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>

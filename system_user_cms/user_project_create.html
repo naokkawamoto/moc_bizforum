@@ -96,7 +96,7 @@
         <!-- セクション0.5：担当者登録 -->
         <div class="card section-card" id="section-staff">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 6名</span></span>
+            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 8名</span></span>
             <div class="d-flex gap-2">
               <button type="button" class="btn btn-sm btn-primary" onclick="saveStaffCard()">
                 <i class="bi bi-check-lg me-1"></i>保存
@@ -108,6 +108,7 @@
               <table class="table table-bordered mb-0" id="staffTable">
                 <thead class="table-light">
                   <tr>
+                    <th style="min-width: 140px;">会社名</th>
                     <th style="min-width: 140px;">担当者名</th>
                     <th style="width: 120px;">役割</th>
                     <th style="min-width: 200px;">メール</th>
@@ -116,6 +117,7 @@
                 </thead>
                 <tbody id="staffTableBody">
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="山田 太郎"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -129,6 +131,7 @@
                     </td>
                   </tr>
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="佐藤 花子"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -142,6 +145,7 @@
                     </td>
                   </tr>
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="鈴木 次郎"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -155,6 +159,7 @@
                     </td>
                   </tr>
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="高橋 健一"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -168,6 +173,7 @@
                     </td>
                   </tr>
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="伊藤 美咲"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -181,6 +187,7 @@
                     </td>
                   </tr>
                   <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="渡辺 直樹"></td>
                     <td>
                       <select class="form-select form-select-sm">
@@ -189,6 +196,34 @@
                       </select>
                     </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="watanabe.naoki@example.com"></td>
+                    <td class="text-center align-middle">
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="ビジネスフォーラム事務局"></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="進士 淳一"></td>
+                    <td>
+                      <select class="form-select form-select-sm">
+                        <option value="受付" selected>受付</option>
+                        <option value="営業">営業</option>
+                      </select>
+                    </td>
+                    <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="shinji.junichi@example.com"></td>
+                    <td class="text-center align-middle">
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
+                    </td>
+                  </tr>
+                  <tr class="staff-row">
+                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="ビジネスフォーラム事務局"></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="小林 真理"></td>
+                    <td>
+                      <select class="form-select form-select-sm">
+                        <option value="受付" selected>受付</option>
+                        <option value="営業">営業</option>
+                      </select>
+                    </td>
+                    <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="kobayashi.mari@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
                     </td>
@@ -256,6 +291,70 @@
               <button type="button" class="btn btn-outline-primary btn-sm" onclick="addProgramRow()">
                 <i class="bi bi-plus me-1"></i>行を追加
               </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- メール配信設定 -->
+        <div class="card section-card" id="section-mail">
+          <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="text-dark"><i class="bi bi-envelope me-2"></i>メール配信設定</span>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-primary" onclick="saveMailSettings()">
+                <i class="bi bi-check-lg me-1"></i>保存
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="text-muted small mb-3">リマインドメールの送信日程と内容を設定します。</p>
+            <div class="form-section">
+              <h6 class="fw-bold mb-3">リマインドメールの日程</h6>
+
+              <div class="mb-4">
+                <p class="fw-bold mb-2">1週間前</p>
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label small">日付</label>
+                    <input type="date" class="form-control form-control-sm" id="mail1weekDate" placeholder="日付">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label small">時間</label>
+                    <input type="time" class="form-control form-control-sm" id="mail1weekTime" value="10:00">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">件名</label>
+                    <input type="text" class="form-control form-control-sm" id="mail1weekSubject" placeholder="例：【リマインド】イベントまであと1週間です">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">メール本文（タイトル・内容）</label>
+                    <textarea class="form-control form-control-sm" id="mail1weekBody" rows="4" placeholder="メール本文を入力"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div>
+                <p class="fw-bold mb-2">前日</p>
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label small">日付</label>
+                    <input type="date" class="form-control form-control-sm" id="mail1dayDate" placeholder="日付">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label small">時間</label>
+                    <input type="time" class="form-control form-control-sm" id="mail1dayTime" value="10:00">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">件名</label>
+                    <input type="text" class="form-control form-control-sm" id="mail1daySubject" placeholder="例：【明日開催】イベントのご案内">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">メール本文（タイトル・内容）</label>
+                    <textarea class="form-control form-control-sm" id="mail1dayBody" rows="4" placeholder="メール本文を入力"></textarea>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -386,6 +485,10 @@
       alert('プログラムを保存しました。\n※実際の実装ではサーバーに送信します。');
     }
 
+    function saveMailSettings() {
+      alert('メール配信設定を保存しました。\n※実際の実装ではサーバーに送信します。');
+    }
+
     function saveStaffCard() {
       alert('担当者を保存しました。\n※実際の実装ではサーバーに送信します。');
     }
@@ -394,7 +497,8 @@
       var tbody = document.getElementById('staffTableBody');
       var tr = document.createElement('tr');
       tr.className = 'staff-row';
-      tr.innerHTML = '<td><input type="text" class="form-control form-control-sm" placeholder="担当者名"></td>' +
+      tr.innerHTML = '<td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" placeholder="担当者名"></td>' +
         '<td><select class="form-select form-select-sm"><option value="受付">受付</option><option value="営業">営業</option></select></td>' +
         '<td><input type="email" class="form-control form-control-sm" placeholder="メール"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';

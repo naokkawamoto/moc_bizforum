@@ -32,6 +32,7 @@
       <nav class="col-fixed" style="width:240px;">
         <div class="list-group list-group-flush small">
           <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
+          <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・メール・名札</a>
           <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場者・入退室</a>
         </div>
       </nav>
@@ -89,59 +90,91 @@
 
           <!-- 参加不参加・入退場時間（表示時はテキスト、編集時のみフォーム） -->
           <div class="card mb-4" id="sessionCard">
-            <div class="card-header py-2 fw-bold">参加不参加・入場退場時間</div>
+            <div class="card-header py-2 fw-bold">参加不参加・入退場ログ（すべての入退場を記録）</div>
             <div class="card-body p-0">
               <table class="table table-bordered session-table mb-0">
                 <thead class="table-light">
                   <tr>
                     <th>プログラム</th>
+                    <th style="width: 90px;">回</th>
                     <th>参加・不参加</th>
-                    <th>入場時間</th>
-                    <th>退場時間</th>
+                    <th>入場時刻</th>
+                    <th>退場時刻</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr data-key="keynote">
-                    <th>基調講演</th>
+                  <tr data-key="keynote-1" data-program="keynote">
+                    <th rowspan="2" class="align-top">基調講演</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">13:02</span><input type="text" class="session-form form-control form-control-sm" value="13:02" placeholder="HH:MM"></td>
                     <td><span class="session-view">13:28</span><input type="text" class="session-form form-control form-control-sm" value="13:28" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="sessionA">
-                    <th>セッションA</th>
+                  <tr data-key="keynote-2" data-program="keynote">
+                    <td>2回目</td>
+                    <td><span class="session-view text-muted">—</span><div class="session-form">—</div></td>
+                    <td><span class="session-view">13:05</span><input type="text" class="session-form form-control form-control-sm" value="13:05" placeholder="HH:MM"></td>
+                    <td><span class="session-view">13:10</span><input type="text" class="session-form form-control form-control-sm" value="13:10" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionA-1" data-program="sessionA">
+                    <th rowspan="2" class="align-top">セッションA</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">14:12</span><input type="text" class="session-form form-control form-control-sm" value="14:12" placeholder="HH:MM"></td>
                     <td><span class="session-view">14:28</span><input type="text" class="session-form form-control form-control-sm" value="14:28" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="sessionB">
+                  <tr data-key="sessionA-2" data-program="sessionA">
+                    <td>2回目</td>
+                    <td><span class="session-view text-muted">—</span><div class="session-form">—</div></td>
+                    <td><span class="session-view">14:15</span><input type="text" class="session-form form-control form-control-sm" value="14:15" placeholder="HH:MM"></td>
+                    <td><span class="session-view">14:25</span><input type="text" class="session-form form-control form-control-sm" value="14:25" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionB-1" data-program="sessionB">
                     <th>セッションB</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>参加</button><button type="button" class="btn btn-primary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-primary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="sessionC">
-                    <th>セッションC</th>
+                  <tr data-key="sessionC-1" data-program="sessionC">
+                    <th rowspan="2" class="align-top">セッションC</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">15:22</span><input type="text" class="session-form form-control form-control-sm" value="15:22" placeholder="HH:MM"></td>
                     <td><span class="session-view">15:38</span><input type="text" class="session-form form-control form-control-sm" value="15:38" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="sessionD">
+                  <tr data-key="sessionC-2" data-program="sessionC">
+                    <td>2回目</td>
+                    <td><span class="session-view text-muted">—</span><div class="session-form">—</div></td>
+                    <td><span class="session-view">15:25</span><input type="text" class="session-form form-control form-control-sm" value="15:25" placeholder="HH:MM"></td>
+                    <td><span class="session-view">15:35</span><input type="text" class="session-form form-control form-control-sm" value="15:35" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="sessionD-1" data-program="sessionD">
                     <th>セッションD</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" disabled>参加</button><button type="button" class="btn btn-primary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-primary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="dialog">
+                  <tr data-key="dialog-1" data-program="dialog">
                     <th>ダイアログ</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">16:42</span><input type="text" class="session-form form-control form-control-sm" value="16:42" placeholder="HH:MM"></td>
                     <td><span class="session-view">17:35</span><input type="text" class="session-form form-control form-control-sm" value="17:35" placeholder="HH:MM"></td>
                   </tr>
-                  <tr data-key="net">
-                    <th>ネットワーキング</th>
+                  <tr data-key="net-1" data-program="net">
+                    <th rowspan="2" class="align-top">ネットワーキング</th>
+                    <td>1回目</td>
                     <td><div class="session-view join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" disabled>参加</button><button type="button" class="btn btn-outline-secondary btn-sm" disabled>不参加</button></div><div class="session-form join-btn-group btn-group btn-group-sm"><button type="button" class="btn btn-primary btn-sm" data-join="1">参加</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
                     <td><span class="session-view">17:45</span><input type="text" class="session-form form-control form-control-sm" value="17:45" placeholder="HH:MM"></td>
                     <td><span class="session-view">18:15</span><input type="text" class="session-form form-control form-control-sm" value="18:15" placeholder="HH:MM"></td>
+                  </tr>
+                  <tr data-key="net-2" data-program="net">
+                    <td>2回目</td>
+                    <td><span class="session-view text-muted">—</span><div class="session-form">—</div></td>
+                    <td><span class="session-view">18:20</span><input type="text" class="session-form form-control form-control-sm" value="18:20" placeholder="HH:MM"></td>
+                    <td><span class="session-view">18:28</span><input type="text" class="session-form form-control form-control-sm" value="18:28" placeholder="HH:MM"></td>
                   </tr>
                 </tbody>
               </table>
@@ -201,13 +234,17 @@
       if (card) card.classList.remove('edit-mode');
 
       var sessionData = [
-        { key: 'keynote', join: 1, in: '13:02', out: '13:28' },
-        { key: 'sessionA', join: 1, in: '14:12', out: '14:28' },
-        { key: 'sessionB', join: 0, in: '', out: '' },
-        { key: 'sessionC', join: 1, in: '15:22', out: '15:38' },
-        { key: 'sessionD', join: 0, in: '', out: '' },
-        { key: 'dialog', join: 1, in: '16:42', out: '17:35' },
-        { key: 'net', join: 1, in: '17:45', out: '18:15' }
+        { key: 'keynote-1', join: 1, in: '13:02', out: '13:28' },
+        { key: 'keynote-2', in: '13:05', out: '13:10' },
+        { key: 'sessionA-1', join: 1, in: '14:12', out: '14:28' },
+        { key: 'sessionA-2', in: '14:15', out: '14:25' },
+        { key: 'sessionB-1', join: 0, in: '', out: '' },
+        { key: 'sessionC-1', join: 1, in: '15:22', out: '15:38' },
+        { key: 'sessionC-2', in: '15:25', out: '15:35' },
+        { key: 'sessionD-1', join: 0, in: '', out: '' },
+        { key: 'dialog-1', join: 1, in: '16:42', out: '17:35' },
+        { key: 'net-1', join: 1, in: '17:45', out: '18:15' },
+        { key: 'net-2', in: '18:20', out: '18:28' }
       ];
 
       var btnEditEl = document.getElementById('btnEdit');
@@ -236,16 +273,18 @@
           var row = getRow(d.key);
           if (!row) return;
           var cells = row.querySelectorAll('td');
-          var viewJoin = cells[0].querySelector('.session-view.join-btn-group');
-          if (viewJoin) {
+          if (cells.length < 4) return;
+          var joinCell = cells[1];
+          var viewJoin = joinCell.querySelector('.session-view.join-btn-group');
+          if (viewJoin && d.join !== undefined) {
             var btns = viewJoin.querySelectorAll('.btn');
             if (btns.length >= 2) {
               btns[0].className = 'btn btn-sm ' + (d.join ? 'btn-primary' : 'btn-outline-secondary');
               btns[1].className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-primary');
             }
           }
-          var inSpan = cells[1].querySelector('.session-view');
-          var outSpan = cells[2].querySelector('.session-view');
+          var inSpan = cells[2].querySelector('.session-view');
+          var outSpan = cells[3].querySelector('.session-view');
           if (inSpan) inSpan.textContent = d.in || '—';
           if (outSpan) outSpan.textContent = d.out || '—';
         });
@@ -256,10 +295,11 @@
           var row = getRow(d.key);
           if (!row) return;
           var cells = row.querySelectorAll('td');
-          var joinPrimary = cells[0].querySelector('.session-form .btn-primary');
-          d.join = joinPrimary && joinPrimary.getAttribute('data-join') === '1' ? 1 : 0;
-          var inInput = cells[1].querySelector('.session-form input');
-          var outInput = cells[2].querySelector('.session-form input');
+          if (cells.length < 4) return;
+          var joinPrimary = cells[1].querySelector('.session-form .btn-primary');
+          if (joinPrimary) d.join = joinPrimary.getAttribute('data-join') === '1' ? 1 : 0;
+          var inInput = cells[2].querySelector('.session-form input');
+          var outInput = cells[3].querySelector('.session-form input');
           d.in = inInput && inInput.value ? inInput.value.trim() : '';
           d.out = outInput && outInput.value ? outInput.value.trim() : '';
         });
@@ -270,16 +310,17 @@
           var row = getRow(d.key);
           if (!row) return;
           var cells = row.querySelectorAll('td');
-          var formJoin = cells[0].querySelector('.session-form.join-btn-group');
-          if (formJoin) {
+          if (cells.length < 4) return;
+          var formJoin = cells[1].querySelector('.session-form.join-btn-group');
+          if (formJoin && d.join !== undefined) {
             var btns = formJoin.querySelectorAll('.btn[data-join]');
             if (btns.length >= 2) {
               btns[0].className = 'btn btn-sm ' + (d.join ? 'btn-primary' : 'btn-outline-secondary');
               btns[1].className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-primary');
             }
           }
-          var inInput = cells[1].querySelector('.session-form input');
-          var outInput = cells[2].querySelector('.session-form input');
+          var inInput = cells[2].querySelector('.session-form input');
+          var outInput = cells[3].querySelector('.session-form input');
           if (inInput) inInput.value = d.in || '';
           if (outInput) outInput.value = d.out || '';
         });
@@ -290,7 +331,8 @@
           var row = getRow(d.key);
           if (!row) return;
           var cells = row.querySelectorAll('td');
-          var group = cells[0] && cells[0].querySelector('.session-form.join-btn-group');
+          if (cells.length < 2) return;
+          var group = cells[1].querySelector('.session-form.join-btn-group');
           if (!group) return;
           var btns = group.querySelectorAll('.btn[data-join]');
           btns.forEach(function (btn) {

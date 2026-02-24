@@ -11,13 +11,18 @@
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,イベント概要セクション,入力フォーム・CSVアップロード・保存ボタン,イベント名（必須）/開催日時（必須）/開催場所/入場予定数/セッション参加予定数（自由記述）/参加対象/インフォメーション・備考,入力・CSVアップロード・保存,-
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,担当者登録セクション,テーブル入力・保存ボタン・登録人数バッジ,担当者名/役割（受付・営業）/メール,行追加・削除・保存,-
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,プログラム登録セクション,テーブル入力・CSVアップロード・保存ボタン,休憩（チェックボックス）/講演タイトル/内容/ROOM/講演者/肩書/開始時間/終了時間,行追加・削除・CSVアップロード・保存,-
+イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,メール配信設定セクション,入力フォーム・保存ボタン,リマインドメールの日程：1週間前（日付・時間・件名・メール本文）/前日（日付・時間・件名・メール本文）,入力・保存,-
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,来場者リストセクション,テーブル表示・CSVアップロード・保存ボタン・登録人数バッジ・QRコード表示,UserID/姓名/会社名/担当者名/QRコード（クリックでモーダル表示）,CSVアップロード・保存・QRコードクリック,-
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,QRコードモーダル,QRコード表示モーダル,UserID・姓名/QRコード画像,モーダル表示,-
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,ページ下部固定,登録ボタン・キャンセルボタン,-,クリックで確認ダイアログ→全セクション一括登録/一覧遷移,user_project_list.html
-イベントトップ,user_project_detail.html,イベント管理（トップ）,左サイドメニュー,ナビゲーション,イベントトップ/来場者・入退室/VIP来場のお知らせ（未読バッジ）,リンククリック,user_project_detail.html / user_project_detail_report.html / user_nortification.html
+イベントトップ,user_project_detail.html,イベント管理（トップ）,左サイドメニュー,ナビゲーション,イベントトップ/来場者・メール・名札/来場者・入退室/VIP来場のお知らせ（未読バッジ）,リンククリック,user_project_detail.html / user_project_detail_mail_print.html / user_project_detail_report.html / user_nortification.html
 イベントトップ,user_project_detail.html,イベント管理（トップ）,メイン,イベントヘッダー,イベント名（VIPアイコン）/イベントトップタイトル/説明文/CSVボタン/PDFボタン,-,-
 イベントトップ,user_project_detail.html,イベント管理（トップ）,メイン,プログラム（コンテンツ）テーブル,時間/ROOM/講演タイトル・内容/講演者/入室予定数/入室数/退室数,行はプログラム単位・編集・保存可,-
-来場者・入退室,user_project_detail_report.html,イベント管理（来場者・入退出）,左サイドメニュー,ナビゲーション,イベントトップ/来場者・入退室/VIP来場のお知らせ,リンククリック,user_project_detail.html / user_project_detail_report.html / user_nortification.html
+来場者・メール・名札,user_project_detail_mail_print.html,イベント管理（来場者・メール・名札）,左サイドメニュー,ナビゲーション,イベントトップ/来場者・メール・名札/来場者・入退室/VIP来場のお知らせ,リンククリック,user_project_detail.html / user_project_detail_mail_print.html / user_project_detail_report.html / user_nortification.html
+来場者・メール・名札,user_project_detail_mail_print.html,イベント管理（来場者・メール・名札）,メール配信管理,テーブル表示,タイミング（1週間前・前日）/自動配信（ステータス・設定）/配信予定数/送信済み/未送信（未送信ユーザーに送信ボタン）/内容確認,自動配信ボタンでモーダル（西暦・月・日・時間設定）,-
+来場者・メール・名札,user_project_detail_mail_print.html,イベント管理（来場者・メール・名札）,来場者一覧カード,フィルター・ボタン,来場者で検索/担当者絞り込み/1週間前・前日（配信済み・未配信）/表示件数/適用・リセット/追加登録/一括追加CSV,検索・絞り込み・追加登録（モーダル）・一括追加CSV（ダミー）,-
+来場者・メール・名札,user_project_detail_mail_print.html,イベント管理（来場者・メール・名札）,来場者一覧テーブル,テーブル表示,userID/来場者名/会社名/社内担当者名/1週間前（ステータス）/前日（ステータス）/ネームカード印刷（プレビュー・全印刷）,行表示・ページネーション,-
+来場者・入退室,user_project_detail_report.html,イベント管理（来場者・入退出）,左サイドメニュー,ナビゲーション,イベントトップ/来場者・メール・名札/来場者・入退室/VIP来場のお知らせ,リンククリック,user_project_detail.html / user_project_detail_mail_print.html / user_project_detail_report.html / user_nortification.html
 来場者・入退室,user_project_detail_report.html,イベント管理（来場者・入退出）,メイン,絞り込み,来場者名検索/担当者絞り込み（山田・佐藤・鈴木等）/セッション絞り込み（基調講演・セッションA〜D・ダイアログ等）,入力・セレクト変更,-
 来場者・入退室,user_project_detail_report.html,イベント管理（来場者・入退出）,メイン,来場者テーブル,来場者名・会社名・担当者（リンク）/各プログラムの参加・入退室状況（参加・不参加・入室中・退室済等バッジ）,行クリックで入場者詳細/担当者名クリックで担当者別詳細,user_visitor_detail.html / user_staff_detail.html
 入場者詳細,user_visitor_detail.html,入場者詳細,パンくず,階層ナビゲーション,イベントトップ > 来場者・入退出 > 入場者詳細,リンククリック,user_project_detail.html / user_project_detail_report.html
@@ -40,8 +45,7 @@ VIP来場のお知らせ,user_nortification.html,VIP来場のお知らせ,お知
 共通フッター,user_footer.html,共通フッター,フッター,黒背景・白文字・中央揃え,株式会社ビジネスフォーラム事務局/イベント入退場管理システム/Copyright © 2026. All rights reserved.,-,-
 利用規約,user_terms.html,利用規約,メイン,利用規約の表示,-,ヘッダー設定メニューから遷移,-
 プライバシーポリシー,user_privacy.html,プライバシーポリシー,メイン,プライバシーポリシーの表示,-,ヘッダー設定メニューから遷移,-
-契約情報,user_settings_contract.html,契約情報（システム管理者）,タブ,会社情報・契約情報・支払い情報,会社情報タブ/契約情報タブ/支払い情報タブ,タブ切り替え,-
-契約情報,user_settings_contract.html,契約情報（システム管理者）,会社情報タブ,会社詳細表示,会社名/代表電話/代表者/住所/HP/システム管理者名 等,編集ボタン,-
+契約情報,user_settings_contract.html,契約情報（システム管理者）,メイン,会社情報のみ表示（契約・支払いタブは削除済み）,会社名/代表電話/代表者/住所/HP/システム管理者名/メール/電話番号,編集ボタン,-
 担当者設定,user_settings_staff.html,社内担当者設定（システム管理者）,担当者テーブル,社内担当者の一覧・追加・削除,支店名/名前/職種/権限/メール/電話番号,新規追加ボタン/削除ボタン,-
 担当者設定,user_settings_staff.html,社内担当者設定（システム管理者）,新規追加モーダル,担当者追加フォーム,支店名/名前/職種（セレクト）/権限（セレクト）/メール/電話番号,入力・保存,-
 共通仕様,-,共通仕様,対象デバイス,デスクトップ・タブレット,表示幅 1024px 以上（例：iPad Pro 1024×1366px）,-,-

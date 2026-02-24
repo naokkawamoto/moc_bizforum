@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン - 受付アプリ / VIP管理アプリ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body, html { margin: 0; padding: 0; height: 100%; background: #f5f5f5; }
+    .app-wrap { max-width: 393px; min-height: 100vh; margin: 0 auto; background: #fff; display: flex; flex-direction: column; }
+    .app-header { display: flex; background: #333; color: #fff; font-size: 0.9rem; font-weight: bold; }
+    .app-header a { flex: 1; padding: 1rem 0.5rem; text-align: center; color: rgba(255,255,255,0.8); text-decoration: none; border-bottom: 3px solid transparent; }
+    .app-header a:hover { color: #fff; }
+    .app-header a.active { color: #fff; border-bottom-color: #0d6efd; background: rgba(255,255,255,0.05); }
+    .login-body { flex: 1; padding: 2rem 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .login-card { background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .login-card .form-label { font-weight: 600; color: #333; }
+    .login-card .form-control { font-size: 1rem; padding: 0.85rem 1rem; border-radius: 8px; }
+    .btn-login { font-size: 1.1rem; padding: 0.9rem; font-weight: 600; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <header class="app-header">
+      <a href="login.html?app=reception" id="nav-reception" class="active">受付アプリ</a>
+      <a href="login.html?app=vip" id="nav-vip">VIP管理アプリ</a>
+    </header>
+
+    <main class="login-body">
+      <div class="login-card">
+        <h5 class="text-center mb-4 fw-bold" id="loginTitle">受付アプリ ログイン</h5>
+        <form id="loginForm" action="#" method="post">
+          <div class="mb-3">
+            <label for="loginId" class="form-label">ID</label>
+            <input type="text" class="form-control" id="loginId" name="id" placeholder="IDを入力" autocomplete="username">
+          </div>
+          <div class="mb-4">
+            <label for="loginPw" class="form-label">パスワード</label>
+            <input type="password" class="form-control" id="loginPw" name="password" placeholder="パスワードを入力" autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary w-100 btn-login">ログイン</button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var app = (function (s) { return s === 'vip' ? 'vip' : 'reception'; })((new URLSearchParams(window.location.search)).get('app'));
+      var navReception = document.getElementById('nav-reception');
+      var navVip = document.getElementById('nav-vip');
+      var loginTitle = document.getElementById('loginTitle');
+      var loginForm = document.getElementById('loginForm');
+
+      if (app === 'vip') {
+        if (navVip) { navVip.classList.add('active'); navVip.href = '#'; }
+        if (navReception) { navReception.classList.remove('active'); navReception.href = 'login.html?app=reception'; }
+        if (loginTitle) loginTitle.textContent = 'VIP管理アプリ ログイン';
+      } else {
+        if (navReception) { navReception.classList.add('active'); navReception.href = '#'; }
+        if (navVip) { navVip.classList.remove('active'); navVip.href = 'login.html?app=vip'; }
+        if (loginTitle) loginTitle.textContent = '受付アプリ ログイン';
+      }
+
+      if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (app === 'vip') {
+            window.location.href = 'site_project_list_vip.html';
+          } else {
+            window.location.href = 'site_project_list.html';
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

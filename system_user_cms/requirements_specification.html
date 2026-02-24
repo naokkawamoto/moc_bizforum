@@ -32,6 +32,7 @@
     <li><a href="#page1">user_project_list.html - イベントリスト</a></li>
     <li><a href="#page2">user_project_create.html - 新規イベント登録</a></li>
     <li><a href="#page3">user_project_detail.html - イベントトップ（ダッシュボード）</a></li>
+    <li><a href="#page3b">user_project_detail_mail_print.html - 来場者・メール・名札</a></li>
     <li><a href="#page4">user_project_detail_report.html - 来場者・入退室</a></li>
     <li><a href="#page5">user_visitor_detail.html - 入場者詳細</a></li>
     <li><a href="#page6">user_staff_detail.html - 担当者別詳細</a></li>
@@ -187,6 +188,12 @@
       <td>休憩（チェックボックス）/ 講演タイトル / 内容 / ROOM / 講演者 / 肩書 / 開始時間 / 終了時間<br>※行の追加・削除可能。CSVアップロードで一括取り込み可能</td>
     </tr>
     <tr>
+      <td>3.5</td>
+      <td class="feature">メール配信設定</td>
+      <td>入力フォーム<br>保存ボタン</td>
+      <td>リマインドメールの日程：1週間前（日付・時間・件名・メール本文）、前日（日付・時間・件名・メール本文）<br>※プログラム登録の下、来場者リストの前に配置</td>
+    </tr>
+    <tr>
       <td>4</td>
       <td class="feature">来場者リスト</td>
       <td>テーブル表示<br>CSVアップロード<br>保存ボタン<br>登録人数バッジ<br>QRコード表示</td>
@@ -247,8 +254,9 @@
       <th width="75%">遷移先</th>
     </tr>
     <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
-    <tr><td>2</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
-    <tr><td>3</td><td>VIP来場のお知らせ</td><td>user_nortification.html（未読バッジ表示あり）</td></tr>
+    <tr><td>2</td><td>来場者・メール・名札</td><td>user_project_detail_mail_print.html</td></tr>
+    <tr><td>3</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>4</td><td>VIP来場のお知らせ</td><td>user_nortification.html（未読バッジ表示あり）</td></tr>
   </table>
 
   <h3>メインコンテンツ</h3>
@@ -271,6 +279,49 @@
       <td>テーブル行クリックで来場者・入退室ページへ（実装による）</td>
       <td>user_project_detail_report.html</td>
     </tr>
+  </table>
+
+  <!-- ===== ページ3b: 来場者・メール・名札 ===== -->
+  <h2 id="page3b">3b. user_project_detail_mail_print.html - 来場者・メール・名札</h2>
+  <table>
+    <tr>
+      <th width="15%">項目</th>
+      <th width="85%">内容</th>
+    </tr>
+    <tr>
+      <td>ページタイトル</td>
+      <td>イベント管理（来場者・メール・名札）</td>
+    </tr>
+    <tr>
+      <td>概要</td>
+      <td>メール配信管理・来場者一覧（メール送信・ネームカード印刷）を表示。左サイドメニューはイベントトップ／来場者・メール・名札／来場者・入退室／VIP来場のお知らせ。メール配信管理で配信予定数・送信済み・未送信・自動配信設定・内容確認。来場者一覧で検索・絞り込み・追加登録・一括追加CSV・ネームカード印刷。</td>
+    </tr>
+  </table>
+
+  <h3>左サイドメニュー</h3>
+  <table>
+    <tr><th width="5%">順</th><th width="25%">メニュー項目</th><th width="70%">遷移先</th></tr>
+    <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
+    <tr><td>2</td><td>来場者・メール・名札</td><td>user_project_detail_mail_print.html（当ページ）</td></tr>
+    <tr><td>3</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>4</td><td>VIP来場のお知らせ</td><td>user_nortification.html</td></tr>
+  </table>
+
+  <h3>メール配信管理</h3>
+  <table>
+    <tr><th width="20%">要素</th><th width="80%">詳細</th></tr>
+    <tr><td>テーブル列</td><td>タイミング（1週間前／前日）／自動配信（ステータス・設定ボタン）／配信予定数／送信済み／未送信（未送信ユーザーに送信ボタン）／内容確認</td></tr>
+    <tr><td>自動配信設定</td><td>ボタンクリックでモーダル表示。西暦・月・日・時間を設定して保存。</td></tr>
+  </table>
+
+  <h3>来場者一覧</h3>
+  <table>
+    <tr><th width="20%">要素</th><th width="80%">詳細</th></tr>
+    <tr><td>カードヘッダー</td><td>来場者一覧／追加登録ボタン／一括追加CSVボタン／件数表示</td></tr>
+    <tr><td>フィルター</td><td>来場者で検索／担当者絞り込み／1週間前（配信済み・未配信）／前日（配信済み・未配信）／表示件数（50・100件）／適用・リセット</td></tr>
+    <tr><td>テーブル</td><td>userID／来場者名／会社名／社内担当者名／1週間前（ステータス）／前日（ステータス）／ネームカード印刷（プレビュー・全印刷）</td></tr>
+    <tr><td>追加登録</td><td>モーダルで来場者名・会社名・社内担当者を入力して新規登録</td></tr>
+    <tr><td>一括追加CSV</td><td>ダミー（準備中表示）</td></tr>
   </table>
 
   <!-- ===== ページ4: 来場者・入退室 ===== -->
@@ -586,11 +637,11 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>会社情報・契約情報・支払い情報をタブで切替表示。システム管理者向け設定ページ。ヘッダー設定メニューから遷移。</td>
+      <td>会社情報を表示するページ。契約情報・支払い情報のタブは削除済み。会社名・代表電話番号・代表者名・郵便番号・ホームページ・システム管理者名・メールアドレス・電話番号を表示。編集ボタンあり。ヘッダー設定メニューから遷移。</td>
     </tr>
     <tr>
-      <td>タブ構成</td>
-      <td>会社情報（会社名・代表電話・代表者・住所・HP・システム管理者名等）/ 契約情報 / 支払い情報</td>
+      <td>表示内容</td>
+      <td>会社情報のみ（会社名 / 代表電話番号 / 代表者名 / 郵便番号・番地まで / ホームページ / システム管理者名 / メールアドレス / 電話番号）</td>
     </tr>
   </table>
 
@@ -640,7 +691,7 @@
     </tr>
     <tr>
       <td>レイアウト</td>
-      <td>イベントリスト：左カラム（イベント名リスト）＋中央メイン＋右カラム（お知らせ・VIP来場通知）。イベントトップ・来場者・入退室：左サイドメニュー（イベントトップ／来場者・入退室／VIP来場のお知らせ）＋中央メイン。</td>
+      <td>イベントリスト：左カラム（イベント名リスト）＋中央メイン＋右カラム（お知らせ・VIP来場通知）。イベントトップ・来場者・メール・名札・来場者・入退室：左サイドメニュー（イベントトップ／来場者・メール・名札／来場者・入退室／VIP来場のお知らせ）＋中央メイン。</td>
     </tr>
     <tr>
       <td>現行ファイル</td>

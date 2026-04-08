@@ -8,9 +8,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css">
   <style>
-    .sidebar { max-height: 80vh; overflow-y: auto; }
-    .col-fixed { padding-left: 0; padding-right: 0; }
     .small-text { font-size: 0.75rem; }
+    .page-nav-tabs .nav-link { font-size: 0.85rem; }
     .visitor-table { font-size: 0.8rem; }
     .visitor-table th { background-color: #f8f9fa; white-space: nowrap; }
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem 1rem; }
@@ -31,24 +30,19 @@
 
   <div class="container-fluid mt-4 px-4">
     <div class="row">
-      <nav class="col-fixed" style="width:240px;">
-        <div class="sidebar px-2">
-          <div class="list-group small-text">
-            <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
-            <a href="user_project_detail_mail.html" class="list-group-item list-group-item-action active">メール管理</a>
-            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・名札管理</a>
-            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場、入退場管理</a>
-          </div>
-        </div>
-      </nav>
-
-      <main class="col px-3" style="padding-bottom: 80px;">
+      <main class="col-12 px-3" style="padding-bottom: 80px;">
         <div class="bg-dark text-white px-3 py-3 mb-4">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026</h4>
             <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
           </div>
         </div>
+        <ul class="nav nav-tabs page-nav-tabs mb-3">
+          <li class="nav-item"><a class="nav-link" href="user_project_detail.html">イベントトップ</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user_project_detail_mail.html">メール管理</a></li>
+          <li class="nav-item"><a class="nav-link" href="user_project_detail_mail_print.html">来場者・名札管理</a></li>
+          <li class="nav-item"><a class="nav-link" href="user_project_detail_report.html">来場、入退場管理</a></li>
+        </ul>
 
         <!-- メール配信管理 -->
         <div class="card mb-4">
@@ -71,39 +65,75 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="fw-bold">1週間前</td>
+                    <td class="fw-bold">メール1</td>
                     <td class="align-middle text-center">
-                      <div class="delivery-datetime-inline" id="deliveryDatetime1week">2026年2月26日10時00分</div>
+                      <div class="delivery-datetime-inline" id="deliveryDatetimeMail1">2026年2月26日10時00分</div>
                     </td>
-                    <td class="text-center"><span id="mailTotalCount1week">0</span>件</td>
-                    <td class="text-center"><span id="mailSentCount1week">0</span>件</td>
+                    <td class="text-center"><span id="mailTotalCountMail1">0</span>件</td>
+                    <td class="text-center"><span id="mailSentCountMail1">0</span>件</td>
                     <td class="text-center">
-                      <span id="mailUnsentCount1week">0</span>件
-                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-week1" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
-                    </td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('1week')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                      <span id="mailUnsentCountMail1">0</span>件
+                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-mail1" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
                     </td>
                     <td class="text-center">
-                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="1week" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('mail1')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail1" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
                     </td>
                   </tr>
                   <tr>
-                    <td class="fw-bold">前日</td>
+                    <td class="fw-bold">メール2</td>
                     <td class="align-middle text-center">
-                      <div class="delivery-datetime-inline" id="deliveryDatetime1day">2026年3月4日9時00分</div>
+                      <div class="delivery-datetime-inline" id="deliveryDatetimeMail2">2026年3月4日9時00分</div>
                     </td>
-                    <td class="text-center"><span id="mailTotalCount1day">0</span>件</td>
-                    <td class="text-center"><span id="mailSentCount1day">0</span>件</td>
+                    <td class="text-center"><span id="mailTotalCountMail2">0</span>件</td>
+                    <td class="text-center"><span id="mailSentCountMail2">0</span>件</td>
                     <td class="text-center">
-                      <span id="mailUnsentCount1day">0</span>件
-                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-day1" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
-                    </td>
-                    <td class="text-center">
-                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('1day')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                      <span id="mailUnsentCountMail2">0</span>件
+                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-mail2" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
                     </td>
                     <td class="text-center">
-                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="1day" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('mail2')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail2" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">メール3</td>
+                    <td class="align-middle text-center">
+                      <div class="delivery-datetime-inline" id="deliveryDatetimeMail3">2026年3月4日14時00分</div>
+                    </td>
+                    <td class="text-center"><span id="mailTotalCountMail3">0</span>件</td>
+                    <td class="text-center"><span id="mailSentCountMail3">0</span>件</td>
+                    <td class="text-center">
+                      <span id="mailUnsentCountMail3">0</span>件
+                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-mail3" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('mail3')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail3" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-bold">メール4</td>
+                    <td class="align-middle text-center">
+                      <div class="delivery-datetime-inline" id="deliveryDatetimeMail4">2026年3月5日8時00分</div>
+                    </td>
+                    <td class="text-center"><span id="mailTotalCountMail4">0</span>件</td>
+                    <td class="text-center"><span id="mailSentCountMail4">0</span>件</td>
+                    <td class="text-center">
+                      <span id="mailUnsentCountMail4">0</span>件
+                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-mail4" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('mail4')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail4" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
                     </td>
                   </tr>
                 </tbody>
@@ -115,7 +145,7 @@
         <!-- 一覧テーブル -->
         <div class="card">
           <div class="card-header py-2 card-header-actions d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="fw-bold">来場者一覧</span>
+            <span class="fw-bold">来場者リスト</span>
             <span class="text-white small fw-bold bg-dark px-2 py-1 rounded" id="countLabel">全50件</span>
           </div>
           <div class="card-body p-0">
@@ -136,16 +166,32 @@
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">1週間前</label>
-                  <select class="form-select form-select-sm" id="filterWeek1" style="min-width: 120px;">
+                  <label class="form-label small mb-0">メール1</label>
+                  <select class="form-select form-select-sm" id="filterMail1" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
                     <option value="unsent">未配信</option>
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">前日</label>
-                  <select class="form-select form-select-sm" id="filterDay1" style="min-width: 120px;">
+                  <label class="form-label small mb-0">メール2</label>
+                  <select class="form-select form-select-sm" id="filterMail2" style="min-width: 120px;">
+                    <option value="">すべて</option>
+                    <option value="sent">配信済み</option>
+                    <option value="unsent">未配信</option>
+                  </select>
+                </div>
+                <div class="col-auto">
+                  <label class="form-label small mb-0">メール3</label>
+                  <select class="form-select form-select-sm" id="filterMail3" style="min-width: 120px;">
+                    <option value="">すべて</option>
+                    <option value="sent">配信済み</option>
+                    <option value="unsent">未配信</option>
+                  </select>
+                </div>
+                <div class="col-auto">
+                  <label class="form-label small mb-0">メール4</label>
+                  <select class="form-select form-select-sm" id="filterMail4" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
                     <option value="unsent">未配信</option>
@@ -168,12 +214,14 @@
               <table class="table table-bordered visitor-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 70px;">userID</th>
+                    <th style="width: 90px;">イベント種別番号</th>
                     <th style="min-width: 100px;">来場者名</th>
                     <th style="min-width: 140px;">会社名</th>
                     <th style="min-width: 110px;">営業担当者</th>
-                    <th style="width: 100px;" class="text-center">1週間前</th>
-                    <th style="width: 100px;" class="text-center">前日</th>
+                    <th style="width: 100px;" class="text-center">メール1</th>
+                    <th style="width: 100px;" class="text-center">メール2</th>
+                    <th style="width: 100px;" class="text-center">メール3</th>
+                    <th style="width: 100px;" class="text-center">メール4</th>
                   </tr>
                 </thead>
                 <tbody id="visitorTbody">

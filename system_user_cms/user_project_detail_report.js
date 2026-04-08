@@ -106,7 +106,7 @@
       var sd0 = v.present ? v.sd : 0;
       var d0 = v.present ? v.dialog : 0;
       var n0 = v.present ? v.net : 0;
-      tr.innerHTML = '<td>' + v.userid + '</td><td>' + v.name + '</td><td>' + v.company + '</td>' + staffCell +
+      tr.innerHTML = '<td>' + v.userid + '</td><td>' + v.company + '</td><td>' + v.name + '</td>' + staffCell +
         '<td class="text-center">' + raichoHtml + '</td>' +
         '<td class="text-center">' + badgeStatus(k0) + '</td>' +
         '<td class="text-center">' + badgeStatus(sa0) + '</td>' +

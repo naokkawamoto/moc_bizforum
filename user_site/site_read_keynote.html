@@ -145,6 +145,20 @@
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
     .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
     .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
+    .event-header .event-header-back-btn {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.22rem 0.55rem;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 0.35rem;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .event-header .event-header-back-btn:hover, .event-header .event-header-back-btn:focus {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.14);
+    }
     /* 読み取り枠内では画像下端に重ねる（下の .read-ui-scan ルール） */
     #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
     .read-ui-scan #footer-container {
@@ -172,13 +186,10 @@
 <body class="read-keynote-body">
   <div class="read-keynote-root">
     <div class="container-fluid px-0 flex-shrink-0">
-      <div class="event-header bf-bg-brand text-white py-2 px-3 mb-2 d-flex align-items-center gap-2">
-        <a href="site_project_detail.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントトップに戻る" title="イベントトップに戻る">
-          <i class="bi bi-arrow-left" style="font-size: 1.45rem;"></i>
-        </a>
-        <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">イベント入退場受付アプリ</h4>
-        <a href="site_project_list.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントリストに戻る" title="イベントリスト">
-          <i class="bi bi-list-ul" style="font-size: 1.35rem;"></i>
+      <div class="event-header bf-bg-brand text-white py-2 px-3 mb-2 d-flex align-items-center justify-content-between gap-2">
+        <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">受付VIP管理アプリ</h4>
+        <a href="site_project_detail.html" class="event-header-back-btn flex-shrink-0" aria-label="戻る" title="戻る">
+          <i class="bi bi-arrow-left-short"></i>戻る
         </a>
       </div>
     </div>
@@ -232,7 +243,8 @@
   <div class="modal fade read-complete-modal" id="readCompleteModal" tabindex="-1" aria-labelledby="readCompleteTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow">
-        <div class="modal-body text-center py-4 px-3">
+        <div class="modal-body text-center py-4 px-3 position-relative">
+          <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" style="font-size: 0.6rem;" data-bs-dismiss="modal" aria-label="キャンセル"></button>
           <h2 class="h4 fw-bold mb-4" id="readCompleteTitle">受付完了</h2>
           <div class="text-start mb-3">
             <div class="small text-muted mb-1">社名</div>
@@ -242,7 +254,7 @@
             <div class="small text-muted mb-1">名前</div>
             <div class="fs-6 fw-semibold" id="modalVisitorName">山田 太郎</div>
           </div>
-          <button type="button" class="btn btn-primary btn-next w-100 fw-bold" data-bs-dismiss="modal">次へ</button>
+          <button type="button" class="btn btn-primary btn-next w-100 fw-bold" data-bs-dismiss="modal">完了</button>
         </div>
       </div>
     </div>

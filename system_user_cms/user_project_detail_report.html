@@ -8,9 +8,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css">
   <style>
-    .sidebar { max-height: 80vh; overflow-y: auto; }
-    .col-fixed { padding-left: 0; padding-right: 0; }
     .small-text { font-size: 0.75rem; }
+    .page-nav-tabs .nav-link { font-size: 0.85rem; }
     .visitor-table { font-size: 0.8rem; }
     .visitor-table th { background-color: #f8f9fa; white-space: nowrap; }
     .visitor-row { cursor: pointer; }
@@ -31,24 +30,19 @@
 
   <div class="container-fluid mt-4 px-4">
     <div class="row">
-      <nav class="col-fixed" style="width:240px;">
-        <div class="sidebar px-2">
-          <div class="list-group small-text">
-            <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
-            <a href="user_project_detail_mail.html" class="list-group-item list-group-item-action">メール管理</a>
-            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・名札管理</a>
-            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action active">来場、入退場管理</a>
-          </div>
-        </div>
-      </nav>
-
-      <main class="col px-3" style="padding-bottom: 80px;">
+      <main class="col-12 px-3" style="padding-bottom: 80px;">
         <div class="bg-dark text-white px-3 py-3 mb-4">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026</h4>
             <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
           </div>
         </div>
+        <ul class="nav nav-tabs page-nav-tabs mb-3">
+          <li class="nav-item"><a class="nav-link" href="user_project_detail.html">イベントトップ</a></li>
+          <li class="nav-item"><a class="nav-link" href="user_project_detail_mail.html">メール管理</a></li>
+          <li class="nav-item"><a class="nav-link" href="user_project_detail_mail_print.html">来場者・名札管理</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user_project_detail_report.html">来場、入退場管理</a></li>
+        </ul>
 
         <!-- 絞り込み -->
         <div class="card mb-3">
@@ -103,7 +97,7 @@
         <!-- 一覧テーブル -->
         <div class="card">
           <div class="card-header py-2 card-header-actions d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="fw-bold">来場者一覧</span>
+            <span class="fw-bold">来場者リスト</span>
             <div class="d-flex align-items-center gap-2">
               <button type="button" class="btn btn-success px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-spreadsheet me-2"></i>CSV</button>
               <button type="button" class="btn btn-danger px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-pdf me-2"></i>PDF</button>
@@ -115,10 +109,10 @@
               <table class="table table-bordered visitor-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 70px;">userID</th>
-                    <th style="min-width: 100px;">来場者名</th>
+                    <th style="width: 90px;">イベント種別番号</th>
                     <th style="min-width: 140px;">会社名</th>
-                    <th style="min-width: 110px;">社内担当者名</th>
+                    <th style="min-width: 100px;">来場者名</th>
+                    <th style="min-width: 110px;">営業担当者</th>
                     <th style="width: 70px;" class="text-center">入場</th>
                     <th style="width: 72px;" class="text-center">基調講演</th>
                     <th style="width: 72px;" class="text-center">セッションA</th>

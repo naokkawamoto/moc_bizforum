@@ -191,10 +191,10 @@
                     <th style="width: 50px;" class="text-center">休憩</th>
                     <th style="min-width: 110px;">講演種別</th>
                     <th style="min-width: 160px;">講演タイトル</th>
-                    <th style="min-width: 200px;">内容</th>
                     <th style="width: 100px;">ROOM</th>
+                    <th style="min-width: 120px;">組織名</th>
+                    <th style="min-width: 100px;">役職</th>
                     <th style="min-width: 100px;">講演者</th>
-                    <th style="min-width: 120px;">肩書</th>
                     <th style="width: 130px;">開催日</th>
                     <th style="width: 100px;">開始時間</th>
                     <th style="width: 100px;">終了時間</th>
@@ -206,21 +206,12 @@
                     <td class="text-center align-middle">
                       <input type="checkbox" class="form-check-input" name="isBreak" title="休憩">
                     </td>
-                    <td>
-                      <select class="form-select form-select-sm" title="講演種別">
-                        <option value="">選択</option>
-                        <option value="keynote" selected>基調講演</option>
-                        <option value="session">セッション</option>
-                        <option value="dialog">ダイアログ</option>
-                        <option value="networking">ネットワーキング</option>
-                        <option value="other">その他</option>
-                      </select>
-                    </td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="講演種別"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="内容"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>
+                    <td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="肩書"></td>
                     <td><input type="date" class="form-control form-control-sm" title="開催日" value="2026-03-05"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>
@@ -255,7 +246,7 @@
               <h6 class="fw-bold mb-3">リマインドメールの日程</h6>
 
               <div class="mb-4">
-                <p class="fw-bold mb-2">1週間前</p>
+                <p class="fw-bold mb-2">メール1</p>
                 <div class="row g-3">
                   <div class="col-md-3">
                     <label class="form-label small">日付</label>
@@ -275,7 +266,7 @@
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">メール本文（タイトル・内容）</label>
-                    <textarea class="form-control form-control-sm" id="mail1weekBody" rows="4" placeholder="定型文がデフォルト表示されます"></textarea>
+                    <textarea class="form-control form-control-sm" id="mail1weekBody" rows="4" placeholder="メール1の定型文デフォルトが表示されます。変数は、会社名、役職、氏名、QRを設定可能"></textarea>
                   </div>
                 </div>
               </div>
@@ -283,7 +274,7 @@
               <hr>
 
               <div>
-                <p class="fw-bold mb-2">前日</p>
+                <p class="fw-bold mb-2">メール2</p>
                 <div class="row g-3">
                   <div class="col-md-3">
                     <label class="form-label small">日付</label>
@@ -303,7 +294,63 @@
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">メール本文（タイトル・内容）</label>
-                    <textarea class="form-control form-control-sm" id="mail1dayBody" rows="4" placeholder="定型文がデフォルト表示されます"></textarea>
+                    <textarea class="form-control form-control-sm" id="mail1dayBody" rows="4" placeholder="メール2の定型文デフォルトが表示されます。変数は、会社名、役職、氏名、QRを設定可能"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="mt-4">
+                <p class="fw-bold mb-2">メール3</p>
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label small">日付</label>
+                    <input type="date" class="form-control form-control-sm" id="mail3Date" placeholder="日付">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">時</label>
+                    <input type="number" class="form-control form-control-sm" id="mail3Hour" min="0" max="23" value="10" inputmode="numeric" title="0〜23">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">分</label>
+                    <input type="number" class="form-control form-control-sm" id="mail3Minute" min="0" max="59" value="0" inputmode="numeric" title="0〜59">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">件名</label>
+                    <input type="text" class="form-control form-control-sm" id="mail3Subject" placeholder="定型タイトルがデフォルトで表示されます">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">メール本文（タイトル・内容）</label>
+                    <textarea class="form-control form-control-sm" id="mail3Body" rows="4" placeholder="メール3の定型文デフォルトが表示されます。変数は、会社名、役職、氏名、QRを設定可能"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="mt-4">
+                <p class="fw-bold mb-2">メール4</p>
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label small">日付</label>
+                    <input type="date" class="form-control form-control-sm" id="mail4Date" placeholder="日付">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">時</label>
+                    <input type="number" class="form-control form-control-sm" id="mail4Hour" min="0" max="23" value="10" inputmode="numeric" title="0〜23">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">分</label>
+                    <input type="number" class="form-control form-control-sm" id="mail4Minute" min="0" max="59" value="0" inputmode="numeric" title="0〜59">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">件名</label>
+                    <input type="text" class="form-control form-control-sm" id="mail4Subject" placeholder="定型タイトルがデフォルトで表示されます">
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label small">メール本文（タイトル・内容）</label>
+                    <textarea class="form-control form-control-sm" id="mail4Body" rows="4" placeholder="メール4の定型文デフォルトが表示されます。変数は、会社名、役職、氏名、QRを設定可能"></textarea>
                   </div>
                 </div>
               </div>
@@ -329,11 +376,10 @@
               <table class="table table-bordered table-hover table-sm mb-0 visitor-list-table">
                 <thead class="table-light">
                   <tr>
-                    <th style="width: 72px;">UserID</th>
+                    <th style="width: 100px;">イベント種別番号</th>
                     <th>会社名</th>
                     <th>部門</th>
-                    <th>姓</th>
-                    <th>名</th>
+                    <th>役職</th>
                     <th>氏名</th>
                     <th>姓（カナ）</th>
                     <th>名（カナ）</th>
@@ -348,8 +394,7 @@
                     <td class="text-nowrap">U001</td>
                     <td>株式会社ABC商事</td>
                     <td>マーケティング部</td>
-                    <td>佐藤</td>
-                    <td>花子</td>
+                    <td>部長</td>
                     <td>佐藤 花子</td>
                     <td>サトウ</td>
                     <td>ハナコ</td>
@@ -364,8 +409,7 @@
                     <td class="text-nowrap">U002</td>
                     <td>テック東日本株式会社</td>
                     <td>開発本部</td>
-                    <td>鈴木</td>
-                    <td>健</td>
+                    <td>課長</td>
                     <td>鈴木 健</td>
                     <td>スズキ</td>
                     <td>ケン</td>
@@ -380,8 +424,7 @@
                     <td class="text-nowrap">U003</td>
                     <td>グローバル物流株式会社</td>
                     <td>人事総務</td>
-                    <td>山本</td>
-                    <td>美咲</td>
+                    <td>主任</td>
                     <td>山本 美咲</td>
                     <td>ヤマモト</td>
                     <td>ミサキ</td>
@@ -396,8 +439,7 @@
                     <td class="text-nowrap">U004</td>
                     <td>イノベーションラボ株式会社</td>
                     <td>研究開発室</td>
-                    <td>伊藤</td>
-                    <td>翔</td>
+                    <td>マネージャー</td>
                     <td>伊藤 翔</td>
                     <td>イトウ</td>
                     <td>ショウ</td>
@@ -412,8 +454,7 @@
                     <td class="text-nowrap">U005</td>
                     <td>大阪物産株式会社</td>
                     <td>海外営業</td>
-                    <td>中村</td>
-                    <td>裕子</td>
+                    <td>担当</td>
                     <td>中村 裕子</td>
                     <td>ナカムラ</td>
                     <td>ユウコ</td>
@@ -574,12 +615,12 @@
       var tr = document.createElement('tr');
       tr.className = 'program-row';
       tr.innerHTML = '<td class="text-center align-middle"><input type="checkbox" class="form-check-input" name="isBreak" title="休憩"></td>' +
-        '<td><select class="form-select form-select-sm" title="講演種別"><option value="">選択</option><option value="keynote">基調講演</option><option value="session">セッション</option><option value="dialog">ダイアログ</option><option value="networking">ネットワーキング</option><option value="other">その他</option></select></td>' +
+        '<td><input type="text" class="form-control form-control-sm" placeholder="講演種別"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="内容"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="肩書"></td>' +
         '<td><input type="date" class="form-control form-control-sm" title="開催日"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>' +

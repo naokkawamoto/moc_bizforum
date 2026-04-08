@@ -3,7 +3,7 @@
 ルート（入口）,../index.html,モックアップ入口,SYSTEM USER,管理画面は user_login.html 経由で user_project_list.html へ（直接一覧URLはモックでは非推奨）,SYSTEM USER（赤ボタン）,クリック,system_user_cms/user_login.html
 イベントリスト,user_project_list.html,イベント入退場管理,共通ヘッダー,user_header.html を fetch で読込。ログインユーザーはナビバー右の人アイコン＋氏名のみ（オフキャンバス内に同内容を重ねない）,fetch,—,—
 イベントリスト,user_project_list.html,イベント入退場管理,左カラム,イベント名リスト表示,イベント名（リンク）,クリックで詳細遷移,user_project_detail.html
-イベントリスト,user_project_list.html,イベント入退場管理,中央カラム,イベントテーブル表示のみ（パネル・カードなし・状況列なし・ステータスタブなし）,イベント番号（自由入力）/イベント名/開催日時/終了日時/開催場所/参加規模/担当者/削除アイコン。一覧の最下段2行は行全体グレー背景,行クリック（削除以外）で詳細へ・削除でモーダル,user_project_detail.html（相対）
+イベントリスト,user_project_list.html,イベント入退場管理,中央カラム,イベントテーブル表示のみ（パネル・カードなし・状況列なし・ステータスタブなし）,イベント種別番号/イベント名/開催日時/終了日時/開催場所/参加規模/担当者/削除アイコン。一覧の最下段2行は行全体グレー背景,行クリック（削除以外）で詳細へ・削除でモーダル,user_project_detail.html（相対）
 イベントリスト,user_project_list.html,イベント入退場管理,右カラム,お知らせ・VIP来場通知タブ,お知らせリスト/VIP来場お知らせ（未読バッジ）,タブ切り替え,-
 イベントリスト,user_project_list.html,イベント入退場管理,ヘッダー,新規イベント作成ボタン（大きく目立つ赤いボタン）,-,ボタンクリック,user_project_create.html
 イベント情報登録フォーム,user_project_create.html,イベント情報登録フォーム,ヘッダー,ページタイトル・説明,イベント情報登録フォーム/イベント概要・担当者・プログラム・来場予約を登録します,-,-

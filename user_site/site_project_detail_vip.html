@@ -17,10 +17,15 @@
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
     .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
     .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
+    .event-header .event-header-program { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
+    .event-header .event-header-program:hover, .event-header .event-header-program:focus { color: #fff; opacity: 1; }
+    .event-header .event-header-logout { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
+    .event-header .event-header-logout:hover, .event-header .event-header-logout:focus { color: #fff; opacity: 1; }
     .event-header .event-header-vip { color: #fff; opacity: 0.92; padding: 0.25rem 0.35rem; display: inline-flex; align-items: center; gap: 0.2rem; flex-shrink: 0; text-decoration: none; }
     .event-header .event-header-vip:hover, .event-header .event-header-vip:focus { color: #fff; opacity: 1; }
     .event-header .event-header-vip .vip-header-badge { font-size: 0.55rem; vertical-align: middle; }
     .event-header .event-header-vip .bi-bell-fill { font-size: 1.15rem; color: #ffc107; }
+    .event-header .event-header-user { font-size: 0.68rem; opacity: 0.92; white-space: nowrap; }
     .overview-card, .program-content-card { overflow: hidden; border-radius: 0.25rem; }
     .overview-event-title { background: #000; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #333; }
     #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
@@ -37,20 +42,31 @@
     .program-content-table .col-stats .stat-lbl { color: #6c757d; font-size: 0.55rem; }
     .program-content-table .session-badge { font-size: 0.55rem; vertical-align: text-top; }
     .program-content-table tbody tr.table-primary .col-time { color: #084298; }
+    .program-content-table tbody tr.table-primary,
+    .program-content-table tbody tr.table-warning {
+      --bs-table-bg: #fff;
+      background-color: #fff !important;
+    }
     .program-note { font-size: 0.58rem; color: #6c757d; margin-top: 0.35rem; margin-bottom: 0; }
   </style>
 </head>
 <body>
   <div class="container-fluid px-0">
     <div class="event-header bf-bg-brand text-white py-2 px-3 mb-2 d-flex align-items-center gap-2">
-      <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">VIP管理アプリ</h4>
+      <div class="d-flex align-items-baseline flex-grow-1 gap-2" style="min-width: 0;">
+        <h4 class="mb-0 fw-bold text-white text-truncate" style="min-width: 0;">VIP管理アプリ</h4>
+        <span class="event-header-user">山田太郎</span>
+      </div>
       <div class="d-flex align-items-center flex-shrink-0 gap-1">
         <a href="site_notifications.html" class="event-header-vip" aria-label="VIP来場のお知らせ" title="VIP来場">
           <i class="bi bi-bell-fill"></i>
           <span class="badge bg-danger vip-header-badge">8</span>
         </a>
-        <a href="site_project_list_vip.html" class="event-header-back text-decoration-none" aria-label="イベントリストに戻る" title="イベントリスト">
-          <i class="bi bi-list-ul" style="font-size: 1.35rem;"></i>
+        <a href="site_project_detail_vip.html" class="event-header-program text-decoration-none" aria-label="プログラム" title="プログラム">
+          <i class="bi bi-journal-text" style="font-size: 1.3rem;"></i>
+        </a>
+        <a href="../index.html" class="event-header-logout text-decoration-none" aria-label="ログアウト" title="ログアウト">
+          <i class="bi bi-box-arrow-right" style="font-size: 1.25rem;"></i>
         </a>
       </div>
     </div>

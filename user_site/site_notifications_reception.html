@@ -14,41 +14,24 @@
     .small-text { font-size: 0.7rem; }
     .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
-    .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
-    .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
+    .event-header .event-header-app { color: #fff; text-decoration: none; }
+    .event-header .event-header-app:hover, .event-header .event-header-app:focus { color: #fff; opacity: 1; }
     .event-header .event-header-program { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
     .event-header .event-header-program:hover, .event-header .event-header-program:focus { color: #fff; opacity: 1; }
     .event-header .event-header-logout { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
     .event-header .event-header-logout:hover, .event-header .event-header-logout:focus { color: #fff; opacity: 1; }
-    .event-header .event-header-user { font-size: 0.68rem; opacity: 0.92; white-space: nowrap; }
     .event-header .event-header-vip { color: #fff; opacity: 0.92; padding: 0.25rem 0.35rem; display: inline-flex; align-items: center; gap: 0.2rem; flex-shrink: 0; text-decoration: none; }
     .event-header .event-header-vip:hover, .event-header .event-header-vip:focus { color: #fff; opacity: 1; }
     .event-header .event-header-vip .vip-header-badge { font-size: 0.55rem; vertical-align: middle; }
     .event-header .event-header-vip .bi-bell-fill { font-size: 1.15rem; color: #ffc107; }
     .overview-event-title { background: #000; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #333; }
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem; }
-    .notice-item {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.45rem;
-      padding: 0.75rem;
-      border-bottom: 1px solid #dee2e6;
-    }
+    .notice-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.45rem; padding: 0.75rem; border-bottom: 1px solid #dee2e6; }
     .notice-item:last-child { border-bottom: none; }
     .notice-item.unread { background-color: #f8f9fa; border-left: 3px solid #0d6efd; }
     .notice-item.notice-item--read { background-color: #fff; border-left: 3px solid transparent; }
     .notice-item-main { flex: 1; min-width: 0; }
-    .notice-read-badge {
-      flex-shrink: 0;
-      align-self: flex-start;
-      font-size: 0.58rem;
-      font-weight: 700;
-      padding: 0.1rem 0.38rem;
-      border-radius: 0.2rem;
-      line-height: 1.15;
-      letter-spacing: 0.02em;
-    }
+    .notice-read-badge { flex-shrink: 0; align-self: flex-start; font-size: 0.58rem; font-weight: 700; padding: 0.1rem 0.38rem; border-radius: 0.2rem; line-height: 1.15; letter-spacing: 0.02em; }
     .notice-read-badge--unread { background: #0d6efd; color: #fff; }
     .notice-read-badge--read { background: #e9ecef; color: #6c757d; border: 1px solid #dee2e6; }
     .notice-line1 { font-size: 0.72rem; color: #212529; line-height: 1.45; }
@@ -66,15 +49,14 @@
 <body>
   <div class="container-fluid px-0">
     <div class="event-header bf-bg-brand text-white py-2 px-3 d-flex align-items-center gap-2">
-      <div class="d-flex align-items-baseline flex-grow-1 gap-2" style="min-width: 0;">
-        <h4 class="mb-0 fw-bold text-white text-truncate" style="min-width: 0;">VIP管理アプリ</h4>
-        <span class="event-header-user">山田太郎</span>
-      </div>
-      <a href="site_notifications.html" class="event-header-vip" aria-label="VIP来場のお知らせ" title="VIP来場">
+      <a href="site_project_list.html" class="event-header-app flex-grow-1 text-truncate" style="min-width: 0;">
+        <h4 class="mb-0 fw-bold text-white text-truncate" style="min-width: 0;">受付／VIP管理アプリ</h4>
+      </a>
+      <a href="site_notifications_reception.html" class="event-header-vip" aria-label="VIP来場のお知らせ" title="VIP来場">
         <i class="bi bi-bell-fill"></i>
         <span class="badge bg-danger vip-header-badge">8</span>
       </a>
-      <a href="site_project_detail_vip.html" class="event-header-program text-decoration-none flex-shrink-0" aria-label="プログラム" title="プログラム">
+      <a href="site_project_detail.html" class="event-header-program text-decoration-none flex-shrink-0" aria-label="プログラム" title="プログラム">
         <i class="bi bi-journal-text" style="font-size: 1.3rem;"></i>
       </a>
       <a href="../index.html" class="event-header-logout text-decoration-none flex-shrink-0" aria-label="ログアウト" title="ログアウト">
@@ -88,7 +70,6 @@
         <h5 class="mb-0 fw-bold notice-page-title">VIP来場のお知らせ</h5>
       </div>
 
-      <!-- 来場者名・会社名検索・プログラム絞り込み -->
       <div class="card mb-2">
         <div class="card-body filter-bar p-2 d-flex flex-column">
           <div class="mb-2">
@@ -119,101 +100,18 @@
         </div>
       </div>
 
-      <!-- 表示件数 -->
-      <div class="d-flex flex-wrap align-items-center mb-2 gap-2">
-        <label class="form-label small-text mb-0">表示</label>
-        <select class="form-select form-select-sm" id="perPage" style="width: auto; font-size: 0.7rem;">
-          <option value="50" selected>50件</option>
-          <option value="100">100件</option>
-        </select>
-        <span class="small-text text-muted" id="countLabel">全60件</span>
-      </div>
-
-      <!-- お知らせリスト -->
       <div class="card mb-2">
         <div class="list-group list-group-flush" id="noticeList">
-          <div class="notice-item unread">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:32　セッションC に入室</div>
-              <div class="notice-line2">株式会社サンプル,　田中 一郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--unread">未読</span>
-          </div>
-          <div class="notice-item unread">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:28　セッションB に入室</div>
-              <div class="notice-line2">株式会社テクノ,　佐藤 花子様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--unread">未読</span>
-          </div>
-          <div class="notice-item unread">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:25　セッションA に入室</div>
-              <div class="notice-line2">株式会社イノベーション,　鈴木 次郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--unread">未読</span>
-          </div>
-          <div class="notice-item unread">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:20　基調講演 に入室</div>
-              <div class="notice-line2">株式会社グローバル,　山田 三郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--unread">未読</span>
-          </div>
-          <div class="notice-item notice-item--read">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:15　セッションC に入室</div>
-              <div class="notice-line2">株式会社デジタル,　中村 四郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--read">既読</span>
-          </div>
-          <div class="notice-item notice-item--read">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:10　セッションB に入室</div>
-              <div class="notice-line2">株式会社クリエイト,　高橋 五郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--read">既読</span>
-          </div>
-          <div class="notice-item notice-item--read">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:05　セッションA に入室</div>
-              <div class="notice-line2">株式会社フューチャー,　伊藤 六郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--read">既読</span>
-          </div>
-          <div class="notice-item notice-item--read">
-            <div class="notice-item-main">
-              <div class="notice-line1">03/05 14:00　基調講演 に入室</div>
-              <div class="notice-line2">株式会社ネクスト,　渡辺 七郎様</div>
-            </div>
-            <span class="notice-read-badge notice-read-badge--read">既読</span>
-          </div>
+          <div class="notice-item unread"><div class="notice-item-main"><div class="notice-line1">03/05 14:32　セッションC に入室</div><div class="notice-line2">株式会社サンプル,　田中 一郎様</div></div><span class="notice-read-badge notice-read-badge--unread">未読</span></div>
+          <div class="notice-item unread"><div class="notice-item-main"><div class="notice-line1">03/05 14:28　セッションB に入室</div><div class="notice-line2">株式会社テクノ,　佐藤 花子様</div></div><span class="notice-read-badge notice-read-badge--unread">未読</span></div>
+          <div class="notice-item unread"><div class="notice-item-main"><div class="notice-line1">03/05 14:25　セッションA に入室</div><div class="notice-line2">株式会社イノベーション,　鈴木 次郎様</div></div><span class="notice-read-badge notice-read-badge--unread">未読</span></div>
+          <div class="notice-item notice-item--read"><div class="notice-item-main"><div class="notice-line1">03/05 14:15　セッションC に入室</div><div class="notice-line2">株式会社デジタル,　中村 四郎様</div></div><span class="notice-read-badge notice-read-badge--read">既読</span></div>
         </div>
       </div>
     </div>
   </div>
 
   <div id="footer-container"></div>
-
-  <div class="modal fade" id="pushonePermissionModal" tabindex="-1" aria-labelledby="pushonePermissionTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-      <div class="modal-content">
-        <div class="modal-body p-0">
-          <div class="px-3 pt-3 pb-2 text-center">
-            <p class="mb-2 fw-bold" style="font-size: 1.05rem; line-height: 1.35;">VIP管理アプリで通知を送信します。よろしいですか？</p>
-            <p class="mb-0 text-muted" style="font-size: 0.78rem; line-height: 1.35;">
-              通知方法は、テキスト、サウンド、アイコン/バッジが利用できる可能性があります。<br>
-              通知方法は"設定"で設定できます。
-            </p>
-          </div>
-          <div class="d-flex border-top">
-            <button type="button" class="btn btn-link text-decoration-none flex-fill rounded-0 py-2 border-end" data-bs-dismiss="modal">許可しない</button>
-            <button type="button" class="btn btn-link text-decoration-none flex-fill rounded-0 py-2" data-bs-dismiss="modal">許可</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div class="modal fade no-record-modal" id="noRecordModal" tabindex="-1" aria-labelledby="noRecordModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -223,14 +121,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
         </div>
         <div class="modal-body pt-0 text-start px-3 pb-4">
-          <div class="mb-3">
-            <div class="no-record-label">社名：</div>
-            <div class="no-record-value" id="noRecordShamei">—</div>
-          </div>
-          <div class="mb-0">
-            <div class="no-record-label">会社名：</div>
-            <div class="no-record-value" id="noRecordKaisha">—</div>
-          </div>
+          <div class="mb-3"><div class="no-record-label">社名：</div><div class="no-record-value" id="noRecordShamei">—</div></div>
+          <div class="mb-0"><div class="no-record-label">会社名：</div><div class="no-record-value" id="noRecordKaisha">—</div></div>
           <p class="no-record-msg">入場記録なし</p>
         </div>
       </div>
@@ -241,7 +133,6 @@
   <script src="../style.js"></script>
   <script>
     (function () {
-      var permissionModalEl = document.getElementById('pushonePermissionModal');
       var modalEl = document.getElementById('noRecordModal');
       var shameiEl = document.getElementById('noRecordShamei');
       var kaishaEl = document.getElementById('noRecordKaisha');
@@ -249,12 +140,7 @@
       var companyIn = document.getElementById('filterCompany');
       var btnSearch = document.getElementById('btnSearch');
       var btnSample = document.getElementById('btnNoRecordSample');
-      if (typeof bootstrap === 'undefined') return;
-      if (permissionModalEl) {
-        var permissionModal = new bootstrap.Modal(permissionModalEl);
-        permissionModal.show();
-      }
-      if (!modalEl) return;
+      if (!modalEl || typeof bootstrap === 'undefined') return;
       var noRecordModal = new bootstrap.Modal(modalEl);
       function fillAndShow(shamei, kaisha) {
         if (shameiEl) shameiEl.textContent = shamei || '—';
@@ -265,10 +151,7 @@
         btnSearch.addEventListener('click', function () {
           var v = visitorIn ? visitorIn.value.trim() : '';
           var c = companyIn ? companyIn.value.trim() : '';
-          /* 来場者名が空で会社名のみ＝来場者以外の条件で検索した場合 */
-          if (!v && c) {
-            fillAndShow('—', c);
-          }
+          if (!v && c) fillAndShow('—', c);
         });
       }
       if (btnSample) {

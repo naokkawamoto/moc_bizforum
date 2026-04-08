@@ -49,7 +49,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+              <tr class="table-row-clickable" data-detail-href="user_project_detail.html" tabindex="0">
                 <td>EV-GF-2026-001</td>
                 <td>グローバル／グループ経営フォーラム 2026</td>
                 <td>2026/03/26　10:30</td>
@@ -59,7 +59,7 @@
                 <td>山田太郎</td>
                 <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'グローバル／グループ経営フォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+              <tr class="table-row-clickable" data-detail-href="user_project_detail.html" tabindex="0">
                 <td>DX-2026</td>
                 <td>経営DXフォーラム 2026</td>
                 <td>2026/03/09　14:30</td>
@@ -69,7 +69,7 @@
                 <td>佐藤花子</td>
                 <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, '経営DXフォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+              <tr class="table-row-clickable" data-detail-href="user_project_detail.html" tabindex="0">
                 <td>NBCS-26</td>
                 <td>New Business Creation Strategy 2026</td>
                 <td>2026/03/05　13:00</td>
@@ -79,7 +79,7 @@
                 <td>鈴木次郎</td>
                 <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'New Business Creation Strategy 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr class="table-row-muted table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+              <tr class="table-row-muted table-row-clickable" data-detail-href="user_project_detail.html" tabindex="0">
                 <td>IT-GOV-2026</td>
                 <td>ITガバナンス・フォーラム 2026</td>
                 <td>2026/02/06　13:30</td>
@@ -89,7 +89,7 @@
                 <td>田中一郎</td>
                 <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'ITガバナンス・フォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr class="table-row-muted table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+              <tr class="table-row-muted table-row-clickable" data-detail-href="user_project_detail.html" tabindex="0">
                 <td>MA-2025-11</td>
                 <td>M&Aマネジメント2025</td>
                 <td>2025/11/05　13:00</td>
@@ -162,7 +162,7 @@
     });
 
     // 行クリックでイベント詳細へ（削除ボタンは除外）
-    var detailUrl = '/system_user_cms/user_project_detail.html';
+    var detailUrl = 'user_project_detail.html';
     document.querySelectorAll('tbody tr.table-row-clickable').forEach(function (row) {
       row.addEventListener('click', function (e) {
         if (e.target.closest('button')) return;

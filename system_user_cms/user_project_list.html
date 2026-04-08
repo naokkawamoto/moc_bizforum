@@ -11,20 +11,14 @@
   <!-- カスタムCSS -->
   <link rel="stylesheet" href="../style.css">
   <style>
-    .card-project { font-size: 0.75rem; }
-    .card-project .card-img-top {
-      width: 100%;
-      height: 144px;
-      object-fit: contain;
-      object-position: center;
-      display: block;
-      background-color: #f0f0f0;
-    }
     .small-text { font-size: 0.75rem; }
     /* コンテンツ下部に余白を */
     main { padding-bottom: 80px; }
     .btn-new-event { font-size: 1.1rem; padding: 0.6rem 1.5rem; font-weight: bold; }
-    .btn-delete-card { font-size: 1rem; padding: 0.6rem 1rem; font-weight: bold; }
+    /* リスト最下段2行の背景（行全体） */
+    tbody tr.table-row-muted td { background-color: #e9ecef !important; }
+    th.th-datetime { white-space: nowrap; }
+    tbody tr.table-row-clickable { cursor: pointer; }
   </style>
 </head>
 <body>
@@ -39,220 +33,71 @@
           <h5 class="mb-0">イベントリスト</h5>
           <a href="user_project_create.html" class="btn btn-danger btn-new-event"><i class="bi bi-plus-circle-fill me-2"></i>新規イベント作成</a>
         </div>
-        <!-- ステータスタブ -->
-        <ul class="nav nav-tabs mb-3 justify-content-center small-text">
-          <li class="nav-item"><a class="nav-link active" href="#">すべて (5)</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">準備中 (1)</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">受付中 (2)</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">開催中 (0)</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">終了 (2)</a></li>
-        </ul>
-        <!-- 切替ボタン -->
-        <div class="d-flex justify-content-end mb-3">
-          <button id="panelViewBtn" class="btn btn-outline-primary btn-sm me-2">パネル</button>
-          <button id="listViewBtn" class="btn btn-outline-secondary btn-sm">リスト</button>
-        </div>
-        <!-- パネル表示 -->
-        <div id="panelView" class="row g-3">
-          <!-- カード1：グローバル／グループ経営フォーラム 2026 -->
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card card-project h-100">
-              <a href="user_project_detail.html" class="text-decoration-none text-reset">
-                <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-                  <span class="d-flex align-items-center gap-1">
-                    <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
-                    <span class="badge bg-danger rounded-pill">3</span>
-                    <span>グローバル／グループ経営フォーラム 2026</span>
-                  </span>
-                  <span class="badge bg-primary">受付中</span>
-                </div>
-                <img src="../images/bizforumbanner.webp" class="card-img-top" alt="イベント画像">
-                <div class="card-body p-2 small-text">
-                  <p class="mb-1">開催日時: 2026/03/26 10:30～16:30</p>
-                  <p class="mb-1">開催形式: オンライン配信</p>
-                  <p class="mb-1">担当者: 山田太郎</p>
-                  <p class="mb-1">開催場所: オンライン</p>
-                  <p class="mb-1"><i class="bi bi-people"></i> 登録者: 120名</p>
-                  <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 0</p>
-                  <p class="mb-0">状況: 受付中</p>
-                </div>
-              </a>
-              <div class="card-footer p-2 bg-light border-0">
-                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'グローバル／グループ経営フォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
-              </div>
-            </div>
-          </div>
-          <!-- カード2：経営DXフォーラム 2026 -->
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card card-project h-100">
-              <a href="user_project_detail.html" class="text-decoration-none text-reset">
-                <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-                  <span class="d-flex align-items-center gap-1">
-                    <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
-                    <span class="badge bg-danger rounded-pill">1</span>
-                    <span>経営DXフォーラム 2026</span>
-                  </span>
-                  <span class="badge bg-success">終了</span>
-                </div>
-                <img src="../images/bizforumbanner2.png" class="card-img-top" alt="イベント画像">
-                <div class="card-body p-2 small-text">
-                  <p class="mb-1">開催日時: 2026/03/09 14:30～17:45</p>
-                  <p class="mb-1">開催形式: 会場開催（東京）</p>
-                  <p class="mb-1">担当者: 佐藤花子</p>
-                  <p class="mb-1">開催場所: 東京都千代田区</p>
-                  <p class="mb-1"><i class="bi bi-people"></i> 登録者: 85名</p>
-                  <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 82</p>
-                  <p class="mb-0">状況: 終了</p>
-                </div>
-              </a>
-              <div class="card-footer p-2 bg-light border-0">
-                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, '経営DXフォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
-              </div>
-            </div>
-          </div>
-          <!-- カード3：New Business Creation Strategy 2026 -->
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card card-project h-100">
-              <a href="user_project_detail.html" class="text-decoration-none text-reset">
-                <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-                  <span class="d-flex align-items-center gap-1">
-                    <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
-                    <span class="badge bg-danger rounded-pill">8</span>
-                    <span>New Business Creation Strategy 2026</span>
-                  </span>
-                  <span class="badge bg-info">準備中</span>
-                </div>
-                <img src="../images/bizforumbanner.webp" class="card-img-top" alt="イベント画像">
-                <div class="card-body p-2 small-text">
-                  <p class="mb-1">開催日時: 2026/03/05 13:00～17:40</p>
-                  <p class="mb-1">開催形式: 会場開催（東京）</p>
-                  <p class="mb-1">担当者: 鈴木次郎</p>
-                  <p class="mb-1">開催場所: 東京都</p>
-                  <p class="mb-1"><i class="bi bi-people"></i> 登録者: 0名</p>
-                  <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 0</p>
-                  <p class="mb-0">状況: 準備中</p>
-                </div>
-              </a>
-              <div class="card-footer p-2 bg-light border-0">
-                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'New Business Creation Strategy 2026')"><i class="bi bi-trash me-2"></i>削除</button>
-              </div>
-            </div>
-          </div>
-          <!-- カード4：ITガバナンス・フォーラム 2026 -->
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card card-project h-100">
-              <a href="user_project_detail.html" class="text-decoration-none text-reset">
-                <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-                  <span class="d-flex align-items-center gap-1">
-                    <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
-                    <span class="badge bg-danger rounded-pill">2</span>
-                    <span>ITガバナンス・フォーラム 2026</span>
-                  </span>
-                  <span class="badge bg-primary">受付中</span>
-                </div>
-                <img src="../images/bizforumbanner2.png" class="card-img-top" alt="イベント画像">
-                <div class="card-body p-2 small-text">
-                  <p class="mb-1">開催日時: 2026/02/06 13:30～16:25</p>
-                  <p class="mb-1">開催形式: オンライン配信</p>
-                  <p class="mb-1">担当者: 田中一郎</p>
-                  <p class="mb-1">開催場所: オンライン</p>
-                  <p class="mb-1"><i class="bi bi-people"></i> 登録者: 95名</p>
-                  <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 90</p>
-                  <p class="mb-0">状況: 受付中（開催済）</p>
-                </div>
-              </a>
-              <div class="card-footer p-2 bg-light border-0">
-                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'ITガバナンス・フォーラム 2026')"><i class="bi bi-trash me-2"></i>削除</button>
-              </div>
-            </div>
-          </div>
-          <!-- カード5：M&Aマネジメント2025 -->
-          <div class="col-6 col-md-4 col-lg-3">
-            <div class="card card-project h-100">
-              <a href="user_project_detail.html" class="text-decoration-none text-reset">
-                <div class="card-header d-flex justify-content-between align-items-center py-1 small-text">
-                  <span class="d-flex align-items-center gap-1">
-                    <i class="bi bi-bell-fill text-danger" title="VIP来場"></i>
-                    <span class="badge bg-danger rounded-pill">0</span>
-                    <span>M&Aマネジメント2025</span>
-                  </span>
-                  <span class="badge bg-success">終了</span>
-                </div>
-                <img src="../images/bizforumbanner.webp" class="card-img-top" alt="イベント画像">
-                <div class="card-body p-2 small-text">
-                  <p class="mb-1">開催日時: 2025/11/05 13:00～17:05</p>
-                  <p class="mb-1">開催形式: オンライン配信</p>
-                  <p class="mb-1">担当者: 中村健太</p>
-                  <p class="mb-1">開催場所: オンライン</p>
-                  <p class="mb-1"><i class="bi bi-people"></i> 登録者: 65名</p>
-                  <p class="mb-1"><i class="bi bi-box-arrow-in-right"></i> 入場済: 62</p>
-                  <p class="mb-0">状況: 終了</p>
-                </div>
-              </a>
-              <div class="card-footer p-2 bg-light border-0">
-                <button type="button" class="btn btn-danger w-100 btn-delete-card" onclick="event.preventDefault(); openDeleteModal(this, 'M&Aマネジメント2025')"><i class="bi bi-trash me-2"></i>削除</button>
-              </div>
-            </div>
-          </div>
-        </div>
         <!-- リスト表示 -->
-        <div id="listView" class="table-responsive small-text" style="display:none;">
+        <div id="listView" class="table-responsive small-text">
           <table class="table table-hover mb-0">
             <thead class="table-light">
               <tr>
-                <th>状況</th><th>イベント名</th><th class="text-center">VIP来場</th><th>開催日時</th><th>開催形式</th><th>担当者</th><th>登録者数</th><th>入場済</th>
+                <th>イベント番号（自由入力）</th>
+                <th>イベント名</th>
+                <th class="th-datetime">開催日時</th>
+                <th class="th-datetime">終了日時</th>
+                <th>開催場所</th>
+                <th>参加規模</th>
+                <th>担当者</th>
+                <th class="text-center" aria-label="削除"><i class="bi bi-trash text-secondary" title="削除"></i></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><span class="badge bg-primary">受付中</span></td>
-                <td><i class="bi bi-bell-fill text-danger me-1"></i>グローバル／グループ経営フォーラム 2026</td>
-                <td class="text-center"><span class="badge bg-danger rounded-pill">3</span></td>
-                <td>2026/03/26 10:30～</td>
+              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+                <td>EV-GF-2026-001</td>
+                <td>グローバル／グループ経営フォーラム 2026</td>
+                <td>2026/03/26　10:30</td>
+                <td>2026/03/26　16:30</td>
                 <td>オンライン</td>
+                <td>定員 150名</td>
                 <td>山田太郎</td>
-                <td>120</td>
-                <td>0</td>
+                <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'グローバル／グループ経営フォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr>
-                <td><span class="badge bg-success">終了</span></td>
-                <td><i class="bi bi-bell-fill text-danger me-1"></i>経営DXフォーラム 2026</td>
-                <td class="text-center"><span class="badge bg-danger rounded-pill">1</span></td>
-                <td>2026/03/09 14:30～</td>
-                <td>会場（東京）</td>
+              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+                <td>DX-2026</td>
+                <td>経営DXフォーラム 2026</td>
+                <td>2026/03/09　14:30</td>
+                <td>2026/03/09　17:45</td>
+                <td>東京都千代田区（会場）</td>
+                <td>定員 200名</td>
                 <td>佐藤花子</td>
-                <td>85</td>
-                <td>82</td>
+                <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, '経営DXフォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr>
-                <td><span class="badge bg-info">準備中</span></td>
-                <td><i class="bi bi-bell-fill text-danger me-1"></i>New Business Creation Strategy 2026</td>
-                <td class="text-center"><span class="badge bg-danger rounded-pill">8</span></td>
-                <td>2026/03/05 13:00～</td>
-                <td>会場（東京）</td>
+              <tr class="table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+                <td>NBCS-26</td>
+                <td>New Business Creation Strategy 2026</td>
+                <td>2026/03/05　13:00</td>
+                <td>2026/03/05　17:40</td>
+                <td>東京都（会場）</td>
+                <td>定員 500名</td>
                 <td>鈴木次郎</td>
-                <td>0</td>
-                <td>0</td>
+                <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'New Business Creation Strategy 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr>
-                <td><span class="badge bg-primary">受付中</span></td>
-                <td><i class="bi bi-bell-fill text-danger me-1"></i>ITガバナンス・フォーラム 2026</td>
-                <td class="text-center"><span class="badge bg-danger rounded-pill">2</span></td>
-                <td>2026/02/06 13:30～</td>
+              <tr class="table-row-muted table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+                <td>IT-GOV-2026</td>
+                <td>ITガバナンス・フォーラム 2026</td>
+                <td>2026/02/06　13:30</td>
+                <td>2026/02/06　16:25</td>
                 <td>オンライン</td>
+                <td>定員 300名</td>
                 <td>田中一郎</td>
-                <td>95</td>
-                <td>90</td>
+                <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'ITガバナンス・フォーラム 2026')"><i class="bi bi-trash"></i></button></td>
               </tr>
-              <tr>
-                <td><span class="badge bg-success">終了</span></td>
-                <td><i class="bi bi-bell-fill text-danger me-1"></i>M&Aマネジメント2025</td>
-                <td class="text-center"><span class="badge bg-danger rounded-pill">0</span></td>
-                <td>2025/11/05 13:00～</td>
+              <tr class="table-row-muted table-row-clickable" data-detail-href="/system_user_cms/user_project_detail.html" tabindex="0">
+                <td>MA-2025-11</td>
+                <td>M&Aマネジメント2025</td>
+                <td>2025/11/05　13:00</td>
+                <td>2025/11/05　17:05</td>
                 <td>オンライン</td>
+                <td>定員 100名</td>
                 <td>中村健太</td>
-                <td>65</td>
-                <td>62</td>
+                <td class="text-center text-nowrap"><button type="button" class="btn btn-danger btn-sm py-0 px-2" onclick="event.stopPropagation(); openDeleteModal(this, 'M&Aマネジメント2025')"><i class="bi bi-trash"></i></button></td>
               </tr>
             </tbody>
           </table>
@@ -293,16 +138,6 @@
     fetch('user_header.html').then(r => r.text()).then(html => document.getElementById('header-container').innerHTML = html);
     fetch('user_footer.html').then(r => r.text()).then(html => document.getElementById('footer-container').innerHTML = html);
 
-    // パネル/リスト 切替
-    document.getElementById('panelViewBtn').onclick = () => {
-      document.getElementById('panelView').style.display = 'flex';
-      document.getElementById('listView').style.display = 'none';
-    };
-    document.getElementById('listViewBtn').onclick = () => {
-      document.getElementById('panelView').style.display = 'none';
-      document.getElementById('listView').style.display = 'block';
-    };
-
     // 削除モーダル
     var deleteModal = null;
     var deleteTargetButton = null;
@@ -316,14 +151,27 @@
     function confirmDelete() {
       if (deleteModal) deleteModal.hide();
       if (deleteTargetButton) {
-        var card = deleteTargetButton.closest('.col-6');
-        if (card) card.remove();
+        var row = deleteTargetButton.closest('tr');
+        if (row) row.remove();
       }
       deleteTargetButton = null;
     }
 
     document.getElementById('deleteConfirmYesBtn').addEventListener('click', function () {
       confirmDelete();
+    });
+
+    // 行クリックでイベント詳細へ（削除ボタンは除外）
+    var detailUrl = '/system_user_cms/user_project_detail.html';
+    document.querySelectorAll('tbody tr.table-row-clickable').forEach(function (row) {
+      row.addEventListener('click', function (e) {
+        if (e.target.closest('button')) return;
+        window.location.href = row.getAttribute('data-detail-href') || detailUrl;
+      });
+      row.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' || e.target.closest('button')) return;
+        window.location.href = row.getAttribute('data-detail-href') || detailUrl;
+      });
     });
   </script>
 </body>

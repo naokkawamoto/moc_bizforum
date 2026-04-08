@@ -7,64 +7,105 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../brand.css">
   <style>
     body, html { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; width: 100%; max-width: 393px; margin: 0 auto; }
     .container-fluid { max-width: 393px; margin: 0 auto; padding-bottom: 80px; }
     .small-text { font-size: 0.7rem; }
     .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
+    .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
+    .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
+    .overview-event-title { background: #000; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #333; }
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem; }
-    .notice-item { padding: 0.75rem; border-bottom: 1px solid #dee2e6; }
+    .notice-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.45rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid #dee2e6;
+    }
     .notice-item:last-child { border-bottom: none; }
     .notice-item.unread { background-color: #f8f9fa; border-left: 3px solid #0d6efd; }
-    .notice-timestamp { font-size: 0.6rem; color: #6c757d; }
-    .notice-company-visitor { font-size: 0.8rem; font-weight: bold; }
-    .notice-program-action { font-size: 0.7rem; }
+    .notice-item.notice-item--read { background-color: #fff; border-left: 3px solid transparent; }
+    .notice-item-main { flex: 1; min-width: 0; }
+    .notice-read-badge {
+      flex-shrink: 0;
+      align-self: flex-start;
+      font-size: 0.58rem;
+      font-weight: 700;
+      padding: 0.1rem 0.38rem;
+      border-radius: 0.2rem;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+    .notice-read-badge--unread { background: #0d6efd; color: #fff; }
+    .notice-read-badge--read { background: #e9ecef; color: #6c757d; border: 1px solid #dee2e6; }
+    .notice-line1 { font-size: 0.72rem; color: #212529; line-height: 1.45; }
+    .notice-line2 { font-size: 0.8rem; font-weight: 700; line-height: 1.4; margin-top: 0.3rem; color: #212529; }
+    .notice-page-heading { display: flex; flex-direction: column; align-items: stretch; gap: 0.35rem 0; }
+    .notice-page-heading .notice-staff-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%; }
+    .notice-page-heading .notice-staff-label { font-size: 0.72rem; font-weight: 600; color: #495057; margin: 0; flex: 1; min-width: 0; }
+    .btn-notice-hint {
+      flex-shrink: 0;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 0.3rem;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+    }
+    .btn-notice-hint:hover { background: rgba(0, 0, 0, 0.3); color: #fff; }
+    .no-record-modal .modal-header { border-bottom: none; padding-bottom: 0; }
+    .no-record-modal .modal-body { padding-top: 0.5rem; }
+    .no-record-modal .no-record-label { font-size: 0.75rem; color: #6c757d; margin-bottom: 0.15rem; }
+    .no-record-modal .no-record-value { font-size: 0.95rem; font-weight: 600; }
+    .no-record-modal .no-record-msg { font-size: 1rem; font-weight: 700; text-align: center; margin-top: 1rem; margin-bottom: 0; color: #212529; }
     #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
   </style>
 </head>
 <body>
   <div class="container-fluid px-0">
-    <div class="event-header bg-dark text-white py-2 px-3 mb-2">
-      <h4 class="mb-0 fw-bold text-white">New Business Creation Strategy 2026</h4>
+    <div class="event-header bf-bg-brand text-white py-2 px-3 d-flex align-items-center gap-2">
+      <a href="site_project_detail_vip.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントトップに戻る" title="イベントトップに戻る">
+        <i class="bi bi-arrow-left" style="font-size: 1.45rem;"></i>
+      </a>
+      <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">VIP管理アプリ</h4>
+      <a href="site_project_list_vip.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントリストに戻る" title="イベントリスト">
+        <i class="bi bi-list-ul" style="font-size: 1.35rem;"></i>
+      </a>
     </div>
+    <div class="overview-event-title mb-2">経営DXフォーラム2026</div>
 
     <div class="px-2">
-      <h5 class="mb-2 mt-2 small-text fw-bold">VIP来場のお知らせ</h5>
-
-      <!-- 担当者名チェックボックス -->
-      <div class="card mb-2">
-        <div class="card-body p-2">
-          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-            <span class="small-text text-muted">担当者名:</span>
-            <label class="mb-0 form-check d-flex align-items-center gap-1">
-              <input type="checkbox" class="form-check-input staff-check" value="yamada" checked style="width: 0.9rem; height: 0.9rem;">
-              <span class="small-text">山田 太郎</span>
-            </label>
-            <label class="mb-0 form-check d-flex align-items-center gap-1">
-              <input type="checkbox" class="form-check-input staff-check" value="sato" checked style="width: 0.9rem; height: 0.9rem;">
-              <span class="small-text">佐藤 花子</span>
-            </label>
-            <label class="mb-0 form-check d-flex align-items-center gap-1">
-              <input type="checkbox" class="form-check-input staff-check" value="suzuki" checked style="width: 0.9rem; height: 0.9rem;">
-              <span class="small-text">鈴木 次郎</span>
-            </label>
-          </div>
+      <div class="notice-page-heading mb-2 mt-2">
+        <h5 class="mb-0 small-text fw-bold">VIP来場のお知らせ</h5>
+        <div class="notice-staff-row">
+          <span class="notice-staff-label">担当：山田太郎</span>
+          <button type="button" class="btn-notice-hint" id="btnNoRecordSample" aria-label="入場記録なしの表示例">表示例</button>
         </div>
       </div>
 
-      <!-- 来場者名検索・プログラム絞り込み -->
+      <!-- 来場者名・会社名検索・プログラム絞り込み -->
       <div class="card mb-2">
-        <div class="card-body filter-bar p-2">
+        <div class="card-body filter-bar p-2 d-flex flex-column">
           <div class="mb-2">
-            <label class="form-label small-text mb-1">来場者名で検索</label>
-            <div class="d-flex gap-1">
-              <input type="text" class="form-control form-control-sm" id="filterVisitor" placeholder="来場者名" style="font-size: 0.7rem;">
-              <button type="button" class="btn btn-primary btn-sm" id="btnSearch" style="font-size: 0.7rem;">検索</button>
-            </div>
+            <label class="form-label small-text mb-1" for="filterVisitor">来場者名（かな、カナ、漢字）</label>
+            <input type="text" class="form-control form-control-sm" id="filterVisitor" placeholder="例：たなか / タナカ / 田中" autocomplete="off" style="font-size: 0.7rem;">
           </div>
-          <div>
-            <label class="form-label small-text mb-1">プログラム絞り込み</label>
+          <div class="mb-2">
+            <label class="form-label small-text mb-1" for="filterCompany">会社名（かな、カナ、漢字）</label>
+            <input type="text" class="form-control form-control-sm" id="filterCompany" placeholder="例：かぶしきがいしゃ / カブシキガイシャ / 株式会社" autocomplete="off" style="font-size: 0.7rem;">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small-text mb-1" for="filterProgram">プログラム絞り込み</label>
             <select class="form-select form-select-sm" id="filterProgram" style="font-size: 0.7rem;">
               <option value="">すべて</option>
               <option value="基調講演">基調講演</option>
@@ -76,6 +117,7 @@
               <option value="ネットワーキング">ネットワーキング</option>
             </select>
           </div>
+          <button type="button" class="btn btn-primary btn-sm w-100 mt-auto" id="btnSearch" style="font-size: 0.75rem;">検索</button>
         </div>
       </div>
 
@@ -93,44 +135,60 @@
       <div class="card mb-2">
         <div class="list-group list-group-flush" id="noticeList">
           <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:32</div>
-            <div class="notice-company-visitor">株式会社サンプル,田中 一郎様</div>
-            <div class="notice-program-action">セッションC に入室</div>
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:32　セッションC に入室</div>
+              <div class="notice-line2">株式会社サンプル,　田中 一郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--unread">未読</span>
           </div>
           <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:28</div>
-            <div class="notice-company-visitor">株式会社テクノ,佐藤 花子様</div>
-            <div class="notice-program-action">セッションB に入室</div>
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:28　セッションB に入室</div>
+              <div class="notice-line2">株式会社テクノ,　佐藤 花子様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--unread">未読</span>
           </div>
           <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:25</div>
-            <div class="notice-company-visitor">株式会社イノベーション,鈴木 次郎様</div>
-            <div class="notice-program-action">セッションA に入室</div>
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:25　セッションA に入室</div>
+              <div class="notice-line2">株式会社イノベーション,　鈴木 次郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--unread">未読</span>
           </div>
           <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:20</div>
-            <div class="notice-company-visitor">株式会社グローバル,山田 三郎様</div>
-            <div class="notice-program-action">基調講演 に入室</div>
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:20　基調講演 に入室</div>
+              <div class="notice-line2">株式会社グローバル,　山田 三郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--unread">未読</span>
           </div>
-          <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:15</div>
-            <div class="notice-company-visitor">株式会社デジタル,中村 四郎様</div>
-            <div class="notice-program-action">セッションC に入室</div>
+          <div class="notice-item notice-item--read">
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:15　セッションC に入室</div>
+              <div class="notice-line2">株式会社デジタル,　中村 四郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--read">既読</span>
           </div>
-          <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:10</div>
-            <div class="notice-company-visitor">株式会社クリエイト,高橋 五郎様</div>
-            <div class="notice-program-action">セッションB に入室</div>
+          <div class="notice-item notice-item--read">
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:10　セッションB に入室</div>
+              <div class="notice-line2">株式会社クリエイト,　高橋 五郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--read">既読</span>
           </div>
-          <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:05</div>
-            <div class="notice-company-visitor">株式会社フューチャー,伊藤 六郎様</div>
-            <div class="notice-program-action">セッションA に入室</div>
+          <div class="notice-item notice-item--read">
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:05　セッションA に入室</div>
+              <div class="notice-line2">株式会社フューチャー,　伊藤 六郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--read">既読</span>
           </div>
-          <div class="notice-item unread">
-            <div class="notice-timestamp">03/05 14:00</div>
-            <div class="notice-company-visitor">株式会社ネクスト,渡辺 七郎様</div>
-            <div class="notice-program-action">基調講演 に入室</div>
+          <div class="notice-item notice-item--read">
+            <div class="notice-item-main">
+              <div class="notice-line1">03/05 14:00　基調講演 に入室</div>
+              <div class="notice-line2">株式会社ネクスト,　渡辺 七郎様</div>
+            </div>
+            <span class="notice-read-badge notice-read-badge--read">既読</span>
           </div>
         </div>
       </div>
@@ -139,9 +197,64 @@
 
   <div id="footer-container"></div>
 
+  <div class="modal fade no-record-modal" id="noRecordModal" tabindex="-1" aria-labelledby="noRecordModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header">
+          <h2 class="modal-title h5 mb-0" id="noRecordModalTitle">検索結果</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body pt-0 text-start px-3 pb-4">
+          <div class="mb-3">
+            <div class="no-record-label">社名：</div>
+            <div class="no-record-value" id="noRecordShamei">—</div>
+          </div>
+          <div class="mb-0">
+            <div class="no-record-label">会社名：</div>
+            <div class="no-record-value" id="noRecordKaisha">—</div>
+          </div>
+          <p class="no-record-msg">入場記録なし</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../style.js"></script>
   <script>
+    (function () {
+      var modalEl = document.getElementById('noRecordModal');
+      var shameiEl = document.getElementById('noRecordShamei');
+      var kaishaEl = document.getElementById('noRecordKaisha');
+      var visitorIn = document.getElementById('filterVisitor');
+      var companyIn = document.getElementById('filterCompany');
+      var btnSearch = document.getElementById('btnSearch');
+      var btnSample = document.getElementById('btnNoRecordSample');
+      if (!modalEl || typeof bootstrap === 'undefined') return;
+      var noRecordModal = new bootstrap.Modal(modalEl);
+      function fillAndShow(shamei, kaisha) {
+        if (shameiEl) shameiEl.textContent = shamei || '—';
+        if (kaishaEl) kaishaEl.textContent = kaisha || '—';
+        noRecordModal.show();
+      }
+      if (btnSearch) {
+        btnSearch.addEventListener('click', function () {
+          var v = visitorIn ? visitorIn.value.trim() : '';
+          var c = companyIn ? companyIn.value.trim() : '';
+          /* 来場者名が空で会社名のみ＝来場者以外の条件で検索した場合 */
+          if (!v && c) {
+            fillAndShow('—', c);
+          }
+        });
+      }
+      if (btnSample) {
+        btnSample.addEventListener('click', function () {
+          var c = companyIn ? companyIn.value.trim() : '';
+          fillAndShow('—', c || '株式会社サンプル');
+        });
+      }
+    })();
+
     fetch('site_footer_vip.html')
       .then(r => r.text())
       .then(html => {

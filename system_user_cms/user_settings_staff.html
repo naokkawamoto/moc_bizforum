@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="../style.css">
   <style>
     .small-text { font-size: 0.75rem; }
+    .section-card { margin-bottom: 1.5rem; }
+    .card-header-actions { background-color: #e9ecef; color: #212529; }
+    .card-header-actions .btn { font-size: 0.95rem; }
   </style>
 </head>
 <body>
@@ -19,90 +22,79 @@
   <div id="header-container"></div>
 
   <div class="container-fluid mt-4 px-4">
-    <h3 class="mb-3">社内担当者設定（システム管理者）</h3>
-    
-    <div class="p-3">
-      <div class="card m-3">
-        <div class="card-header">
-          <span>社内担当者</span>
-        </div>
-        <div class="col">
-          <!-- 新規追加ボタン（テーブル右上） -->
-          <div class="d-flex justify-content-end m-3">
-            <button 
-              type="button" 
-              class="btn btn-primary btn-sm" 
-              data-bs-toggle="modal" 
+    <div class="row">
+      <main class="col px-3" style="padding-bottom: 80px;">
+        <h1 class="h4 mb-3 fw-bold">社内担当者設定（システム管理者）</h1>
+
+        <div class="card section-card">
+          <div class="card-header py-2 card-header-actions d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-bold">社内担当者</span>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              data-bs-toggle="modal"
               data-bs-target="#addStaffModal"
             >
               新規追加
             </button>
           </div>
-          <!-- テーブル（上下左右にマージン） -->
-          <div class="table-responsive m-3">
-            <table class="table table-hover table-bordered small-text" id="staffTable">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered small-text mb-0" id="staffTable">
               <thead class="table-light">
                 <tr>
                   <th>名前</th>
                   <th>メールアドレス</th>
-                  <th>権限</th>
                   <th style="width: 100px;">操作</th>
                 </tr>
               </thead>
               <tbody id="staffTableBody">
-                <tr data-name="佐藤 花子" data-email="hanako.sato@example.com" data-role="一般">
+                <tr data-name="佐藤 花子" data-email="hanako.sato@example.com">
                   <td>佐藤 花子</td>
                   <td>hanako.sato@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="鈴木 次郎" data-email="jiro.suzuki@example.com" data-role="一般">
+                <tr data-name="鈴木 次郎" data-email="jiro.suzuki@example.com">
                   <td>鈴木 次郎</td>
                   <td>jiro.suzuki@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="高橋 三郎" data-email="sabu.takahashi@example.com" data-role="システム管理者">
+                <tr data-name="高橋 三郎" data-email="sabu.takahashi@example.com">
                   <td>高橋 三郎</td>
                   <td>sabu.takahashi@example.com</td>
-                  <td>システム管理者</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="田中 美咲" data-email="misaki.tanaka@example.com" data-role="一般">
+                <tr data-name="田中 美咲" data-email="misaki.tanaka@example.com">
                   <td>田中 美咲</td>
                   <td>misaki.tanaka@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="伊藤 翔" data-email="sho.ito@example.com" data-role="一般">
+                <tr data-name="伊藤 翔" data-email="sho.ito@example.com">
                   <td>伊藤 翔</td>
                   <td>sho.ito@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="渡辺 智子" data-email="tomoko.watanabe@example.com" data-role="一般">
+                <tr data-name="渡辺 智子" data-email="tomoko.watanabe@example.com">
                   <td>渡辺 智子</td>
                   <td>tomoko.watanabe@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="中村 健" data-email="ken.nakamura@example.com" data-role="一般">
+                <tr data-name="中村 健" data-email="ken.nakamura@example.com">
                   <td>中村 健</td>
                   <td>ken.nakamura@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
-                <tr data-name="小林 愛" data-email="ai.kobayashi@example.com" data-role="一般">
+                <tr data-name="小林 愛" data-email="ai.kobayashi@example.com">
                   <td>小林 愛</td>
                   <td>ai.kobayashi@example.com</td>
-                  <td>一般</td>
                   <td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>
                 </tr>
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
 
     <!-- 新規追加モーダル -->
@@ -116,7 +108,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addStaffModalLabel">社内担当者 追加</h5>
+            <h5 class="modal-title" id="addStaffModalLabel">社内担当者の追加</h5>
             <button 
               type="button" 
               class="btn-close" 
@@ -125,28 +117,20 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form id="addStaffForm">
+            <form id="addStaffForm" onsubmit="return false;">
               <div class="mb-3">
-                <label for="staffName" class="form-label">名前</label>
-                <input type="text" class="form-control" id="staffName" required placeholder="例：山田 太郎">
+                <label for="staffName" class="form-label">社内担当者名</label>
+                <input type="text" class="form-control" id="staffName" required placeholder="例：山田 太郎" autocomplete="name">
               </div>
-              <div class="mb-3">
+              <div class="mb-0">
                 <label for="staffEmail" class="form-label">メールアドレス</label>
-                <input type="email" class="form-control" id="staffEmail" required placeholder="例：yamada@example.com">
-              </div>
-              <div class="mb-3">
-                <label for="staffPermission" class="form-label">権限</label>
-                <select class="form-select" id="staffPermission" required>
-                  <option value="">選択してください</option>
-                  <option value="システム管理者">システム管理者</option>
-                  <option value="一般">一般</option>
-                </select>
+                <input type="email" class="form-control" id="staffEmail" required placeholder="例：yamada@example.com" autocomplete="email">
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-            <button type="button" class="btn btn-primary" onclick="saveNewStaff()">保存</button>
+            <button type="button" class="btn btn-primary" onclick="saveNewStaff()">追加する</button>
           </div>
         </div>
       </div>
@@ -172,14 +156,15 @@
     </div>
   </div>
 
+  <div id="footer-container"></div>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../style.js"></script>
   <script>
-    fetch('user_header.html')
-      .then(r => r.text())
-      .then(html => document.getElementById('header-container').innerHTML = html);
+    fetch('user_header.html').then(r => r.text()).then(html => { var el = document.getElementById('header-container'); if (el) el.innerHTML = html; }).catch(function(){});
+    fetch('user_footer.html').then(r => r.text()).then(html => { var el = document.getElementById('footer-container'); if (el) el.innerHTML = html; }).catch(function(){});
 
     var deleteTargetRow = null;
 
@@ -200,20 +185,24 @@
     function saveNewStaff() {
       var nameEl = document.getElementById('staffName');
       var emailEl = document.getElementById('staffEmail');
-      var roleEl = document.getElementById('staffPermission');
-      if (!nameEl.value.trim()) { alert('名前を入力してください。'); return; }
+      if (!nameEl.value.trim()) { alert('社内担当者名を入力してください。'); return; }
       if (!emailEl.value.trim()) { alert('メールアドレスを入力してください。'); return; }
-      if (!roleEl.value) { alert('権限を選択してください。'); return; }
       var tbody = document.getElementById('staffTableBody');
       var tr = document.createElement('tr');
       tr.setAttribute('data-name', nameEl.value.trim());
       tr.setAttribute('data-email', emailEl.value.trim());
-      tr.setAttribute('data-role', roleEl.value);
-      tr.innerHTML = '<td>' + (nameEl.value.trim()) + '</td><td>' + (emailEl.value.trim()) + '</td><td>' + (roleEl.value) + '</td>' +
+      tr.innerHTML = '<td>' + escapeHtml(nameEl.value.trim()) + '</td><td>' + escapeHtml(emailEl.value.trim()) + '</td>' +
         '<td><button type="button" class="btn btn-danger btn-sm" onclick="openDeleteModal(this)">削除</button></td>';
       tbody.appendChild(tr);
       bootstrap.Modal.getInstance(document.getElementById('addStaffModal')).hide();
-      nameEl.value = ''; emailEl.value = ''; roleEl.value = '';
+      nameEl.value = '';
+      emailEl.value = '';
+    }
+
+    function escapeHtml(s) {
+      var d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
     }
   </script>
 </body>

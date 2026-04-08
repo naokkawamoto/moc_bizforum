@@ -1,42 +1,35 @@
-<header class="navbar navbar-expand-lg" style="background-color: black; color: white;">
+<header class="navbar navbar-expand-lg" style="background-color: var(--header-footer-brand); color: white;">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
       aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
     </button>
     <a class="navbar-brand d-flex align-items-center" href="user_project_list.html" style="color: white;">
-      主催者株式会社
+      イベント入退場管理システム
     </a>
+    <div class="d-flex align-items-center ms-auto me-2">
+      <span class="text-white d-flex align-items-center" style="font-size: 0.95rem;" title="ログインユーザー">
+        <i class="bi bi-person-circle me-2" style="font-size: 1.35rem;" aria-hidden="true"></i>
+        <span>山田太郎</span>
+      </span>
+    </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header" style="background-color: black; color: white;">
+      <div class="offcanvas-header" style="background-color: var(--header-footer-brand); color: white;">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
           <a class="navbar-brand" href="user_dashboard.html" style="color: white;">
-            入退場管理システム（管理画面）
+            イベント入退場管理システム
           </a>
         </h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body" style="background-color: black;">
+      <div class="offcanvas-body" style="background-color: var(--header-footer-brand);">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link" href="../index.html" style="color: white;">モックアップ入口</a>
-          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">設定</a>
             <ul class="dropdown-menu" aria-labelledby="settingsDropdown" style="font-size: small;">
               <li><a class="dropdown-item" href="user_settings_staff.html">社内担当者設定（システム管理者）</a></li>
-              <li><a class="dropdown-item" href="user_settings_contract.html">契約情報（システム管理者）</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="user_terms.html">利用規約</a></li>
-              <li><a class="dropdown-item" href="user_privacy.html">プライバシーポリシー</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><span class="dropdown-item-text text-muted small">Ver 1.0.0</span></li>
+              <li><a class="dropdown-item" href="user_activity_log.html">アクティビティログ</a></li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="user_myprof.html" style="color: white;">
-              <i class="bi bi-person-circle"></i> 山田太郎
-            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../index.html" style="color: white;">

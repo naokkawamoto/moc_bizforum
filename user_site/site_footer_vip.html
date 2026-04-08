@@ -5,51 +5,15 @@
   <title>Footer - VIP管理アプリ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
     body, html { width: 100%; max-width: 393px; margin: 0 auto; }
-    .footer-item { flex: 1; text-align: center; }
-    .footer-icon { font-size: 1.5rem; display: block; margin: 0 auto; }
-    .footer-text { font-size: 0.5rem; margin-top: 0.2rem; }
-    .footer-badge { font-size: 0.55rem; margin-left: 0.25rem; vertical-align: middle; }
+    .vip-footer-bar { background-color: #E60012; color: #fff; width: 100%; max-width: 393px; margin: 0 auto; font-size: 0.58rem; line-height: 1.45; padding: 0.5rem 0.75rem; }
   </style>
 </head>
 <body>
-  <footer class="text-center" style="background-color: black; color: white; width: 100%; max-width: 393px; margin: 0 auto;">
-    <div class="container py-2" style="max-width: 393px;">
-      <div class="d-flex justify-content-around align-items-center">
-        <div class="footer-item">
-          <a href="site_notifications.html" class="footer-link text-white text-decoration-none">
-            <i class="bi bi-bell-fill footer-icon"></i>
-            <div class="footer-text">VIP来場 <span class="badge bg-danger footer-badge">8</span></div>
-          </a>
-        </div>
-        <div class="footer-item">
-          <a href="site_myprof.html" class="footer-link text-white text-decoration-none">
-            <i class="bi bi-person footer-icon"></i>
-            <div class="footer-text">山田太郎</div>
-          </a>
-        </div>
-        <div class="footer-item dropdown">
-          <a href="#" id="footerMenuBtn" class="footer-link text-white text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-three-dots-vertical footer-icon"></i>
-            <div class="footer-text">メニュー</div>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="site_project_list_vip.html"><i class="bi bi-list me-1"></i>イベント一覧</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="site_terms.html">利用規約</a></li>
-            <li><a class="dropdown-item" href="site_privacy.html">プライバシーポリシー</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li class="px-2 py-1"><a href="../index.html" class="btn btn-outline-secondary btn-sm w-100">モックアップ入口（indexに戻る）</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="../index.html">ログアウト</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+  <footer class="vip-footer-bar text-center text-white">
+    <div class="mb-0">イベント入退場管理ver1.0.0</div>
+    <div class="mb-0">©株式会社ビジネスフォーラム事務局</div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

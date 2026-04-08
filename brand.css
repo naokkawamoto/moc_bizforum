@@ -1,0 +1,8 @@
+/* ビジネスフォーラムブランド赤（ロゴの赤に準拠）— user_site 等で共有 */
+:root {
+  --header-footer-brand: #E60012;
+}
+.bf-bg-brand {
+  background-color: var(--header-footer-brand) !important;
+  color: #fff !important;
+}

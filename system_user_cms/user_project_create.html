@@ -22,6 +22,8 @@
     .permission-select { font-size: 0.8rem; padding: 2px 8px; }
     .qr-cell { cursor: pointer; }
     .qr-placeholder { width: 80px; height: 80px; background: #f0f0f0; border: 1px solid #dee2e6; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #6c757d; }
+    .visitor-list-table { font-size: 0.72rem; }
+    .visitor-list-table .qr-placeholder { width: 44px; height: 44px; font-size: 0.6rem; }
   </style>
 </head>
 <body>
@@ -38,7 +40,7 @@
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-primary" onclick="saveProject()">
-              <i class="bi bi-check-circle me-1"></i>登録
+              <i class="bi bi-check-circle me-1"></i>イベントを登録
             </button>
             <a href="user_project_list.html" class="btn btn-outline-secondary">
               <i class="bi bi-arrow-left me-1"></i>一覧に戻る
@@ -51,9 +53,6 @@
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="text-dark"><i class="bi bi-info-circle me-2"></i>イベント概要</span>
             <div class="d-flex gap-2">
-              <button type="button" class="btn btn-sm btn-outline-primary" onclick="uploadOverviewCsv()">
-                <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSVアップロード
-              </button>
               <button type="button" class="btn btn-sm btn-primary" onclick="saveOverview()">
                 <i class="bi bi-check-lg me-1"></i>保存
               </button>
@@ -67,7 +66,11 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">開催日時 <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="eventDateTime" placeholder="例：2026年3月5日（木）13:00～17:40">
+                <input type="text" class="form-control" id="eventDateTime" placeholder="例：2026年3月5日（木）13:00">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">終了日時 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="eventDateTimeEnd" placeholder="例：2026年3月5日（木）17:40">
               </div>
               <div class="col-md-6">
                 <label class="form-label">開催場所</label>
@@ -82,10 +85,6 @@
                 <input type="text" class="form-control" id="eventSessionPlanned" placeholder="例：基調講演 150名 / セッションA 80名...">
               </div>
               <div class="col-md-12">
-                <label class="form-label">参加対象</label>
-                <textarea class="form-control" id="eventTarget" rows="2" placeholder="参加対象者の説明"></textarea>
-              </div>
-              <div class="col-md-12">
                 <label class="form-label">インフォメーション・備考</label>
                 <textarea class="form-control" id="eventInfo" rows="2" placeholder="受付アプリの説明や備考"></textarea>
               </div>
@@ -96,7 +95,7 @@
         <!-- セクション0.5：担当者登録 -->
         <div class="card section-card" id="section-staff">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 8名</span></span>
+            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 6名</span></span>
             <div class="d-flex gap-2">
               <button type="button" class="btn btn-sm btn-primary" onclick="saveStaffCard()">
                 <i class="bi bi-check-lg me-1"></i>保存
@@ -110,7 +109,6 @@
                   <tr>
                     <th style="min-width: 140px;">会社名</th>
                     <th style="min-width: 140px;">担当者名</th>
-                    <th style="width: 120px;">役割</th>
                     <th style="min-width: 200px;">メール</th>
                     <th style="width: 70px;" class="text-center">操作</th>
                   </tr>
@@ -119,12 +117,6 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="山田 太郎"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付" selected>受付</option>
-                        <option value="営業">営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="yamada.taro@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
@@ -133,12 +125,6 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="佐藤 花子"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付" selected>受付</option>
-                        <option value="営業">営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="sato.hanako@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
@@ -147,12 +133,6 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="鈴木 次郎"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付" selected>受付</option>
-                        <option value="営業">営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="suzuki.jiro@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
@@ -161,12 +141,6 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="高橋 健一"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付">受付</option>
-                        <option value="営業" selected>営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="takahashi.kenichi@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
@@ -175,12 +149,6 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="伊藤 美咲"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付">受付</option>
-                        <option value="営業" selected>営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="ito.misaki@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
@@ -189,41 +157,7 @@
                   <tr class="staff-row">
                     <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="渡辺 直樹"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付">受付</option>
-                        <option value="営業" selected>営業</option>
-                      </select>
-                    </td>
                     <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="watanabe.naoki@example.com"></td>
-                    <td class="text-center align-middle">
-                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr class="staff-row">
-                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="ビジネスフォーラム事務局"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="進士 淳一"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付" selected>受付</option>
-                        <option value="営業">営業</option>
-                      </select>
-                    </td>
-                    <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="shinji.junichi@example.com"></td>
-                    <td class="text-center align-middle">
-                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr class="staff-row">
-                    <td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="ビジネスフォーラム事務局"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="担当者名" value="小林 真理"></td>
-                    <td>
-                      <select class="form-select form-select-sm">
-                        <option value="受付" selected>受付</option>
-                        <option value="営業">営業</option>
-                      </select>
-                    </td>
-                    <td><input type="email" class="form-control form-control-sm" placeholder="メール" value="kobayashi.mari@example.com"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button>
                     </td>
@@ -239,14 +173,11 @@
           </div>
         </div>
 
-        <!-- セクション1：プログラム登録 + CSVアップロード -->
+        <!-- セクション1：プログラム登録 -->
         <div class="card section-card" id="section-program">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-calendar-event me-2"></i>プログラム登録</span>
+            <span class="text-dark"><i class="bi bi-calendar-event me-2"></i>プログラム登録 <span class="text-muted small fw-normal">（プログラムは同時間、別会場登録可能）</span></span>
             <div class="d-flex gap-2">
-              <button type="button" class="btn btn-sm btn-outline-primary" onclick="uploadEventCsv()">
-                <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSVアップロード
-              </button>
               <button type="button" class="btn btn-sm btn-primary" onclick="saveProgramCard()">
                 <i class="bi bi-check-lg me-1"></i>保存
               </button>
@@ -258,11 +189,13 @@
                 <thead class="table-light">
                   <tr>
                     <th style="width: 50px;" class="text-center">休憩</th>
+                    <th style="min-width: 110px;">講演種別</th>
                     <th style="min-width: 160px;">講演タイトル</th>
                     <th style="min-width: 200px;">内容</th>
                     <th style="width: 100px;">ROOM</th>
                     <th style="min-width: 100px;">講演者</th>
                     <th style="min-width: 120px;">肩書</th>
+                    <th style="width: 130px;">開催日</th>
                     <th style="width: 100px;">開始時間</th>
                     <th style="width: 100px;">終了時間</th>
                     <th style="width: 70px;" class="text-center">操作</th>
@@ -273,11 +206,22 @@
                     <td class="text-center align-middle">
                       <input type="checkbox" class="form-check-input" name="isBreak" title="休憩">
                     </td>
+                    <td>
+                      <select class="form-select form-select-sm" title="講演種別">
+                        <option value="">選択</option>
+                        <option value="keynote" selected>基調講演</option>
+                        <option value="session">セッション</option>
+                        <option value="dialog">ダイアログ</option>
+                        <option value="networking">ネットワーキング</option>
+                        <option value="other">その他</option>
+                      </select>
+                    </td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="内容"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="肩書"></td>
+                    <td><input type="date" class="form-control form-control-sm" title="開催日" value="2026-03-05"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>
                     <td class="text-center align-middle">
@@ -317,17 +261,21 @@
                     <label class="form-label small">日付</label>
                     <input type="date" class="form-control form-control-sm" id="mail1weekDate" placeholder="日付">
                   </div>
-                  <div class="col-md-2">
-                    <label class="form-label small">時間</label>
-                    <input type="time" class="form-control form-control-sm" id="mail1weekTime" value="10:00">
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">時</label>
+                    <input type="number" class="form-control form-control-sm" id="mail1weekHour" min="0" max="23" value="10" inputmode="numeric" title="0〜23">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">分</label>
+                    <input type="number" class="form-control form-control-sm" id="mail1weekMinute" min="0" max="59" value="0" inputmode="numeric" title="0〜59">
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">件名</label>
-                    <input type="text" class="form-control form-control-sm" id="mail1weekSubject" placeholder="例：【リマインド】イベントまであと1週間です">
+                    <input type="text" class="form-control form-control-sm" id="mail1weekSubject" placeholder="定型タイトルがデフォルトで表示されます">
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">メール本文（タイトル・内容）</label>
-                    <textarea class="form-control form-control-sm" id="mail1weekBody" rows="4" placeholder="メール本文を入力"></textarea>
+                    <textarea class="form-control form-control-sm" id="mail1weekBody" rows="4" placeholder="定型文がデフォルト表示されます"></textarea>
                   </div>
                 </div>
               </div>
@@ -341,17 +289,21 @@
                     <label class="form-label small">日付</label>
                     <input type="date" class="form-control form-control-sm" id="mail1dayDate" placeholder="日付">
                   </div>
-                  <div class="col-md-2">
-                    <label class="form-label small">時間</label>
-                    <input type="time" class="form-control form-control-sm" id="mail1dayTime" value="10:00">
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">時</label>
+                    <input type="number" class="form-control form-control-sm" id="mail1dayHour" min="0" max="23" value="10" inputmode="numeric" title="0〜23">
+                  </div>
+                  <div class="col-6 col-sm-auto" style="min-width: 5rem;">
+                    <label class="form-label small">分</label>
+                    <input type="number" class="form-control form-control-sm" id="mail1dayMinute" min="0" max="59" value="0" inputmode="numeric" title="0〜59">
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">件名</label>
-                    <input type="text" class="form-control form-control-sm" id="mail1daySubject" placeholder="例：【明日開催】イベントのご案内">
+                    <input type="text" class="form-control form-control-sm" id="mail1daySubject" placeholder="定型タイトルがデフォルトで表示されます">
                   </div>
                   <div class="col-md-12">
                     <label class="form-label small">メール本文（タイトル・内容）</label>
-                    <textarea class="form-control form-control-sm" id="mail1dayBody" rows="4" placeholder="メール本文を入力"></textarea>
+                    <textarea class="form-control form-control-sm" id="mail1dayBody" rows="4" placeholder="定型文がデフォルト表示されます"></textarea>
                   </div>
                 </div>
               </div>
@@ -362,7 +314,7 @@
         <!-- セクション2：来場者リスト + CSVアップロード -->
         <div class="card section-card" id="section-visitors">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-people me-2"></i>来場者リスト <span class="badge bg-dark ms-2" id="visitorCountBadge">登録人数: 3名</span></span>
+            <span class="text-dark"><i class="bi bi-people me-2"></i>来場者リスト <span class="badge bg-dark ms-2" id="visitorCountBadge">登録人数: 5名</span></span>
             <div class="d-flex gap-2">
               <button type="button" class="btn btn-sm btn-outline-primary" onclick="uploadVisitorCsv()">
                 <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSVアップロード
@@ -374,43 +326,103 @@
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table table-bordered table-hover mb-0">
+              <table class="table table-bordered table-hover table-sm mb-0 visitor-list-table">
                 <thead class="table-light">
                   <tr>
-                    <th style="width: 90px;">UserID</th>
-                    <th style="min-width: 120px;">姓名</th>
-                    <th style="min-width: 180px;">会社名</th>
-                    <th style="min-width: 120px;">担当者名</th>
-                    <th style="width: 100px;" class="text-center">QRコード</th>
+                    <th style="width: 72px;">UserID</th>
+                    <th>会社名</th>
+                    <th>部門</th>
+                    <th>姓</th>
+                    <th>名</th>
+                    <th>氏名</th>
+                    <th>姓（カナ）</th>
+                    <th>名（カナ）</th>
+                    <th>メールアドレス（識別のため）</th>
+                    <th>選択セッション</th>
+                    <th class="text-center" style="width: 56px;">QRコード</th>
+                    <th>営業担当者</th>
                   </tr>
                 </thead>
                 <tbody id="visitorListBody">
                   <tr>
-                    <td>U001</td>
-                    <td>田中 一郎</td>
-                    <td>株式会社サンプル</td>
-                    <td>山田 太郎</td>
-                    <td class="text-center qr-cell" onclick="openQrModal('U001', '田中 一郎')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>U002</td>
-                    <td>高橋 美咲</td>
-                    <td>サンプル商事株式会社</td>
+                    <td class="text-nowrap">U001</td>
+                    <td>株式会社ABC商事</td>
+                    <td>マーケティング部</td>
+                    <td>佐藤</td>
+                    <td>花子</td>
                     <td>佐藤 花子</td>
-                    <td class="text-center qr-cell" onclick="openQrModal('U002', '高橋 美咲')">
+                    <td>サトウ</td>
+                    <td>ハナコ</td>
+                    <td>sato.hana@abc-sample.co.jp</td>
+                    <td>セッションA</td>
+                    <td class="text-center qr-cell p-1" onclick="openQrModal('U001', '佐藤 花子')">
                       <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
                     </td>
+                    <td>鈴木 次郎</td>
                   </tr>
                   <tr>
-                    <td>U003</td>
-                    <td>伊藤 健太</td>
-                    <td>東京テック株式会社</td>
-                    <td>鈴木 次郎</td>
-                    <td class="text-center qr-cell" onclick="openQrModal('U003', '伊藤 健太')">
+                    <td class="text-nowrap">U002</td>
+                    <td>テック東日本株式会社</td>
+                    <td>開発本部</td>
+                    <td>鈴木</td>
+                    <td>健</td>
+                    <td>鈴木 健</td>
+                    <td>スズキ</td>
+                    <td>ケン</td>
+                    <td>ken.suzuki@techeast-sample.jp</td>
+                    <td>ネットワーキング</td>
+                    <td class="text-center qr-cell p-1" onclick="openQrModal('U002', '鈴木 健')">
                       <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
                     </td>
+                    <td>高橋 誠</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U003</td>
+                    <td>グローバル物流株式会社</td>
+                    <td>人事総務</td>
+                    <td>山本</td>
+                    <td>美咲</td>
+                    <td>山本 美咲</td>
+                    <td>ヤマモト</td>
+                    <td>ミサキ</td>
+                    <td>yamamoto@global-logi-sample.jp</td>
+                    <td>基調講演</td>
+                    <td class="text-center qr-cell p-1" onclick="openQrModal('U003', '山本 美咲')">
+                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
+                    </td>
+                    <td>山田 太郎</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U004</td>
+                    <td>イノベーションラボ株式会社</td>
+                    <td>研究開発室</td>
+                    <td>伊藤</td>
+                    <td>翔</td>
+                    <td>伊藤 翔</td>
+                    <td>イトウ</td>
+                    <td>ショウ</td>
+                    <td>ito.sho@innov-lab-sample.jp</td>
+                    <td>ダイアログ</td>
+                    <td class="text-center qr-cell p-1" onclick="openQrModal('U004', '伊藤 翔')">
+                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
+                    </td>
+                    <td>佐藤 花子</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U005</td>
+                    <td>大阪物産株式会社</td>
+                    <td>海外営業</td>
+                    <td>中村</td>
+                    <td>裕子</td>
+                    <td>中村 裕子</td>
+                    <td>ナカムラ</td>
+                    <td>ユウコ</td>
+                    <td>nakamura@osaka-b-sample.jp</td>
+                    <td>セッションB</td>
+                    <td class="text-center qr-cell p-1" onclick="openQrModal('U005', '中村 裕子')">
+                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
+                    </td>
+                    <td>渡辺 直樹</td>
                   </tr>
                 </tbody>
               </table>
@@ -448,6 +460,38 @@
           <div class="qr-placeholder mx-auto" style="width: 120px; height: 120px; font-size: 0.7rem;" id="qrModalImage">
             <i class="bi bi-qr-code" style="font-size: 3rem;"></i><br>QRコード
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 来場者リスト CSVアップロード説明モーダル -->
+  <div class="modal fade" id="visitorCsvImportModal" tabindex="-1" aria-labelledby="visitorCsvImportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="visitorCsvImportModalLabel">来場者リスト CSVアップロード</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-3">SalesforceのCSVリストより、以下の項目を読み込みます。</p>
+          <ul class="mb-3 ps-3">
+            <li>UserID</li>
+            <li>会社名</li>
+            <li>部門</li>
+            <li>姓</li>
+            <li>名</li>
+            <li>氏名</li>
+            <li>姓（カナ）</li>
+            <li>名（カナ）</li>
+            <li>メールアドレス（識別のため）</li>
+            <li>選択セッション</li>
+            <li>QRコード</li>
+          </ul>
+          <p class="text-danger small mb-0"><strong>※</strong>営業担当者の情報がない場合は取り込みできません。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
@@ -499,7 +543,6 @@
       tr.className = 'staff-row';
       tr.innerHTML = '<td><input type="text" class="form-control form-control-sm" placeholder="会社名" value="主催者株式会社"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="担当者名"></td>' +
-        '<td><select class="form-select form-select-sm"><option value="受付">受付</option><option value="営業">営業</option></select></td>' +
         '<td><input type="email" class="form-control form-control-sm" placeholder="メール"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeStaffRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';
       tbody.appendChild(tr);
@@ -526,24 +569,18 @@
       alert('来場者リストを保存しました。\n※実際の実装ではサーバーに送信します。');
     }
 
-    function uploadOverviewCsv() {
-      alert('イベント概要のCSVをアップロードします。\n※実際の実装ではファイル選択ダイアログでCSVを取り込み、イベント名・開催日時などを一括設定します。');
-    }
-
-    function uploadEventCsv() {
-      alert('プログラムのCSVをアップロードします。\n※実際の実装ではファイル選択ダイアログでCSVを取り込みます。');
-    }
-
     function addProgramRow() {
       var tbody = document.getElementById('programTableBody');
       var tr = document.createElement('tr');
       tr.className = 'program-row';
       tr.innerHTML = '<td class="text-center align-middle"><input type="checkbox" class="form-check-input" name="isBreak" title="休憩"></td>' +
+        '<td><select class="form-select form-select-sm" title="講演種別"><option value="">選択</option><option value="keynote">基調講演</option><option value="session">セッション</option><option value="dialog">ダイアログ</option><option value="networking">ネットワーキング</option><option value="other">その他</option></select></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="内容"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="肩書"></td>' +
+        '<td><input type="date" class="form-control form-control-sm" title="開催日"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProgramRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';
@@ -557,7 +594,10 @@
     }
 
     function uploadVisitorCsv() {
-      alert('来場者リストのCSVをアップロードします。\n※実際の実装ではファイル選択ダイアログでCSVを取り込みます。');
+      var el = document.getElementById('visitorCsvImportModal');
+      if (!el) return;
+      var modal = new bootstrap.Modal(el);
+      modal.show();
     }
 
     function openQrModal(userId, name) {

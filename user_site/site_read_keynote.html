@@ -6,60 +6,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="../brand.css">
   <style>
-    body, html { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; width: 100%; max-width: 393px; margin: 0 auto; }
-    .container-fluid { max-width: 393px; margin: 0 auto; padding-bottom: 80px; }
-    .small-text { font-size: 0.7rem; }
-    .info-table { font-size: 0.65rem; }
-    .info-table th { background: #f8f9fa; width: 100px; }
-    .read-ui-scan { min-height: 400px; background: #e9ecef; border-radius: 0.375rem; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #6c757d; font-size: 0.75rem; border: 2px dashed #0d6efd; }
-    .read-ui-scan i { font-size: 3rem; margin-bottom: 0.5rem; color: #0d6efd; }
+    html { height: 100%; }
+    body.read-keynote-body {
+      margin: 0;
+      width: 100%;
+      max-width: 393px;
+      margin-left: auto;
+      margin-right: auto;
+      min-height: 100%;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .read-keynote-root {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding-bottom: 0;
+      box-sizing: border-box;
+    }
+    .read-keynote-main {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    .read-keynote-overview { flex: 0 0 auto; }
+    .read-scan-block {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+    .read-ui-scan {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      isolation: isolate;
+      border-radius: 0.375rem;
+      background: #1a1a1a;
+      border: 1px solid #dee2e6;
+    }
+    .read-scan-mock-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      pointer-events: none;
+      position: relative;
+      z-index: 0;
+    }
+    /* 受付ボタンは画像・フッターより手前 */
+    .read-scan-actions {
+      position: absolute;
+      inset: 0;
+      z-index: 7;
+      pointer-events: none;
+    }
+    .read-scan-actions-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.65rem;
+      max-width: calc(100% - 1.5rem);
+      pointer-events: auto;
+    }
+    /* 黒 20% 透過（rgba 0.2）＋白文字。暗い余白上でも枠で識別可能 */
+    .read-scan-hit-btn {
+      position: relative;
+      margin: 0;
+      padding: 0.65rem 1.15rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      border-radius: 0.45rem;
+      box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.35),
+        0 4px 18px rgba(0, 0, 0, 0.55);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+      flex: 0 0 auto;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .read-scan-hit-btn:hover { background: rgba(0, 0, 0, 0.32); color: #fff; }
+    .read-scan-hit-btn:focus-visible {
+      outline: 2px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 3px;
+    }
+    .read-scan-hit-btn--complete {
+      min-width: 6.25rem;
+      min-height: 2.65rem;
+    }
+    .read-scan-hit-btn--cancel {
+      min-height: 2.65rem;
+      padding: 0.55rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .read-cancel-modal .modal-content { border-radius: 0.5rem; max-width: 340px; margin: 0 auto; }
+    .read-cancel-modal .modal-body { color: #c41212; }
+    .read-cancel-modal .read-cancel-label { font-size: 0.75rem; opacity: 0.9; margin-bottom: 0.2rem; }
+    .read-cancel-modal .read-cancel-value { font-size: 1rem; font-weight: 600; color: #c41212; }
+    .read-cancel-modal .btn-confirm-cancel {
+      font-size: 1.05rem;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      border-radius: 0.375rem;
+      background-color: #c41212;
+      border-color: #c41212;
+      color: #fff;
+    }
+    .read-cancel-modal .btn-confirm-cancel:hover { filter: brightness(0.95); color: #fff; background-color: #a50f0f; border-color: #a50f0f; }
+    .read-complete-modal .modal-content { border-radius: 0.5rem; max-width: 340px; margin: 0 auto; }
+    .read-complete-modal .btn-next { font-size: 1.1rem; padding: 0.9rem 1rem; background-color: var(--header-footer-brand, #E60012); border-color: var(--header-footer-brand, #E60012); }
+    .read-complete-modal .btn-next:hover { filter: brightness(0.92); border-color: var(--header-footer-brand, #E60012); background-color: var(--header-footer-brand, #E60012); color: #fff; }
     .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
+    .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
+    .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
+    /* 読み取り枠内では画像下端に重ねる（下の .read-ui-scan ルール） */
     #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
+    .read-ui-scan #footer-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: none;
+      width: 100%;
+      max-width: none;
+      z-index: 5;
+      background: transparent;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .read-ui-scan #footer-container .vip-footer-bar {
+      border-radius: 0 0 0.3rem 0.3rem;
+    }
+    .overview-card { overflow: hidden; border-radius: 0.25rem; }
+    .overview-event-title { background: #000; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #333; }
+    .program-compact-card .card-body { padding: 0.5rem 0.65rem; }
+    .program-compact-line { font-size: 0.78rem; line-height: 1.45; word-break: break-word; margin-bottom: 0; font-weight: 600; color: #212529; }
+    .program-compact-stats { font-size: 0.68rem; color: #6c757d; margin-top: 0.35rem; line-height: 1.4; }
   </style>
 </head>
-<body>
-  <div class="container-fluid px-0">
-    <div class="event-header bg-dark text-white py-2 px-3 mb-2">
-      <h4 class="mb-0 fw-bold text-white">New Business Creation Strategy 2026</h4>
-    </div>
-
-    <div class="px-2">
-    <div class="card mb-2">
-      <div class="card-header py-1 small-text fw-bold">プログラム名：基調講演</div>
-      <div class="card-body p-2">
-        <table class="table table-sm table-bordered info-table mb-0">
-          <tbody>
-            <tr><th>時間</th><td>13:00-13:30</td></tr>
-            <tr><th>ROOM</th><td>メインホール</td></tr>
-            <tr><th>講演タイトル</th><td>特別講演Ⅰ　社内企業家を生かす会社のあり方</td></tr>
-            <tr><th>講演者</th><td>若林 直樹 氏</td></tr>
-            <tr><th>入室予定数</th><td>150</td></tr>
-            <tr><th>入室実績</th><td>0</td></tr>
-            <tr><th>退室実績</th><td>0</td></tr>
-          </tbody>
-        </table>
+<body class="read-keynote-body">
+  <div class="read-keynote-root">
+    <div class="container-fluid px-0 flex-shrink-0">
+      <div class="event-header bf-bg-brand text-white py-2 px-3 mb-2 d-flex align-items-center gap-2">
+        <a href="site_project_detail.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントトップに戻る" title="イベントトップに戻る">
+          <i class="bi bi-arrow-left" style="font-size: 1.45rem;"></i>
+        </a>
+        <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">イベント入退場受付アプリ</h4>
+        <a href="site_project_list.html" class="event-header-back text-decoration-none flex-shrink-0" aria-label="イベントリストに戻る" title="イベントリスト">
+          <i class="bi bi-list-ul" style="font-size: 1.35rem;"></i>
+        </a>
       </div>
     </div>
 
-    <div class="card mb-2">
-      <div class="card-header py-1 small-text fw-bold">読み取りエリア</div>
-      <div class="card-body p-2">
-        <div class="read-ui-scan">
-          <i class="bi bi-upc-scan"></i>
-          <span>QRコード／バーコードを読み取る</span>
+    <div class="read-keynote-main">
+      <div class="read-keynote-overview mb-2">
+        <div class="card overview-card program-compact-card mb-0">
+          <div class="overview-event-title">New Business Creation Strategy 2026</div>
+          <div class="card-body">
+            <p class="program-compact-line mb-0">13:00～13:30／基調講演／メインホール</p>
+            <p class="program-compact-stats mb-0">入室予定150・入室0・退室0</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="read-scan-block">
+        <div class="read-ui-scan" id="readScanArea">
+          <img src="images/read_scan_area_mock.png" alt="" class="read-scan-mock-img" width="470" height="1024" decoding="async" loading="lazy">
+          <div class="read-scan-actions">
+            <div class="read-scan-actions-inner">
+              <button type="button" class="read-scan-hit-btn read-scan-hit-btn--complete" id="readCompleteBtn" aria-label="受付完了を表示">受付</button>
+              <button type="button" class="read-scan-hit-btn read-scan-hit-btn--cancel" id="readCancelBtn" aria-label="取り消し">取り消し</button>
+            </div>
+          </div>
+          <div id="footer-container"></div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="modal fade read-cancel-modal" id="readCancelModal" tabindex="-1" aria-labelledby="readCancelTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center py-4 px-3">
+          <h2 class="h4 fw-bold mb-3" id="readCancelTitle">受付キャンセル</h2>
+          <p class="fw-semibold mb-3">読み取り1分以内</p>
+          <div class="text-start mb-3">
+            <div class="read-cancel-label">社名</div>
+            <div class="read-cancel-value" id="cancelModalCompanyName">株式会社ビジネスフォーラム</div>
+          </div>
+          <div class="text-start mb-4">
+            <div class="read-cancel-label">名前</div>
+            <div class="read-cancel-value" id="cancelModalVisitorName">山田 太郎</div>
+          </div>
+          <button type="button" class="btn btn-confirm-cancel w-100" data-bs-dismiss="modal">確認</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="footer-container"></div>
+  <div class="modal fade read-complete-modal" id="readCompleteModal" tabindex="-1" aria-labelledby="readCompleteTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center py-4 px-3">
+          <h2 class="h4 fw-bold mb-4" id="readCompleteTitle">受付完了</h2>
+          <div class="text-start mb-3">
+            <div class="small text-muted mb-1">社名</div>
+            <div class="fs-6 fw-semibold" id="modalCompanyName">株式会社ビジネスフォーラム</div>
+          </div>
+          <div class="text-start mb-4">
+            <div class="small text-muted mb-1">名前</div>
+            <div class="fs-6 fw-semibold" id="modalVisitorName">山田 太郎</div>
+          </div>
+          <button type="button" class="btn btn-primary btn-next w-100 fw-bold" data-bs-dismiss="modal">次へ</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    fetch('site_footer_reception.html').then(r=>r.text()).then(html=>{var e=document.getElementById('footer-container');if(e)e.innerHTML=html;}).catch(function(){});
+    fetch('site_footer_vip.html').then(r=>r.text()).then(html=>{var e=document.getElementById('footer-container');if(e)e.innerHTML=html;}).catch(function(){});
+    (function () {
+      var modalEl = document.getElementById('readCompleteModal');
+      var completeBtn = document.getElementById('readCompleteBtn');
+      var cancelBtn = document.getElementById('readCancelBtn');
+      var cancelModalEl = document.getElementById('readCancelModal');
+      if (!modalEl || typeof bootstrap === 'undefined') return;
+      var modal = new bootstrap.Modal(modalEl);
+      var cancelModal = cancelModalEl ? new bootstrap.Modal(cancelModalEl) : null;
+      if (completeBtn) {
+        completeBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          modal.show();
+        });
+      }
+      if (cancelBtn && cancelModal) {
+        cancelBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          cancelModal.show();
+        });
+      }
+    })();
   </script>
 </body>
 </html>

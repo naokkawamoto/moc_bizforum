@@ -25,27 +25,41 @@
     ];
     var names = ['田中 一郎', '高橋 美咲', '伊藤 健太', '渡辺 真理子', '山本 翔', '中村 恵子', '小林 直樹', '加藤 優', '吉田 さくら', '松本 大輔', '井上 あかり', '木村 拓也', '林 由美', '斎藤 健', '清水 麻衣', '山口 涼太', '森 絵里香', '池田 翔太', '橋本 美羽', '山崎 竜也'];
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社', '株式会社未来創研', 'ベンチャーキャピタル株式会社', '株式会社スタートアップラボ', '株式会社イノベーション', 'テクノロジー株式会社', '株式会社グロース', '株式会社ネクスト', '株式会社ビジョン', '株式会社フューチャー', '株式会社クリエイト', '株式会社ソリューション', '株式会社パートナーズ', '株式会社ビジネス開発', '株式会社新規事業', '株式会社戦略企画'];
+    var visitorDepts = ['マーケティング部', '開発本部', '人事総務', '研究開発室', '海外営業'];
+    var kanaLastPool = ['タナカ', 'タカハシ', 'イトウ', 'スズキ', 'ヤマモト', 'ナカムラ', 'コバヤシ', 'サトウ'];
+    var kanaFirstPool = ['イチロウ', 'ミサキ', 'ケンタ', 'マリコ', 'タケシ', 'ユウコ', 'ハナコ', 'リョウ'];
+
+    function splitFullName(full) {
+      var t = (full || '').trim().split(/\s+/);
+      if (t.length >= 2) return { last: t[0], first: t.slice(1).join(' ') };
+      return { last: t[0] || '', first: '' };
+    }
     var VISITOR_TOTAL = 100;
     var visitorData = [];
-    var i, n, c, s, vip;
+    var i, n, c, s;
     for (i = 0; i < VISITOR_TOTAL; i++) {
       n = i % names.length;
       c = i % companies.length;
       s = staffs[i % 3];
-      vip = (i % 10 === 0) ? 1 : 0;
       var present = Math.random() < 0.7;
+      var sp = splitFullName(names[n]);
       visitorData.push({
         userid: 'U' + String(i + 1).padStart(3, '0'),
         name: names[n],
+        lastName: sp.last,
+        firstName: sp.first,
         company: companies[c],
+        dept: visitorDepts[i % visitorDepts.length],
+        email: 'guest' + String(i + 1).padStart(3, '0') + '@example.com',
+        kanaLast: kanaLastPool[i % kanaLastPool.length],
+        kanaFirst: kanaFirstPool[i % kanaFirstPool.length],
         staffId: s.id,
         staffName: s.name,
-        vip: vip,
         present: present,
         keynote: present ? (Math.random() < 0.5 ? 2 : 0) : 0,
         sa: present ? (Math.random() < 0.5 ? 2 : 0) : 0,
         sb: present ? (Math.random() < 0.5 ? 2 : 0) : 0,
-        sc: present ? (Math.random() < 0.6 ? 1 : 0) : 0,
+        sc: present ? (Math.random() < 0.6 ? 2 : 0) : 0,
         sd: 0,
         dialog: 0,
         net: 0
@@ -67,8 +81,7 @@
     var filteredData = [];
 
     function badgeStatus(status) {
-      if (status === 1) return '<span class="badge badge-status-joining">参加中</span>';
-      if (status === 2) return '<span class="badge badge-status-done">参加済み</span>';
+      if (status === 2) return '<span class="badge badge-status-done">参加済</span>';
       return '<span class="badge badge-status-none">不参加</span>';
     }
 
@@ -84,8 +97,7 @@
       tr.setAttribute('data-dialog', v.dialog);
       tr.setAttribute('data-net', v.net);
       tr.onclick = function () { window.goVisitor(v.userid); };
-      var vipHtml = v.vip ? '<span class="badge bg-danger">VIP</span>' : '—';
-      var raichoHtml = v.present ? '<span class="badge bg-danger">来場</span>' : '<span class="badge bg-secondary">未来場</span>';
+      var raichoHtml = v.present ? '<span class="badge bg-success">入場</span>' : '<span class="badge bg-secondary">未入場</span>';
       var staffCell = '<td onclick="event.stopPropagation(); window.goStaff(\'' + v.staffId + '\')"><a href="user_staff_detail.html?id=' + encodeURIComponent(v.staffId) + '" class="staff-link">' + v.staffName + '</a></td>';
       var k0 = v.present ? v.keynote : 0;
       var sa0 = v.present ? v.sa : 0;
@@ -96,7 +108,6 @@
       var n0 = v.present ? v.net : 0;
       tr.innerHTML = '<td>' + v.userid + '</td><td>' + v.name + '</td><td>' + v.company + '</td>' + staffCell +
         '<td class="text-center">' + raichoHtml + '</td>' +
-        '<td class="text-center">' + vipHtml + '</td>' +
         '<td class="text-center">' + badgeStatus(k0) + '</td>' +
         '<td class="text-center">' + badgeStatus(sa0) + '</td>' +
         '<td class="text-center">' + badgeStatus(sb0) + '</td>' +
@@ -107,6 +118,22 @@
       return tr;
     }
 
+    function visitorSearchMatches(v, q) {
+      if (!q) return true;
+      var hay = [
+        v.userid || '',
+        v.name || '',
+        v.company || '',
+        v.dept || '',
+        v.lastName || '',
+        v.firstName || '',
+        v.kanaLast || '',
+        v.kanaFirst || '',
+        v.email || ''
+      ].join(' ');
+      return hay.indexOf(q) >= 0;
+    }
+
     function getFiltered() {
       var staffVal = filterStaff ? filterStaff.value : '';
       var sessionVal = filterSession ? filterSession.value : '';
@@ -115,9 +142,9 @@
       return visitorData.filter(function (v) {
         var showStaff = !staffVal || v.staffId === staffVal;
         var showSession = true;
-        if (sessionVal && attrMap[sessionVal]) showSession = v[attrMap[sessionVal]] === 1 || v[attrMap[sessionVal]] === 2;
-        var showName = !nameVal || (v.name && v.name.indexOf(nameVal) >= 0);
-        return showStaff && showSession && showName;
+        if (sessionVal && attrMap[sessionVal]) showSession = v[attrMap[sessionVal]] === 2;
+        var showSearch = visitorSearchMatches(v, nameVal);
+        return showStaff && showSession && showSearch;
       });
     }
 

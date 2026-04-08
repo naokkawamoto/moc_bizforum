@@ -44,6 +44,8 @@
     .program-actual { font-size: 1.1rem; font-weight: 700; color: #0d6efd; background-color: #e7f1ff; text-align: center; vertical-align: middle; min-width: 80px; }
     .card-header-actions { background-color: #e9ecef; color: #212529; }
     .card-header-actions .btn { font-size: 0.95rem; }
+    .event-overview-updated,
+    .section-updated-meta { font-size: 0.65rem; color: #6c757d; margin-top: 0.15rem; }
   </style>
 </head>
 <body>
@@ -57,35 +59,35 @@
         <div class="sidebar px-2">
           <div class="list-group small-text" role="tablist">
             <a href="user_project_detail.html" class="list-group-item list-group-item-action active">イベントトップ</a>
-            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・メール・名札</a>
-            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場者・入退室</a>
-            <a href="user_nortification.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">VIP来場のお知らせ <span class="badge bg-danger">8</span></a>
+            <a href="user_project_detail_mail.html" class="list-group-item list-group-item-action">メール管理</a>
+            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・名札管理</a>
+            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場、入退場管理</a>
           </div>
         </div>
       </nav>
 
       <!-- メインコンテンツエリア -->
       <main class="col px-3" style="padding-bottom: 80px;">
-        <!-- イベントタイトル + CSV/PDF（ダミーボタン） -->
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-2">
-          <div>
-            <h4 class="mb-1 fw-bold">New Business Creation Strategy 2026 <i class="bi bi-star"></i></h4>
-            <p class="mb-1 fw-bold">イベントトップ</p>
-          </div>
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-success px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-spreadsheet me-2"></i>CSV</button>
-            <button type="button" class="btn btn-danger px-3 py-2 fw-bold" disabled><i class="bi bi-file-earmark-pdf me-2"></i>PDF</button>
+        <!-- イベントタイトル（黒背景・白文字） -->
+        <div class="bg-dark text-white px-3 py-3 mb-4">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026</h4>
+            <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
           </div>
         </div>
-        <p class="text-muted small mb-4"></p>
 
         <!-- セクション1：イベント概要（登録・編集可能） -->
         <div class="card mb-4">
-          <div class="card-header py-2 d-flex justify-content-between align-items-center card-header-actions">
-            <span class="fw-bold">イベント概要</span>
-            <div class="d-flex gap-2">
-              <button type="button" class="btn btn-outline-primary px-3 fw-bold" onclick="toggleEditOverview()"><i class="bi bi-pencil-square me-1"></i>編集</button>
-              <button type="button" class="btn btn-primary px-3 fw-bold" onclick="saveEventOverview()"><i class="bi bi-check-lg me-1"></i>保存</button>
+          <div class="card-header py-2 card-header-actions">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 w-100">
+              <div class="d-flex justify-content-between align-items-center flex-grow-1 min-w-0 gap-2 me-2">
+                <span class="fw-bold">イベント概要</span>
+                <span class="section-updated-meta text-end ms-auto mb-0" id="eventOverviewUpdated">updated 20260305:14:30 山田 太郎</span>
+              </div>
+              <div class="d-flex gap-2 flex-shrink-0">
+                <button type="button" class="btn btn-outline-primary px-3 fw-bold" onclick="toggleEditOverview()"><i class="bi bi-pencil-square me-1"></i>編集</button>
+                <button type="button" class="btn btn-primary px-3 fw-bold" onclick="saveEventOverview()"><i class="bi bi-check-lg me-1"></i>保存</button>
+              </div>
             </div>
           </div>
           <div class="card-body p-3">
@@ -102,7 +104,12 @@
                   <tbody>
                     <tr>
                       <th>開催日時</th>
-                      <td><input type="text" class="form-control form-control-sm" id="eventDateTime" value="2026年3月5日（木）13:00～17:40" placeholder="開催日時"></td>
+                      <td><input type="text" class="form-control form-control-sm" id="eventDateTime" value="2026年3月5日（木）13:00" placeholder="開催日時"></td>
+                      <td class="text-center text-muted">—</td>
+                    </tr>
+                    <tr>
+                      <th>終了日時</th>
+                      <td><input type="text" class="form-control form-control-sm" id="eventDateTimeEnd" value="2026年3月5日（木）17:40" placeholder="終了日時"></td>
                       <td class="text-center text-muted">—</td>
                     </tr>
                     <tr>
@@ -120,20 +127,6 @@
                       <td><input type="text" class="form-control form-control-sm" id="eventSessionPlanned" value="基調講演 150名 / セッションA 80名 / セッションB 70名 / ダイアログ 120名 / ネットワーキング 100名" placeholder="例：基調講演 150名..."></td>
                       <td class="text-center text-muted">—</td>
                     </tr>
-                    <tr>
-                      <th>状況</th>
-                      <td colspan="2">
-                        <div class="d-flex align-items-center gap-2" onclick="event.stopPropagation()">
-                          <select class="form-select form-select-sm" style="width: auto;" id="statusSelect">
-                            <option value="preparing">準備中</option>
-                            <option value="accepting" selected>受付中</option>
-                            <option value="ongoing">開催中</option>
-                            <option value="ended">終了</option>
-                          </select>
-                          <button class="btn btn-primary btn-sm" onclick="saveStatus()">保存</button>
-                        </div>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -143,19 +136,16 @@
                     <tr>
                       <th>会社名</th>
                       <th>担当者名</th>
-                      <th style="width: 80px;">役割</th>
                       <th>メール</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr><td>主催者株式会社</td><td>山田 太郎</td><td>受付</td><td>yamada.taro@example.com</td></tr>
-                    <tr><td>主催者株式会社</td><td>佐藤 花子</td><td>受付</td><td>sato.hanako@example.com</td></tr>
-                    <tr><td>主催者株式会社</td><td>鈴木 次郎</td><td>受付</td><td>suzuki.jiro@example.com</td></tr>
-                    <tr><td>主催者株式会社</td><td>高橋 健一</td><td>営業</td><td>takahashi.kenichi@example.com</td></tr>
-                    <tr><td>主催者株式会社</td><td>伊藤 美咲</td><td>営業</td><td>ito.misaki@example.com</td></tr>
-                    <tr><td>主催者株式会社</td><td>渡辺 直樹</td><td>営業</td><td>watanabe.naoki@example.com</td></tr>
-                    <tr><td>ビジネスフォーラム事務局</td><td>進士 淳一</td><td>受付</td><td>shinji.junichi@example.com</td></tr>
-                    <tr><td>ビジネスフォーラム事務局</td><td>小林 真理</td><td>受付</td><td>kobayashi.mari@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>山田 太郎</td><td>yamada.taro@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>佐藤 花子</td><td>sato.hanako@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>鈴木 次郎</td><td>suzuki.jiro@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>高橋 健一</td><td>takahashi.kenichi@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>伊藤 美咲</td><td>ito.misaki@example.com</td></tr>
+                    <tr><td>主催者株式会社</td><td>渡辺 直樹</td><td>watanabe.naoki@example.com</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -163,14 +153,19 @@
           </div>
         </div>
 
-        <!-- セクション2：プログラム（コンテンツ） -->
+        <!-- セクション2：プログラム -->
         <div class="card mb-4">
-          <div class="card-header py-2 d-flex justify-content-between align-items-center card-header-actions">
-            <span class="fw-bold">プログラム（コンテンツ）</span>
-            <div class="d-flex gap-2 align-items-center">
-              <span class="badge bg-secondary">ROOM名・時間で入退室管理</span>
-              <button type="button" class="btn btn-outline-primary px-3 fw-bold" onclick="toggleEditProgram()"><i class="bi bi-pencil-square me-1"></i>編集</button>
-              <button type="button" class="btn btn-primary px-3 fw-bold" onclick="saveProgramContent()"><i class="bi bi-check-lg me-1"></i>保存</button>
+          <div class="card-header py-2 card-header-actions">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 w-100">
+              <div class="d-flex justify-content-between align-items-center flex-grow-1 min-w-0 gap-2 me-2">
+                <span class="fw-bold">プログラム</span>
+                <span class="section-updated-meta text-end ms-auto mb-0" id="programContentUpdated">updated 20260305:14:30 山田 太郎</span>
+              </div>
+              <div class="d-flex gap-2 align-items-center flex-shrink-0 flex-wrap">
+                <span class="badge bg-secondary">ROOM名・時間で入退室管理</span>
+                <button type="button" class="btn btn-outline-primary px-3 fw-bold" onclick="toggleEditProgram()"><i class="bi bi-pencil-square me-1"></i>編集</button>
+                <button type="button" class="btn btn-primary px-3 fw-bold" onclick="saveProgramContent()"><i class="bi bi-check-lg me-1"></i>保存</button>
+              </div>
             </div>
           </div>
           <div class="card-body p-3">
@@ -369,22 +364,34 @@
       .then(html => { var el = document.getElementById('footer-container'); if (el) el.innerHTML = html; })
       .catch(function () {});
 
-    function saveStatus() {
-      var status = document.getElementById('statusSelect').value;
-      var labels = { preparing: '準備中', accepting: '受付中', ongoing: '開催中', ended: '終了' };
-      alert('状況を「' + labels[status] + '」に保存しました。');
-    }
-
     function toggleEditOverview() {
       var first = document.getElementById('eventDateTime');
       if (first) first.focus();
     }
 
+    function pad2(n) { return (n < 10 ? '0' : '') + n; }
+    function refreshUpdatedLine(elementId) {
+      var el = document.getElementById(elementId);
+      if (!el) return;
+      var d = new Date();
+      var ymd = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate());
+      var hm = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+      el.textContent = 'updated ' + ymd + ':' + hm + ' 山田 太郎';
+    }
+    function refreshEventOverviewUpdated() {
+      refreshUpdatedLine('eventOverviewUpdated');
+    }
+    function refreshProgramContentUpdated() {
+      refreshUpdatedLine('programContentUpdated');
+    }
+
     function saveEventOverview() {
       var dt = document.getElementById('eventDateTime');
+      var dtEnd = document.getElementById('eventDateTimeEnd');
       var place = document.getElementById('eventPlace');
       var planned = document.getElementById('eventPlanned');
-      if (dt && place && planned) {
+      if (dt && dtEnd && place && planned) {
+        refreshEventOverviewUpdated();
         alert('イベント概要を保存しました。\n※実際の実装ではサーバーに送信します。');
       }
     }
@@ -411,7 +418,8 @@
           td.style.backgroundColor = '';
         });
       }
-      alert('プログラム（コンテンツ）を保存しました。\n※実際の実装ではサーバーに送信します。');
+      refreshProgramContentUpdated();
+      alert('プログラムを保存しました。\n※実際の実装ではサーバーに送信します。');
     }
   </script>
 </body>

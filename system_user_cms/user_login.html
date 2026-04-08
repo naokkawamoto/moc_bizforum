@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン - イベント入退場管理システム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body { min-height: 100vh; background: #f0f2f5; }
+    .login-page-header {
+      background-color: var(--header-footer-brand, #212529);
+      color: #fff;
+      padding: 1rem 1.25rem;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .login-wrap {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 2rem 1.75rem;
+    }
+    .login-card .form-label { font-weight: 600; font-size: 0.9rem; }
+    .btn-login-cms {
+      background-color: #E60012;
+      border-color: #E60012;
+      font-weight: 600;
+    }
+    .btn-login-cms:hover {
+      background-color: #c4000f;
+      border-color: #c4000f;
+    }
+  </style>
+</head>
+<body>
+  <header class="login-page-header text-center">
+    イベント入退場管理システム（管理画面）
+  </header>
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1 class="h5 text-center mb-4 fw-bold">ログイン</h1>
+      <form id="loginForm" novalidate>
+        <div class="mb-3">
+          <label for="loginEmail" class="form-label">メールアドレス</label>
+          <input type="email" class="form-control" id="loginEmail" name="email" placeholder="example@company.com" autocomplete="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="loginPassword" class="form-label">パスワード</label>
+          <input type="password" class="form-control" id="loginPassword" name="password" placeholder="パスワード" autocomplete="current-password" required>
+        </div>
+        <div class="mb-4 text-end">
+          <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" id="btnPasswordReset" data-bs-toggle="modal" data-bs-target="#resetModal">
+            パスワードリセット
+          </button>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-login-cms py-2">
+          <i class="bi bi-box-arrow-in-right me-1"></i>ログイン
+        </button>
+      </form>
+      <div class="mt-4 text-center small">
+        <a href="../index.html" class="text-muted text-decoration-none"><i class="bi bi-arrow-left me-1"></i>モックアップ入口に戻る</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="resetModal" tabindex="-1" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title" id="resetModalLabel">パスワードリセット</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-0">パスワードがリセットされました。新しいパスワードを設定してください。</p>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">ログインに戻る</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      window.location.href = 'user_project_list.html';
+    });
+  </script>
+</body>
+</html>

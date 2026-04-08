@@ -4,6 +4,8 @@
 :root {
     --main-color: #172a88; /* デフォルトのメインカラー */
     --sub-color: #df0522;  /* デフォルトのサブカラー */
+    /* ビジネスフォーラムロゴ準拠：ヘッダー・フッター共通 */
+    --header-footer-brand: #E60012;
     --font-family: 'Roboto', sans-serif; /* デフォルトのフォントファミリー */
 }
 
@@ -31,10 +33,15 @@ body {
 
 /* ヘッダーのスタイル */
 header {
-    background-color: var(--main-color);
+    background-color: var(--header-footer-brand);
     color: white;
     padding: 10px 0;
     margin-bottom: 20px;
+}
+
+footer {
+    background-color: var(--header-footer-brand);
+    color: white;
 }
 
 header h1 {
@@ -64,7 +71,7 @@ header nav ul li a:hover {
 
 /* ナビゲーションバーのスタイル */
 .navbar {
-    background-color: var(--main-color); /* ナビゲーションバーの背景色 */
+    background-color: var(--header-footer-brand); /* ナビゲーションバーの背景色 */
 }
 
 .navbar-nav .nav-link {

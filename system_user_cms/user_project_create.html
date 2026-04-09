@@ -36,7 +36,7 @@
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
           <div>
             <h4 class="mb-1 fw-bold"><i class="bi bi-plus-circle me-2"></i>イベント情報登録フォーム</h4>
-            <p class="text-muted small mb-0">イベント概要・担当者・プログラム・来場予約を登録します。</p>
+            <p class="text-muted small mb-0">イベント概要・営業担当者・プログラム・来場予約を登録します。</p>
           </div>
           <div class="d-flex gap-2">
             <button class="btn btn-primary" onclick="saveProject()">
@@ -64,6 +64,10 @@
                 <label class="form-label">イベント名 <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="eventName" placeholder="例：New Business Creation Strategy 2026">
               </div>
+              <div class="col-md-12">
+                <label class="form-label">イベント番号 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="eventNumber" placeholder="例：NBCS2026-M0305">
+              </div>
               <div class="col-md-6">
                 <label class="form-label">開催日時 <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="eventDateTime" placeholder="例：2026年3月5日（木）13:00">
@@ -77,26 +81,21 @@
                 <input type="text" class="form-control" id="eventPlace" placeholder="例：会場開催（東京）">
               </div>
               <div class="col-md-6">
-                <label class="form-label">入場予定数</label>
+                <label class="form-label">参加規模</label>
                 <input type="number" class="form-control" id="eventPlanned" placeholder="例：150" min="1">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">セッション参加予定数（自由記述）</label>
-                <input type="text" class="form-control" id="eventSessionPlanned" placeholder="例：基調講演 150名 / セッションA 80名...">
-              </div>
-              <div class="col-md-12">
-                <label class="form-label">インフォメーション・備考</label>
-                <textarea class="form-control" id="eventInfo" rows="2" placeholder="受付アプリの説明や備考"></textarea>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- セクション0.5：担当者登録 -->
+        <!-- セクション0.5：営業担当者登録 -->
         <div class="card section-card" id="section-staff">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 6名</span></span>
+            <span class="text-dark"><i class="bi bi-person-badge me-2"></i>営業担当者登録 <span class="badge bg-secondary ms-2" id="staffCountBadge">登録人数: 6名</span></span>
             <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-success" onclick="openStaffCsvImport()">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSV
+              </button>
               <button type="button" class="btn btn-sm btn-primary" onclick="saveStaffCard()">
                 <i class="bi bi-check-lg me-1"></i>保存
               </button>
@@ -195,7 +194,6 @@
                     <th style="min-width: 120px;">組織名</th>
                     <th style="min-width: 100px;">役職</th>
                     <th style="min-width: 100px;">講演者</th>
-                    <th style="width: 130px;">開催日</th>
                     <th style="width: 100px;">開始時間</th>
                     <th style="width: 100px;">終了時間</th>
                     <th style="width: 70px;" class="text-center">操作</th>
@@ -212,7 +210,6 @@
                     <td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>
                     <td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>
-                    <td><input type="date" class="form-control form-control-sm" title="開催日" value="2026-03-05"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>
                     <td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>
                     <td class="text-center align-middle">
@@ -377,21 +374,24 @@
                 <thead class="table-light">
                   <tr>
                     <th style="width: 100px;">イベント種別番号</th>
+                    <th>抽選結果</th>
+                    <th>出欠状況</th>
                     <th>会社名</th>
                     <th>部門</th>
                     <th>役職</th>
                     <th>氏名</th>
                     <th>姓（カナ）</th>
                     <th>名（カナ）</th>
-                    <th>メールアドレス（識別のため）</th>
+                    <th>メールアドレス</th>
                     <th>選択セッション</th>
-                    <th class="text-center" style="width: 56px;">QRコード</th>
-                    <th>営業担当者</th>
+                    <th style="width: 90px;">URL</th>
                   </tr>
                 </thead>
                 <tbody id="visitorListBody">
                   <tr>
                     <td class="text-nowrap">U001</td>
+                    <td>当選</td>
+                    <td>本人出席</td>
                     <td>株式会社ABC商事</td>
                     <td>マーケティング部</td>
                     <td>部長</td>
@@ -400,13 +400,12 @@
                     <td>ハナコ</td>
                     <td>sato.hana@abc-sample.co.jp</td>
                     <td>セッションA</td>
-                    <td class="text-center qr-cell p-1" onclick="openQrModal('U001', '佐藤 花子')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                    <td>鈴木 次郎</td>
+                    <td>URL</td>
                   </tr>
                   <tr>
                     <td class="text-nowrap">U002</td>
+                    <td>ブランク</td>
+                    <td>欠席</td>
                     <td>テック東日本株式会社</td>
                     <td>開発本部</td>
                     <td>課長</td>
@@ -415,13 +414,12 @@
                     <td>ケン</td>
                     <td>ken.suzuki@techeast-sample.jp</td>
                     <td>ネットワーキング</td>
-                    <td class="text-center qr-cell p-1" onclick="openQrModal('U002', '鈴木 健')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                    <td>高橋 誠</td>
+                    <td>URL</td>
                   </tr>
                   <tr>
                     <td class="text-nowrap">U003</td>
+                    <td>当選</td>
+                    <td>キャンセル</td>
                     <td>グローバル物流株式会社</td>
                     <td>人事総務</td>
                     <td>主任</td>
@@ -430,13 +428,12 @@
                     <td>ミサキ</td>
                     <td>yamamoto@global-logi-sample.jp</td>
                     <td>基調講演</td>
-                    <td class="text-center qr-cell p-1" onclick="openQrModal('U003', '山本 美咲')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                    <td>山田 太郎</td>
+                    <td>URL</td>
                   </tr>
                   <tr>
                     <td class="text-nowrap">U004</td>
+                    <td>ブランク</td>
+                    <td>本人出席</td>
                     <td>イノベーションラボ株式会社</td>
                     <td>研究開発室</td>
                     <td>マネージャー</td>
@@ -445,13 +442,12 @@
                     <td>ショウ</td>
                     <td>ito.sho@innov-lab-sample.jp</td>
                     <td>ダイアログ</td>
-                    <td class="text-center qr-cell p-1" onclick="openQrModal('U004', '伊藤 翔')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                    <td>佐藤 花子</td>
+                    <td>URL</td>
                   </tr>
                   <tr>
                     <td class="text-nowrap">U005</td>
+                    <td>当選</td>
+                    <td>欠席</td>
                     <td>大阪物産株式会社</td>
                     <td>海外営業</td>
                     <td>担当</td>
@@ -460,10 +456,7 @@
                     <td>ユウコ</td>
                     <td>nakamura@osaka-b-sample.jp</td>
                     <td>セッションB</td>
-                    <td class="text-center qr-cell p-1" onclick="openQrModal('U005', '中村 裕子')">
-                      <span class="qr-placeholder"><i class="bi bi-qr-code"></i><br>表示</span>
-                    </td>
-                    <td>渡辺 直樹</td>
+                    <td>URL</td>
                   </tr>
                 </tbody>
               </table>
@@ -487,20 +480,31 @@
       </main>
     </div>
   </div>
+  </div>
 
-  <!-- QRコードモーダル -->
-  <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
+  <!-- 営業担当者 CSV（追加用） -->
+  <div class="modal fade" id="staffCsvImportModal" tabindex="-1" aria-labelledby="staffCsvImportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header py-2">
-          <h5 class="modal-title" id="qrCodeModalLabel">QRコード</h5>
+        <div class="modal-header">
+          <h5 class="modal-title" id="staffCsvImportModalLabel">営業担当者 CSV</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
         </div>
-        <div class="modal-body text-center py-4">
-          <p class="small text-muted mb-2" id="qrModalUser">UserID / 姓名</p>
-          <div class="qr-placeholder mx-auto" style="width: 120px; height: 120px; font-size: 0.7rem;" id="qrModalImage">
-            <i class="bi bi-qr-code" style="font-size: 3rem;"></i><br>QRコード
-          </div>
+        <div class="modal-body">
+          <p class="mb-2">CSVの列順（1行目ヘッダー推奨）:</p>
+          <ul class="mb-3 ps-3 small">
+            <li>会社名</li>
+            <li>担当者名</li>
+            <li>メール</li>
+          </ul>
+          <p class="small text-muted mb-3">UTF-8（Excelの場合はBOM付き推奨）でアップロードすると行がテーブルに追加されます。</p>
+          <input type="file" id="staffCsvFileInput" accept=".csv,text/csv" class="d-none">
+          <button type="button" class="btn btn-success btn-sm" onclick="document.getElementById('staffCsvFileInput').click()">
+            <i class="bi bi-upload me-1"></i>CSVファイルを選択
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
@@ -517,19 +521,29 @@
         <div class="modal-body">
           <p class="mb-3">SalesforceのCSVリストより、以下の項目を読み込みます。</p>
           <ul class="mb-3 ps-3">
-            <li>UserID</li>
+            <li>イベント識別番号</li>
+            <li>抽選結果</li>
+            <li>出欠状況</li>
             <li>会社名</li>
             <li>部門</li>
-            <li>姓</li>
-            <li>名</li>
             <li>氏名</li>
             <li>姓（カナ）</li>
             <li>名（カナ）</li>
-            <li>メールアドレス（識別のため）</li>
+            <li>メールアドレス</li>
             <li>選択セッション</li>
-            <li>QRコード</li>
+            <li>URL</li>
           </ul>
-          <p class="text-danger small mb-0"><strong>※</strong>営業担当者の情報がない場合は取り込みできません。</p>
+          <div class="small text-muted">
+            <p class="mb-1 mb-0"><strong>※</strong> 営業担当者は後で追加もできる。</p>
+            <p class="mb-1 mb-0">CSVを追加した場合、重複を排除する。</p>
+            <p class="mb-0">抽選結果列の当選だけを抽出する。</p>
+          </div>
+          <hr class="my-3">
+          <ul class="small text-muted mb-0 ps-3">
+            <li class="mb-2">一括追加CSVするとき、抽選結果が当選、ブランク、キャンセル、抽選漏れ、申込者、代理出席のうち、抽選漏れは弾き、かつ、キャンセルと申込者はキャンセル表示されるようにしたい。</li>
+            <li class="mb-2">後からキャンセルになった人は手動でキャンセルにステータス変更したい。</li>
+            <li class="mb-0">※キャンセルの人にはメールは送られない。</li>
+          </ul>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
@@ -556,13 +570,36 @@
       .then(html => { var el = document.getElementById('footer-container'); if (el) el.innerHTML = html; })
       .catch(function () {});
 
-    function saveOverview() {
+    function validateOverviewRequired() {
       var name = document.getElementById('eventName');
       if (name && !name.value.trim()) {
         alert('イベント名を入力してください。');
         if (name.focus) name.focus();
-        return;
+        return false;
       }
+      var num = document.getElementById('eventNumber');
+      if (num && !num.value.trim()) {
+        alert('イベント番号を入力してください。');
+        if (num.focus) num.focus();
+        return false;
+      }
+      var dt = document.getElementById('eventDateTime');
+      if (dt && !dt.value.trim()) {
+        alert('開催日時を入力してください。');
+        if (dt.focus) dt.focus();
+        return false;
+      }
+      var dte = document.getElementById('eventDateTimeEnd');
+      if (dte && !dte.value.trim()) {
+        alert('終了日時を入力してください。');
+        if (dte.focus) dte.focus();
+        return false;
+      }
+      return true;
+    }
+
+    function saveOverview() {
+      if (!validateOverviewRequired()) return;
       alert('イベント概要を保存しました。\n※実際の実装ではサーバーに送信します。');
     }
 
@@ -575,7 +612,14 @@
     }
 
     function saveStaffCard() {
-      alert('担当者を保存しました。\n※実際の実装ではサーバーに送信します。');
+      alert('営業担当者を保存しました。\n※実際の実装ではサーバーに送信します。');
+    }
+
+    function openStaffCsvImport() {
+      var el = document.getElementById('staffCsvImportModal');
+      if (!el) return;
+      var modal = new bootstrap.Modal(el);
+      modal.show();
     }
 
     function addStaffRow() {
@@ -621,7 +665,6 @@
         '<td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>' +
-        '<td><input type="date" class="form-control form-control-sm" title="開催日"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>' +
         '<td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProgramRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';
@@ -641,24 +684,24 @@
       modal.show();
     }
 
-    function openQrModal(userId, name) {
-      document.getElementById('qrModalUser').textContent = userId + ' / ' + name;
-      var modal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
-      modal.show();
-    }
-
     function saveProject() {
-      var name = document.getElementById('eventName');
-      if (name && !name.value.trim()) {
-        alert('イベント名を入力してください。');
-        if (name.focus) name.focus();
-        return;
-      }
-      if (confirm('イベント概要・担当者・プログラム・来場者リストを登録しますか？')) {
-        alert('イベント概要・担当者・プログラム・来場予約を登録しました。\n※実際の実装では、データベースに保存されます。');
+      if (!validateOverviewRequired()) return;
+      if (confirm('イベント概要・営業担当者・プログラム・来場者リストを登録しますか？')) {
+        alert('イベント概要・営業担当者・プログラム・来場予約を登録しました。\n※実際の実装では、データベースに保存されます。');
         window.location.href = 'user_project_list.html';
       }
     }
+
+    (function () {
+      var fin = document.getElementById('staffCsvFileInput');
+      if (fin) {
+        fin.addEventListener('change', function () {
+          if (!fin.files || !fin.files[0]) return;
+          alert('CSVを読み込み、営業担当者テーブルに行を追加する処理をここに接続します。\n（モック）選択ファイル: ' + fin.files[0].name);
+          fin.value = '';
+        });
+      }
+    })();
 
   </script>
 </body>

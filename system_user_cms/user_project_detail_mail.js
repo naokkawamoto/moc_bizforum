@@ -14,35 +14,26 @@
     var MAIL_KEYS = ['mail1', 'mail2', 'mail3', 'mail4'];
     var MAIL_LABELS = { mail1: 'メール1', mail2: 'メール2', mail3: 'メール3', mail4: 'メール4' };
 
-    var SALES_STAFF_META = {
-      yamada: { staffId: 'yamada', name: '山田 太郎' },
-      sato: { staffId: 'sato', name: '佐藤 花子' },
-      suzuki: { staffId: 'suzuki', name: '鈴木 次郎' },
-      takahashi: { staffId: 'yamada', name: '高橋 誠' },
-      watanabe: { staffId: 'suzuki', name: '渡辺 直樹' }
-    };
     var names = ['田中 一郎', '高橋 美咲', '伊藤 健太', '渡辺 真理子', '山本 翔', '中村 恵子', '小林 直樹', '加藤 優', '吉田 さくら', '松本 大輔'];
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社'];
     var visitorDepts = ['マーケティング部', '開発本部', '人事総務', '研究開発室', '海外営業'];
     var visitorSessions = ['セッションA', 'ネットワーキング', '基調講演', 'ダイアログ', 'セッションB'];
-    var salesKeyRotation = ['yamada', 'sato', 'suzuki', 'takahashi', 'watanabe'];
+    var attendanceStatuses = ['本人出席', '欠席', 'キャンセル'];
 
     var visitorData = [];
     for (var i = 0; i < 100; i++) {
-      var salesMeta = SALES_STAFF_META[salesKeyRotation[i % salesKeyRotation.length]];
       var mail1Sent = i < 60;
       var mail2Sent = i < 30;
       var mail3Sent = i < 10;
       var mail4Sent = i < 5;
       visitorData.push({
         userid: 'U' + String(i + 1).padStart(3, '0'),
+        attendanceStatus: attendanceStatuses[i % attendanceStatuses.length],
         company: companies[i % companies.length],
         dept: visitorDepts[i % visitorDepts.length],
         name: names[i % names.length],
         email: 'guest' + String(i + 1).padStart(3, '0') + '@example.com',
         session: visitorSessions[i % visitorSessions.length],
-        staffId: salesMeta.staffId,
-        staffName: salesMeta.name,
         mail1Sent: mail1Sent,
         mail2Sent: mail2Sent,
         mail3Sent: mail3Sent,
@@ -50,7 +41,6 @@
       });
     }
 
-    var filterStaff = document.getElementById('filterStaff');
     var filterName = document.getElementById('filterName');
     var filterMail1 = document.getElementById('filterMail1');
     var filterMail2 = document.getElementById('filterMail2');
@@ -74,6 +64,12 @@
     };
     var mailSendHistory = { mail1: [], mail2: [], mail3: [], mail4: [] };
     var pendingSendUnsentKey = null;
+    var editingDeliveryKey = null;
+
+    var HELP_TEXT = {
+      nonCancel: 'メールはキャンセル以外に送信されます。',
+      optionalSend: '配信予約時間前の場合、任意の時間に配信可能です。'
+    };
 
     function pad2(n) { n = parseInt(n, 10) || 0; return (n < 10 ? '0' : '') + n; }
     function escapeHtml(s) { return s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -88,12 +84,18 @@
       });
     }
 
+    /** 出欠がキャンセルの場合は全メールを未送信扱い */
+    function effectiveMailSent(v, k) {
+      if (v.attendanceStatus === 'キャンセル') return false;
+      return !!v[k + 'Sent'];
+    }
+
     function setCount(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
 
     function updateMailDeliveryCounts() {
       var total = visitorData.length;
       MAIL_KEYS.forEach(function (k) {
-        var sent = visitorData.filter(function (v) { return v[k + 'Sent']; }).length;
+        var sent = visitorData.filter(function (v) { return effectiveMailSent(v, k); }).length;
         var unsent = total - sent;
         setCount('mailTotalCount' + k.charAt(0).toUpperCase() + k.slice(1), total);
         setCount('mailSentCount' + k.charAt(0).toUpperCase() + k.slice(1), sent);
@@ -109,7 +111,6 @@
     }
 
     function getFiltered() {
-      var staffVal = filterStaff ? filterStaff.value : '';
       var nameVal = filterName ? filterName.value.trim() : '';
       var mailVals = {
         mail1: filterMail1 ? filterMail1.value : '',
@@ -118,14 +119,13 @@
         mail4: filterMail4 ? filterMail4.value : ''
       };
       return visitorData.filter(function (v) {
-        var okStaff = !staffVal || v.staffId === staffVal;
         var okName = visitorSearchMatches(v, nameVal);
         var okMails = MAIL_KEYS.every(function (k) {
           var val = mailVals[k];
           if (!val) return true;
-          return val === 'sent' ? !!v[k + 'Sent'] : !v[k + 'Sent'];
+          return val === 'sent' ? effectiveMailSent(v, k) : !effectiveMailSent(v, k);
         });
-        return okStaff && okName && okMails;
+        return okName && okMails;
       });
     }
 
@@ -133,11 +133,12 @@
       var tr = document.createElement('tr');
       tr.innerHTML =
         '<td>' + v.userid + '</td>' +
+        '<td>' + v.attendanceStatus + '</td>' +
         '<td>' + v.name + '</td>' +
         '<td>' + v.company + '</td>' +
-        '<td>' + v.staffName + '</td>' +
         MAIL_KEYS.map(function (k) {
-          return '<td class="text-center">' + (v[k + 'Sent'] ? '<span class="badge bg-success">送信済</span>' : '<span class="badge bg-secondary">未送信</span>') + '</td>';
+          var ok = effectiveMailSent(v, k);
+          return '<td class="text-center">' + (ok ? '<span class="badge bg-success">送信済</span>' : '<span class="badge bg-secondary">未送信</span>') + '</td>';
         }).join('');
       return tr;
     }
@@ -183,7 +184,9 @@
 
     function openSendUnsentModal(key) {
       var prop = key + 'Sent';
-      var unsent = visitorData.filter(function (v) { return !v[prop]; });
+      var unsent = visitorData.filter(function (v) {
+        return v.attendanceStatus !== 'キャンセル' && !v[prop];
+      });
       if (unsent.length === 0) return;
       pendingSendUnsentKey = key;
       var label = MAIL_LABELS[key] || key;
@@ -207,7 +210,9 @@
       var key = pendingSendUnsentKey;
       if (!key) return;
       var prop = key + 'Sent';
-      var unsent = visitorData.filter(function (v) { return !v[prop]; });
+      var unsent = visitorData.filter(function (v) {
+        return v.attendanceStatus !== 'キャンセル' && !v[prop];
+      });
       unsent.forEach(function (v) { v[prop] = true; });
       if (!mailSendHistory[key]) mailSendHistory[key] = [];
       if (unsent.length) mailSendHistory[key].push({ at: new Date(), count: unsent.length });
@@ -281,7 +286,6 @@
 
     if (btnApply) btnApply.addEventListener('click', function () { currentPage = 1; render(); });
     if (btnReset) btnReset.addEventListener('click', function () {
-      if (filterStaff) filterStaff.value = '';
       if (filterName) filterName.value = '';
       if (filterMail1) filterMail1.value = '';
       if (filterMail2) filterMail2.value = '';
@@ -306,6 +310,87 @@
       });
     });
 
+    function initDeliveryEditForm() {
+      var yEl = document.getElementById('editDeliveryYear');
+      var mEl = document.getElementById('editDeliveryMonth');
+      var dEl = document.getElementById('editDeliveryDay');
+      var hEl = document.getElementById('editDeliveryHour');
+      var minEl = document.getElementById('editDeliveryMinute');
+      if (!yEl || !mEl || !dEl || !hEl || !minEl) return;
+      yEl.innerHTML = '';
+      for (var yi = 2024; yi <= 2030; yi++) yEl.innerHTML += '<option value="' + yi + '">' + yi + '年</option>';
+      mEl.innerHTML = '';
+      for (var mi = 1; mi <= 12; mi++) mEl.innerHTML += '<option value="' + mi + '">' + mi + '月</option>';
+      dEl.innerHTML = '';
+      for (var di = 1; di <= 31; di++) dEl.innerHTML += '<option value="' + di + '">' + di + '日</option>';
+      hEl.innerHTML = '';
+      for (var hi = 0; hi <= 23; hi++) hEl.innerHTML += '<option value="' + hi + '">' + hi + '時</option>';
+      minEl.innerHTML = '';
+      for (var m2 = 0; m2 <= 59; m2++) minEl.innerHTML += '<option value="' + m2 + '">' + pad2(m2) + '分</option>';
+    }
+
+    function openMailHelpModal(key) {
+      var body = document.getElementById('mailHelpModalBody');
+      var title = document.getElementById('mailHelpModalLabel');
+      var text = HELP_TEXT[key];
+      if (!text) return;
+      if (title) title.textContent = key === 'optionalSend' ? '任意配信について' : 'メール配信について';
+      if (body) body.textContent = text;
+      new bootstrap.Modal(document.getElementById('mailHelpModal')).show();
+    }
+
+    document.addEventListener('click', function (e) {
+      var hb = e.target.closest('.mail-help-btn');
+      if (hb) {
+        e.preventDefault();
+        var hk = hb.getAttribute('data-help');
+        if (hk) openMailHelpModal(hk);
+        return;
+      }
+      var eb = e.target.closest('.btn-edit-delivery');
+      if (eb) {
+        e.preventDefault();
+        var mk = eb.getAttribute('data-mail-key');
+        if (!mk || !autoDeliverySchedules[mk]) return;
+        editingDeliveryKey = mk;
+        var sch = autoDeliverySchedules[mk];
+        var lead = document.getElementById('deliveryScheduleEditLead');
+        if (lead) lead.textContent = '「' + (MAIL_LABELS[mk] || mk) + '」の配信日時を編集します。';
+        var yEl = document.getElementById('editDeliveryYear');
+        var mEl = document.getElementById('editDeliveryMonth');
+        var dEl = document.getElementById('editDeliveryDay');
+        var hEl = document.getElementById('editDeliveryHour');
+        var minEl = document.getElementById('editDeliveryMinute');
+        if (yEl) yEl.value = String(sch.year);
+        if (mEl) mEl.value = String(sch.month);
+        if (dEl) dEl.value = String(sch.day);
+        if (hEl) hEl.value = String(sch.hour);
+        if (minEl) minEl.value = String(sch.minute);
+        new bootstrap.Modal(document.getElementById('deliveryScheduleEditModal')).show();
+      }
+    });
+
+    var deliveryScheduleSaveBtn = document.getElementById('deliveryScheduleSaveBtn');
+    if (deliveryScheduleSaveBtn) {
+      deliveryScheduleSaveBtn.addEventListener('click', function () {
+        if (!editingDeliveryKey || !autoDeliverySchedules[editingDeliveryKey]) return;
+        var y = parseInt(document.getElementById('editDeliveryYear').value, 10);
+        var mo = parseInt(document.getElementById('editDeliveryMonth').value, 10);
+        var da = parseInt(document.getElementById('editDeliveryDay').value, 10);
+        var ho = parseInt(document.getElementById('editDeliveryHour').value, 10);
+        var mi = parseInt(document.getElementById('editDeliveryMinute').value, 10);
+        autoDeliverySchedules[editingDeliveryKey] = {
+          year: y, month: mo, day: da, hour: ho, minute: isNaN(mi) ? 0 : mi
+        };
+        updateDeliveryDatetimeDisplay();
+        var inst = bootstrap.Modal.getInstance(document.getElementById('deliveryScheduleEditModal'));
+        if (inst) inst.hide();
+        editingDeliveryKey = null;
+        alert('配信日時を変更しました。');
+      });
+    }
+
+    initDeliveryEditForm();
     updateDeliveryDatetimeDisplay();
     render();
   });

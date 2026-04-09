@@ -18,6 +18,103 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
+    /** ファイル名等に使うイベントコード（先頭列の来場者識別は各行の userid） */
+    var EVENT_CODE = 'NBCS2026-M0305';
+    /** 入退場・CSV「すべてのプログラム」列の定義順（key は visitor オブジェクトのプロパティ名） */
+    var PROGRAM_DEFS = [
+      { key: 'keynote', label: '基調講演' },
+      { key: 'sa', label: 'セッションA' },
+      { key: 'sb', label: 'セッションB' },
+      { key: 'sc', label: 'セッションC' },
+      { key: 'sd', label: 'セッションD' },
+      { key: 'dialog', label: 'ダイアログセッション' },
+      { key: 'net', label: 'ネットワーキング' }
+    ];
+
+    function pad2(n) {
+      return String(n).padStart(2, '0');
+    }
+    function csvEscape(cell) {
+      var s = cell == null ? '' : String(cell);
+      if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    }
+    function buildCsvHeaderRow() {
+      var headers = [
+        'イベント識別番号',
+        '会社名',
+        '部門',
+        '氏名',
+        '姓（カナ）',
+        '名（カナ）',
+        'メールアドレス',
+        'イベント入退場',
+        '入場時刻',
+        '退場時刻',
+        '基調講演参加',
+        '入場時間１',
+        '退場時間１',
+        '入場時間２',
+        '退場時間２',
+        '入場時間３',
+        '退場時間３'
+      ];
+      PROGRAM_DEFS.forEach(function (def) {
+        headers.push(def.label + '参加', def.label + '入場', def.label + '退場');
+      });
+      return headers.map(csvEscape).join(',');
+    }
+    function keynoteJoinLabel(v) {
+      if (!v.present) return '不参加';
+      return v.keynote === 2 ? '参加' : '不参加';
+    }
+    function eventInOutLabel(v) {
+      if (!v.present) return '未入場';
+      return '入場済';
+    }
+    function buildCsvRow(v) {
+      var slots = v.programSlots || [];
+      var p1 = slots[1] || {};
+      var p2 = slots[2] || {};
+      var p3 = slots[3] || {};
+      var cells = [
+        v.userid || '',
+        v.company || '',
+        v.dept || '',
+        v.name || '',
+        v.kanaLast || '',
+        v.kanaFirst || '',
+        v.email || '',
+        eventInOutLabel(v),
+        v.eventEntryTime || '',
+        v.eventExitTime || '',
+        keynoteJoinLabel(v),
+        p1.enterAt || '',
+        p1.exitAt || '',
+        p2.enterAt || '',
+        p2.exitAt || '',
+        p3.enterAt || '',
+        p3.exitAt || ''
+      ];
+      slots.forEach(function (s) {
+        cells.push(s.joinLabel || '', s.enterAt || '', s.exitAt || '');
+      });
+      return cells.map(csvEscape).join(',');
+    }
+    function downloadCsv(filename, csvText) {
+      var bom = '\uFEFF';
+      var blob = new Blob([bom + csvText], { type: 'text/csv;charset=utf-8;' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
     var staffs = [
       { id: 'yamada', name: '山田 太郎' },
       { id: 'sato', name: '佐藤 花子' },
@@ -43,7 +140,7 @@
       s = staffs[i % 3];
       var present = Math.random() < 0.7;
       var sp = splitFullName(names[n]);
-      visitorData.push({
+      var v = {
         userid: 'U' + String(i + 1).padStart(3, '0'),
         name: names[n],
         lastName: sp.last,
@@ -63,7 +160,35 @@
         sd: 0,
         dialog: 0,
         net: 0
-      });
+      };
+      var eventEntryTime = '';
+      var eventExitTime = '';
+      if (present) {
+        eventEntryTime = pad2(13) + ':' + pad2(1 + (i % 8) * 4);
+        eventExitTime = pad2(17) + ':' + pad2(20 + (i % 15));
+      }
+      v.eventEntryTime = eventEntryTime;
+      v.eventExitTime = eventExitTime;
+      v.programSlots = [];
+      var pi, def, joined, enterAt, exitAt, baseMin, endMin;
+      for (pi = 0; pi < PROGRAM_DEFS.length; pi++) {
+        def = PROGRAM_DEFS[pi];
+        joined = present && v[def.key] === 2;
+        enterAt = '';
+        exitAt = '';
+        if (joined) {
+          baseMin = 13 * 60 + 10 + pi * 25 + (i % 7) * 3;
+          endMin = baseMin + 20 + ((i + pi) % 25);
+          enterAt = pad2(Math.floor(baseMin / 60)) + ':' + pad2(baseMin % 60);
+          exitAt = pad2(Math.floor(endMin / 60)) + ':' + pad2(endMin % 60);
+        }
+        v.programSlots.push({
+          joinLabel: joined ? '参加' : '不参加',
+          enterAt: enterAt,
+          exitAt: exitAt
+        });
+      }
+      visitorData.push(v);
     }
 
     var filterStaff = document.getElementById('filterStaff');
@@ -206,6 +331,17 @@
     }
     if (filterName) filterName.addEventListener('input', function () { currentPage = 1; render(); });
     if (perPageSelect) perPageSelect.addEventListener('change', function () { currentPage = 1; render(); });
+
+    var btnCsv = document.getElementById('btnCsv');
+    if (btnCsv) {
+      btnCsv.addEventListener('click', function () {
+        var list = getFiltered();
+        var lines = [buildCsvHeaderRow()];
+        var ci;
+        for (ci = 0; ci < list.length; ci++) lines.push(buildCsvRow(list[ci]));
+        downloadCsv('来場入退場_' + EVENT_CODE + '.csv', lines.join('\r\n'));
+      });
+    }
 
     render();
   });

@@ -181,6 +181,31 @@
     .program-compact-card .card-body { padding: 0.5rem 0.65rem; }
     .program-compact-line { font-size: 0.78rem; line-height: 1.45; word-break: break-word; margin-bottom: 0; font-weight: 600; color: #212529; }
     .program-compact-stats { font-size: 0.68rem; color: #6c757d; margin-top: 0.35rem; line-height: 1.4; }
+    .read-session-alert-tile {
+      display: block;
+      width: 100%;
+      border-radius: 0.35rem;
+      padding: 0.5rem 0.65rem;
+      line-height: 1.4;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      border: 1px solid transparent;
+      transition: filter 0.15s ease;
+    }
+    .read-session-alert-tile:focus-visible {
+      outline: 2px solid rgba(13, 110, 253, 0.65);
+      outline-offset: 2px;
+    }
+    .read-session-alert-tile:active { filter: brightness(0.97); }
+    .read-session-alert-tile--danger {
+      color: #a50f0f;
+      border-color: rgba(196, 18, 18, 0.45);
+      background: rgba(196, 18, 18, 0.08);
+    }
+    .read-session-time-modal .modal-body p:last-child { margin-bottom: 0; }
   </style>
 </head>
 <body class="read-keynote-body">
@@ -200,10 +225,17 @@
           <div class="overview-event-title">New Business Creation Strategy 2026</div>
           <div class="card-body">
             <p class="program-compact-line mb-0">13:00～13:30／基調講演／メインホール</p>
-            <p class="program-compact-stats mb-0">入室予定150・入室0・退室0</p>
+            <p class="program-compact-stats mb-0">入室0・退室0</p>
           </div>
         </div>
       </div>
+
+      <button type="button" class="read-session-alert-tile read-session-alert-tile--danger mb-2" id="sessionBeforeAlertBtn" aria-haspopup="dialog" aria-controls="sessionBeforeStartModal">
+        セッション開始予定前
+      </button>
+      <button type="button" class="read-session-alert-tile read-session-alert-tile--danger mb-2" id="sessionOverdueAlertBtn" aria-haspopup="dialog" aria-controls="sessionOverdueExplainModal">
+        セッション終了予定時間超過
+      </button>
 
       <div class="read-scan-block">
         <div class="read-ui-scan" id="readScanArea">
@@ -235,6 +267,40 @@
             <div class="read-cancel-value" id="cancelModalVisitorName">山田 太郎</div>
           </div>
           <button type="button" class="btn btn-confirm-cancel w-100" data-bs-dismiss="modal">確認</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade read-session-time-modal" id="sessionBeforeStartModal" tabindex="-1" aria-labelledby="sessionBeforeStartModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h5 fw-bold text-danger" id="sessionBeforeStartModalTitle">セッション開始予定前</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <p class="small text-muted mb-0">実装メモ：現在時刻 &lt; セッション開始予定時刻のときにバナー表示。受付可否の業務ルールは別途。</p>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade read-session-time-modal" id="sessionOverdueExplainModal" tabindex="-1" aria-labelledby="sessionOverdueExplainModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title h5 fw-bold text-danger" id="sessionOverdueExplainModalTitle">セッション終了予定時間超過</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <p class="small text-muted mb-0">実装メモ：現在時刻 &gt; セッション終了予定時刻のときにバナー表示。延長時の扱いは別途。</p>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
@@ -281,6 +347,25 @@
         cancelBtn.addEventListener('click', function (e) {
           e.preventDefault();
           cancelModal.show();
+        });
+      }
+
+      var beforeModalEl = document.getElementById('sessionBeforeStartModal');
+      var overdueExplainEl = document.getElementById('sessionOverdueExplainModal');
+      var beforeAlertBtn = document.getElementById('sessionBeforeAlertBtn');
+      var overdueAlertBtn = document.getElementById('sessionOverdueAlertBtn');
+      if (beforeModalEl && beforeAlertBtn) {
+        var beforeModal = new bootstrap.Modal(beforeModalEl);
+        beforeAlertBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          beforeModal.show();
+        });
+      }
+      if (overdueExplainEl && overdueAlertBtn) {
+        var overdueExplainModal = new bootstrap.Modal(overdueExplainEl);
+        overdueAlertBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          overdueExplainModal.show();
         });
       }
     })();

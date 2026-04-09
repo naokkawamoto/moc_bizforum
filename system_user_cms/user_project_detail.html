@@ -39,7 +39,6 @@
       background-color: #f0f0f0;
     }
     .attendance-actual { font-size: 1.25rem; font-weight: 700; color: #0d6efd; background-color: #e7f1ff; text-align: center; vertical-align: middle; }
-    .program-planned { font-weight: 700; background-color: #f8f9fa; text-align: center; vertical-align: middle; min-width: 80px; }
     .program-actual { font-size: 1.1rem; font-weight: 700; color: #0d6efd; background-color: #e7f1ff; text-align: center; vertical-align: middle; min-width: 80px; }
     #programContentTable tbody tr.table-primary,
     #programContentTable tbody tr.table-warning {
@@ -63,7 +62,7 @@
         <!-- イベントタイトル（黒背景・白文字） -->
         <div class="bg-dark text-white px-3 py-3 mb-4">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026</h4>
+            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026 <span class="fs-6 fw-normal text-white-50 ms-2">NBCS2026-M0305</span></h4>
             <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
           </div>
         </div>
@@ -115,14 +114,9 @@
                       <td class="text-center text-muted">—</td>
                     </tr>
                     <tr>
-                      <th>来場予定数</th>
+                      <th>参加規模</th>
                       <td><input type="number" class="form-control form-control-sm" id="eventPlanned" value="150" placeholder="名"> 名</td>
                       <td class="attendance-actual">82名</td>
-                    </tr>
-                    <tr>
-                      <th>セッション参加予定数</th>
-                      <td><input type="text" class="form-control form-control-sm" id="eventSessionPlanned" value="基調講演 150名 / セッションA 80名 / セッションB 70名 / ダイアログ 120名 / ネットワーキング 100名" placeholder="例：基調講演 150名..."></td>
-                      <td class="text-center text-muted">—</td>
                     </tr>
                   </tbody>
                 </table>
@@ -140,7 +134,6 @@
                 <span class="section-updated-meta text-end ms-auto mb-0" id="programContentUpdated">updated 20260305:14:30 山田 太郎</span>
               </div>
               <div class="d-flex gap-2 align-items-center flex-shrink-0 flex-wrap">
-                <span class="badge bg-secondary">ROOM名・時間で入退室管理</span>
                 <button type="button" class="btn btn-outline-primary px-3 fw-bold" id="programEditBtn" onclick="toggleEditProgram()"><i class="bi bi-pencil-square me-1"></i>編集</button>
                 <button type="button" class="btn btn-primary px-3 fw-bold d-none" id="programSaveBtn" onclick="saveProgramContent()"><i class="bi bi-check-lg me-1"></i>保存</button>
               </div>
@@ -154,7 +147,6 @@
                     <th style="width: 100px;">時間</th>
                     <th style="width: 100px;">ROOM</th>
                     <th>講演タイトル</th>
-                    <th class="text-center" style="width: 90px;">入室予定数</th>
                     <th class="text-center" style="width: 90px;">入室数</th>
                     <th class="text-center" style="width: 90px;">退室数</th>
                   </tr>
@@ -169,7 +161,6 @@
                       <span class="program-title">特別講演Ⅰ　社内企業家を生かす会社のあり方</span>
                       <p class="program-speaker mb-0 mt-1 small">若林 直樹 氏 <span class="text-muted">京都大学 経営管理大学院 教授</span></p>
                     </td>
-                    <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -181,14 +172,13 @@
                       <span class="program-title">協賛社講演Ⅰ　AIを活用した新規事業 0→1の実践方法</span>
                       <p class="program-speaker mb-0 mt-1 small">阿部 拓貴 氏 <span class="text-muted">株式会社CINCA 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
                   <tr class="table-secondary">
                     <td class="program-time">14:00 - 14:10</td>
                     <td>—</td>
-                    <td colspan="4">休憩</td>
+                    <td colspan="3">休憩</td>
                   </tr>
                   <!-- セッションA・B（同時間想定の並行セッション） -->
                   <tr>
@@ -199,7 +189,6 @@
                       <span class="program-title">ゲスト講演Ⅰ　大企業からスタートアップへ ── DigKnowが出向起業で挑んだ"0→1"のリアル</span>
                       <p class="program-speaker mb-0 mt-1 small">伊藤 悠一 氏 <span class="text-muted">DigKnow 株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">80</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -211,7 +200,6 @@
                       <span class="program-title">ゲスト講演Ⅱ　ソニー発スタートアップの新規事業戦略</span>
                       <p class="program-speaker mb-0 mt-1 small">伊藤 健二 氏 <span class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">70</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -223,7 +211,6 @@
                       <span class="program-title">ゲスト講演Ⅱ　ソニー発スタートアップの新規事業戦略（続き）</span>
                       <p class="program-speaker mb-0 mt-1 small">伊藤 健二 氏 <span class="text-muted">ソニーサーモテクノロジー株式会社 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">70</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -235,14 +222,13 @@
                       <span class="program-title">協賛社講演Ⅱ　ソニーが手掛ける、イノベーション創出の仕組み</span>
                       <p class="program-speaker mb-0 mt-1 small">宮崎 祐史 氏 <span class="text-muted">ソニーグループ株式会社 事業開発プラットフォーム Acceleration Service事業部 統括部長</span></p>
                     </td>
-                    <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
                   <tr class="table-secondary">
                     <td class="program-time">15:10 - 15:20</td>
                     <td>—</td>
-                    <td colspan="4">休憩</td>
+                    <td colspan="3">休憩</td>
                   </tr>
                   <!-- セッションC -->
                   <tr>
@@ -253,7 +239,6 @@
                       <span class="program-title">ゲスト講演Ⅲ　事業化へのヒストリーとJR東日本スタートアッププログラムの活用について</span>
                       <p class="program-speaker mb-0 mt-1 small">阿久津 智紀 氏 <span class="text-muted">株式会社TOUCH TO GO 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">60</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -266,7 +251,6 @@
                       <span class="program-title">ゲスト講演Ⅳ　マクアケが見出してきた市場のユニークポジション</span>
                       <p class="program-speaker mb-0 mt-1 small">中山 亮太郎 氏 <span class="text-muted">株式会社マクアケ 代表取締役社長</span></p>
                     </td>
-                    <td class="program-planned">60</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -279,14 +263,13 @@
                       <span class="program-title">特別講演Ⅱ　アントレプレナーシップのメカニズム</span>
                       <p class="program-speaker mb-0 mt-1 small">清水 洋 氏 <span class="text-muted">早稲田大学 商学学術院 教授</span></p>
                     </td>
-                    <td class="program-planned">150</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
                   <tr class="table-secondary">
                     <td class="program-time">16:30 - 16:40</td>
                     <td>—</td>
-                    <td colspan="4">休憩</td>
+                    <td colspan="3">休憩</td>
                   </tr>
                   <!-- ダイアログセッション -->
                   <tr>
@@ -297,7 +280,6 @@
                       <span class="program-title">ダイアログセッション（パネルセッション）</span>
                       <p class="program-speaker mb-0 mt-1 small">パネルセッション</p>
                     </td>
-                    <td class="program-planned">120</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -310,7 +292,6 @@
                       <span class="program-title">ネットワーク＆懇親会</span>
                       <p class="program-speaker mb-0 mt-1 small">—</p>
                     </td>
-                    <td class="program-planned">100</td>
                     <td class="program-actual">0</td>
                     <td class="program-actual">0</td>
                   </tr>
@@ -321,12 +302,12 @@
           </div>
         </div>
 
-        <!-- セクション2.5：担当者 -->
+        <!-- セクション2.5：営業担当者 -->
         <div class="card mb-4">
           <div class="card-header py-2 card-header-actions">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 w-100">
               <div class="d-flex justify-content-between align-items-center flex-grow-1 min-w-0 gap-2 me-2">
-                <span class="fw-bold">担当者</span>
+                <span class="fw-bold">営業担当者</span>
                 <span class="section-updated-meta text-end ms-auto mb-0" id="staffUpdated">updated 2026/03/05 山田 太郎</span>
               </div>
               <div class="d-flex gap-2 flex-shrink-0">
@@ -384,10 +365,10 @@
     var overviewEditMode = false;
 
     function getOverviewCellInputValue(td, rowLabel) {
-      var input = td.querySelector('input');
+      var input = td.querySelector('input, textarea');
       if (!input) return td.textContent.replace(/\s+/g, ' ').trim();
       var val = (input.value || '').trim();
-      if (rowLabel === '来場予定数') return val ? (val + ' 名') : '';
+      if (rowLabel === '参加規模') return val ? (val + ' 名') : '';
       return val;
     }
 
@@ -414,11 +395,11 @@
         if (!th || !td) return;
         var label = th.textContent.replace(/\s+/g, ' ').trim();
         var current = (td.getAttribute('data-overview-value') || td.textContent || '').trim();
-        var rawValue = (label === '来場予定数') ? current.replace(/\s*名$/, '').trim() : current;
-        var inputType = (label === '来場予定数') ? 'number' : 'text';
+        var rawValue = (label === '参加規模') ? current.replace(/\s*名$/, '').trim() : current;
+        var inputType = (label === '参加規模') ? 'number' : 'text';
         var placeholder = label;
         td.innerHTML = '<input type="' + inputType + '" class="form-control form-control-sm" placeholder="' + placeholder + '" value="' + rawValue.replace(/"/g, '&quot;') + '">';
-        if (label === '来場予定数') td.insertAdjacentText('beforeend', ' 名');
+        if (label === '参加規模') td.insertAdjacentText('beforeend', ' 名');
       });
     }
 
@@ -465,7 +446,7 @@
       overviewEditMode = editing;
       if (editing) {
         renderOverviewPlanEditMode();
-        var first = document.querySelector('#eventOverviewPlanTable tbody input');
+        var first = document.querySelector('#eventOverviewPlanTable tbody input, #eventOverviewPlanTable tbody textarea');
         if (first) first.focus();
       } else {
         renderOverviewPlanReadMode();

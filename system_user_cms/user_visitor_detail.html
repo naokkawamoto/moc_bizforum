@@ -8,8 +8,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css">
   <style>
-    .sidebar { max-height: 80vh; overflow-y: auto; }
-    .col-fixed { padding-left: 0; padding-right: 0; }
     .small-text { font-size: 0.75rem; }
     .section-card { margin-bottom: 1.5rem; }
     .card-header-actions { background-color: #e9ecef; color: #212529; }
@@ -30,6 +28,12 @@
     #sessionCard.edit-mode .session-form.join-btn-group { display: inline-block !important; }
     .join-btn-group .btn { min-width: 64px; }
     #sessionCard .session-join-toggle { display: inline-flex; vertical-align: middle; }
+    /* 参加・不参加：通常は保存非表示・編集表示、行編集中は逆 */
+    #sessionCard tr[data-key] .join-editor { display: none !important; }
+    #sessionCard tr[data-key].join-row-editing .join-editor { display: block !important; }
+    #sessionCard tr[data-key] .btn-join-save { display: none !important; }
+    #sessionCard tr[data-key].join-row-editing .btn-join-save { display: inline-block !important; }
+    #sessionCard tr[data-key].join-row-editing .btn-join-edit { display: none !important; }
     .session-table tr[data-program="event"] .event-entry-note { font-size: 0.8rem; line-height: 1.35; }
   </style>
 </head>
@@ -38,20 +42,10 @@
 
   <div class="container-fluid mt-4 px-4">
     <div class="row">
-      <nav class="col-fixed" style="width:240px;">
-        <div class="sidebar px-2">
-          <div class="list-group small-text">
-            <a href="user_project_detail.html" class="list-group-item list-group-item-action">イベントトップ</a>
-            <a href="user_project_detail_mail.html" class="list-group-item list-group-item-action">メール管理</a>
-            <a href="user_project_detail_mail_print.html" class="list-group-item list-group-item-action">来場者・名札管理</a>
-            <a href="user_project_detail_report.html" class="list-group-item list-group-item-action">来場、入退場管理</a>
-          </div>
-        </div>
-      </nav>
-      <main class="col px-3" style="padding-bottom: 80px;">
+      <main class="col-12 px-3" style="padding-bottom: 80px;">
         <div class="bg-dark text-white px-3 py-3 mb-4">
           <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026</h4>
+            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026 <span class="fs-6 fw-normal text-white-50 ms-2">NBCS2026-M0305</span></h4>
             <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
           </div>
         </div>
@@ -80,7 +74,7 @@
               <table class="table table-bordered info-table mb-0">
                 <tbody>
                   <tr>
-                    <th>UserID</th>
+                    <th>イベント識別番号</th>
                     <td>U001</td>
                   </tr>
                   <tr>
@@ -92,12 +86,8 @@
                     <td>マーケティング部</td>
                   </tr>
                   <tr>
-                    <th>姓</th>
-                    <td>田中</td>
-                  </tr>
-                  <tr>
-                    <th>名</th>
-                    <td>一郎</td>
+                    <th>役職</th>
+                    <td>部長</td>
                   </tr>
                   <tr>
                     <th>氏名</th>
@@ -112,7 +102,7 @@
                     <td>イチロウ</td>
                   </tr>
                   <tr>
-                    <th>メールアドレス（識別のため）</th>
+                    <th>メールアドレス</th>
                     <td>guest001@example.com</td>
                   </tr>
                   <tr>
@@ -144,7 +134,7 @@
                 <thead class="table-light">
                   <tr>
                     <th>プログラム</th>
-                    <th style="width: 90px;">回</th>
+                    <th style="min-width: 110px;">入退場回数</th>
                     <th>参加・不参加</th>
                     <th>入場時刻</th>
                     <th>退場時刻</th>
@@ -156,7 +146,17 @@
                     <td>—</td>
                     <td class="event-entry-note text-muted">
                       <span class="d-block mb-1">イベント全体の入退場記録（会場の入場・退場）</span>
-                      <span class="event-inout-badge-wrap"><span class="badge bg-success event-inout-badge">入場</span></span>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="event-inout-badge-wrap"><span class="badge bg-success event-inout-badge">入場</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-2">
+                        <div class="event-inout-toggle btn-group btn-group-sm" role="group" aria-label="入退場">
+                          <button type="button" class="btn btn-success btn-sm" data-inout="1">入場</button>
+                          <button type="button" class="btn btn-outline-secondary btn-sm" data-inout="0">未入場</button>
+                        </div>
+                      </div>
                     </td>
                     <td><span class="session-view">12:55</span><input type="text" class="session-form form-control form-control-sm" value="12:55" placeholder="HH:MM"></td>
                     <td><span class="session-view">18:30</span><input type="text" class="session-form form-control form-control-sm" value="18:30" placeholder="HH:MM"></td>
@@ -164,7 +164,16 @@
                   <tr data-key="keynote-1" data-program="keynote">
                     <th rowspan="2" class="align-top">基調講演</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-success join-status-badge">参加済</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">13:02</span><input type="text" class="session-form form-control form-control-sm" value="13:02" placeholder="HH:MM"></td>
                     <td><span class="session-view">13:28</span><input type="text" class="session-form form-control form-control-sm" value="13:28" placeholder="HH:MM"></td>
                   </tr>
@@ -177,7 +186,16 @@
                   <tr data-key="sessionA-1" data-program="sessionA">
                     <th rowspan="2" class="align-top">セッションA</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-success join-status-badge">参加済</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">14:12</span><input type="text" class="session-form form-control form-control-sm" value="14:12" placeholder="HH:MM"></td>
                     <td><span class="session-view">14:28</span><input type="text" class="session-form form-control form-control-sm" value="14:28" placeholder="HH:MM"></td>
                   </tr>
@@ -190,14 +208,32 @@
                   <tr data-key="sessionB-1" data-program="sessionB">
                     <th>セッションB</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-secondary join-status-badge">不参加</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                   </tr>
                   <tr data-key="sessionC-1" data-program="sessionC">
                     <th rowspan="2" class="align-top">セッションC</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-success join-status-badge">参加済</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">15:22</span><input type="text" class="session-form form-control form-control-sm" value="15:22" placeholder="HH:MM"></td>
                     <td><span class="session-view">15:38</span><input type="text" class="session-form form-control form-control-sm" value="15:38" placeholder="HH:MM"></td>
                   </tr>
@@ -210,21 +246,48 @@
                   <tr data-key="sessionD-1" data-program="sessionD">
                     <th>セッションD</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-secondary join-status-badge">不参加</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-outline-secondary btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                     <td><span class="session-view">—</span><input type="text" class="session-form form-control form-control-sm" value="" placeholder="HH:MM"></td>
                   </tr>
                   <tr data-key="dialog-1" data-program="dialog">
                     <th>ダイアログ</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-success join-status-badge">参加済</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">16:42</span><input type="text" class="session-form form-control form-control-sm" value="16:42" placeholder="HH:MM"></td>
                     <td><span class="session-view">17:35</span><input type="text" class="session-form form-control form-control-sm" value="17:35" placeholder="HH:MM"></td>
                   </tr>
                   <tr data-key="net-1" data-program="net">
                     <th rowspan="2" class="align-top">ネットワーキング</th>
                     <td>1回目</td>
-                    <td><div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div></td>
+                    <td>
+                      <div class="d-flex align-items-center flex-wrap gap-1 join-actions">
+                        <span class="join-badge-wrap"><span class="badge bg-success join-status-badge">参加済</span></span>
+                        <button type="button" class="btn btn-outline-primary btn-sm btn-join-edit">編集</button>
+                        <button type="button" class="btn btn-primary btn-sm btn-join-save">保存</button>
+                      </div>
+                      <div class="join-editor d-none mt-1">
+                        <div class="join-btn-group session-join-toggle btn-group btn-group-sm" role="group" aria-label="参加・不参加"><button type="button" class="btn btn-success btn-sm" data-join="1">参加済</button><button type="button" class="btn btn-outline-secondary btn-sm" data-join="0">不参加</button></div>
+                      </div>
+                    </td>
                     <td><span class="session-view">17:45</span><input type="text" class="session-form form-control form-control-sm" value="17:45" placeholder="HH:MM"></td>
                     <td><span class="session-view">18:15</span><input type="text" class="session-form form-control form-control-sm" value="18:15" placeholder="HH:MM"></td>
                   </tr>
@@ -294,7 +357,7 @@
       if (card) card.classList.remove('edit-mode');
 
       var sessionData = [
-        { key: 'event-entry', in: '12:55', out: '18:30' },
+        { key: 'event-entry', join: 1, in: '12:55', out: '18:30' },
         { key: 'keynote-1', join: 1, in: '13:02', out: '13:28' },
         { key: 'keynote-2', in: '13:05', out: '13:10' },
         { key: 'sessionA-1', join: 1, in: '14:12', out: '14:28' },
@@ -311,9 +374,15 @@
       var btnEditEl = document.getElementById('btnEdit');
       var editButtonsEl = document.getElementById('editButtons');
 
+      function clearJoinRowEditing() {
+        if (!card) return;
+        card.querySelectorAll('tr.join-row-editing').forEach(function (tr) { tr.classList.remove('join-row-editing'); });
+      }
+
       function setEditMode(editing) {
         if (!card) return;
         if (editing) {
+          clearJoinRowEditing();
           card.classList.add('edit-mode');
           if (btnEditEl) { btnEditEl.classList.add('edit-hide'); btnEditEl.style.display = 'none'; }
           if (editButtonsEl) { editButtonsEl.classList.remove('edit-hide'); editButtonsEl.style.display = 'inline-block'; }
@@ -338,10 +407,18 @@
 
           if (d.key === 'event-entry') {
             var badgeEl = row.querySelector('.event-inout-badge');
-            if (badgeEl) {
-              var hasIn = d.in && String(d.in).trim() !== '' && String(d.in).trim() !== '—';
-              badgeEl.className = 'badge event-inout-badge ' + (hasIn ? 'bg-success' : 'bg-secondary');
-              badgeEl.textContent = hasIn ? '入場' : '未入場';
+            if (badgeEl && d.join !== undefined) {
+              badgeEl.className = 'badge event-inout-badge ' + (d.join ? 'bg-success' : 'bg-secondary');
+              badgeEl.textContent = d.join ? '入場' : '未入場';
+            }
+            var evGroup = row.querySelector('.event-inout-toggle');
+            if (evGroup && d.join !== undefined) {
+              var eb1 = evGroup.querySelector('[data-inout="1"]');
+              var eb0 = evGroup.querySelector('[data-inout="0"]');
+              if (eb1 && eb0) {
+                eb1.className = 'btn btn-sm ' + (d.join ? 'btn-success' : 'btn-outline-secondary');
+                eb0.className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-secondary');
+              }
             }
             var inSpE = cells[2].querySelector('.session-view');
             var outSpE = cells[3].querySelector('.session-view');
@@ -350,6 +427,11 @@
             return;
           }
 
+          var badgeProg = joinCell.querySelector('.join-status-badge');
+          if (badgeProg && d.join !== undefined) {
+            badgeProg.className = 'badge join-status-badge ' + (d.join ? 'bg-success' : 'bg-secondary');
+            badgeProg.textContent = d.join ? '参加済' : '不参加';
+          }
           var toggleJoin = joinCell.querySelector('.session-join-toggle');
           if (toggleJoin && d.join !== undefined) {
             var jBtns = toggleJoin.querySelectorAll('.btn[data-join]');
@@ -365,7 +447,8 @@
         });
       }
 
-      function readFormToData() {
+      function readFormToData(skipJoinFromDom) {
+        skipJoinFromDom = !!skipJoinFromDom;
         sessionData.forEach(function (d) {
           var row = getRow(d.key);
           if (!row) return;
@@ -378,17 +461,41 @@
             d.out = outInputE && outInputE.value ? outInputE.value.trim() : '';
             return;
           }
-          var joinToggle = cells[1].querySelector('.session-join-toggle');
-          if (joinToggle) {
-            var j1 = joinToggle.querySelector('[data-join="1"]');
-            var j0 = joinToggle.querySelector('[data-join="0"]');
-            if (j1 && j0) d.join = j1.classList.contains('btn-success') ? 1 : 0;
+          if (!skipJoinFromDom && d.join !== undefined) {
+            var joinToggle = cells[1].querySelector('.session-join-toggle');
+            if (joinToggle) {
+              var j1 = joinToggle.querySelector('[data-join="1"]');
+              var j0 = joinToggle.querySelector('[data-join="0"]');
+              if (j1 && j0) d.join = j1.classList.contains('btn-success') ? 1 : 0;
+            }
           }
           var inInput = cells[2].querySelector('.session-form input');
           var outInput = cells[3].querySelector('.session-form input');
           d.in = inInput && inInput.value ? inInput.value.trim() : '';
           d.out = outInput && outInput.value ? outInput.value.trim() : '';
         });
+      }
+
+      function readJoinFromRow(row) {
+        if (!row) return;
+        var key = row.getAttribute('data-key');
+        if (!key) return;
+        var d = sessionData.filter(function (x) { return x.key === key; })[0];
+        if (!d) return;
+        if (key === 'event-entry' && d.join !== undefined) {
+          var evG = row.querySelector('.event-inout-toggle');
+          if (evG) {
+            var e1 = evG.querySelector('[data-inout="1"]');
+            d.join = e1 && e1.classList.contains('btn-success') ? 1 : 0;
+          }
+          return;
+        }
+        var toggle = row.querySelector('.session-join-toggle');
+        if (toggle && d.join !== undefined) {
+          var jj1 = toggle.querySelector('[data-join="1"]');
+          var jj0 = toggle.querySelector('[data-join="0"]');
+          if (jj1 && jj0) d.join = jj1.classList.contains('btn-success') ? 1 : 0;
+        }
       }
 
       function writeDataToForm() {
@@ -402,6 +509,15 @@
             var outInputE = cells[3].querySelector('.session-form input');
             if (inInputE) inInputE.value = d.in || '';
             if (outInputE) outInputE.value = d.out || '';
+            var evGrp = row.querySelector('.event-inout-toggle');
+            if (evGrp && d.join !== undefined) {
+              var e1w = evGrp.querySelector('[data-inout="1"]');
+              var e0w = evGrp.querySelector('[data-inout="0"]');
+              if (e1w && e0w) {
+                e1w.className = 'btn btn-sm ' + (d.join ? 'btn-success' : 'btn-outline-secondary');
+                e0w.className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-secondary');
+              }
+            }
             return;
           }
           var joinToggleW = cells[1].querySelector('.session-join-toggle');
@@ -419,13 +535,48 @@
         });
       }
 
-      /* 参加・不参加トグルは編集モード外でも操作可（イベント委譲） */
       if (card) {
         card.addEventListener('click', function (e) {
+          var editJoin = e.target.closest('.btn-join-edit');
+          if (editJoin && card.contains(editJoin)) {
+            var rowEdit = editJoin.closest('tr[data-key]');
+            if (!rowEdit) return;
+            e.preventDefault();
+            clearJoinRowEditing();
+            rowEdit.classList.add('join-row-editing');
+            writeDataToForm();
+            return;
+          }
+          var saveJoin = e.target.closest('.btn-join-save');
+          if (saveJoin && card.contains(saveJoin)) {
+            var rowSave = saveJoin.closest('tr[data-key]');
+            if (!rowSave) return;
+            e.preventDefault();
+            readJoinFromRow(rowSave);
+            updateViewFromData();
+            rowSave.classList.remove('join-row-editing');
+            return;
+          }
+          var inoutBtn = e.target.closest('.event-inout-toggle .btn[data-inout]');
+          if (inoutBtn && card.contains(inoutBtn)) {
+            var rowEv = inoutBtn.closest('tr[data-key]');
+            if (!rowEv || !rowEv.classList.contains('join-row-editing')) return;
+            var evGroup = inoutBtn.closest('.event-inout-toggle');
+            if (!evGroup) return;
+            var isIn = inoutBtn.getAttribute('data-inout') === '1';
+            var ie1 = evGroup.querySelector('[data-inout="1"]');
+            var ie0 = evGroup.querySelector('[data-inout="0"]');
+            if (ie1 && ie0) {
+              ie1.className = 'btn btn-sm ' + (isIn ? 'btn-success' : 'btn-outline-secondary');
+              ie0.className = 'btn btn-sm ' + (isIn ? 'btn-outline-secondary' : 'btn-secondary');
+            }
+            e.preventDefault();
+            return;
+          }
           var btn = e.target.closest('.session-join-toggle .btn[data-join]');
           if (!btn || !card.contains(btn)) return;
           var row = btn.closest('tr[data-key]');
-          if (!row) return;
+          if (!row || !row.classList.contains('join-row-editing')) return;
           var key = row.getAttribute('data-key');
           if (!key || key === 'event-entry') return;
           var d = sessionData.filter(function (x) { return x.key === key; })[0];
@@ -433,11 +584,10 @@
           var group = btn.closest('.session-join-toggle');
           if (!group) return;
           var isJoin = btn.getAttribute('data-join') === '1';
-          d.join = isJoin ? 1 : 0;
           var btns = group.querySelectorAll('.btn[data-join]');
           if (btns.length >= 2) {
-            btns[0].className = 'btn btn-sm ' + (d.join ? 'btn-success' : 'btn-outline-secondary');
-            btns[1].className = 'btn btn-sm ' + (d.join ? 'btn-outline-secondary' : 'btn-secondary');
+            btns[0].className = 'btn btn-sm ' + (isJoin ? 'btn-success' : 'btn-outline-secondary');
+            btns[1].className = 'btn btn-sm ' + (isJoin ? 'btn-outline-secondary' : 'btn-secondary');
           }
           e.preventDefault();
         });
@@ -458,7 +608,7 @@
           if (id === 'btnSave') {
             e.preventDefault();
             e.stopPropagation();
-            readFormToData();
+            readFormToData(true);
             updateViewFromData();
             setEditMode(false);
             alert('保存しました。');
@@ -467,6 +617,7 @@
           if (id === 'btnCancel') {
             e.preventDefault();
             e.stopPropagation();
+            clearJoinRowEditing();
             writeDataToForm();
             setEditMode(false);
             return;
@@ -475,8 +626,8 @@
       }
 
       window.visitorEnterEdit = function () { setEditMode(true); };
-      window.visitorSaveEdit = function () { readFormToData(); updateViewFromData(); setEditMode(false); alert('保存しました。'); };
-      window.visitorCancelEdit = function () { writeDataToForm(); setEditMode(false); };
+      window.visitorSaveEdit = function () { readFormToData(true); updateViewFromData(); setEditMode(false); alert('保存しました。'); };
+      window.visitorCancelEdit = function () { clearJoinRowEditing(); writeDataToForm(); setEditMode(false); };
 
       try { updateViewFromData(); } catch (err) { console.warn('updateViewFromData:', err); }
     }

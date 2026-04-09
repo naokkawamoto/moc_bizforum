@@ -24,6 +24,7 @@
   <p>作成日: 2026年2月17日</p>
   <p><strong>更新（2026年4月8日）:</strong> ルート <code>index.html</code> の SYSTEM USER 導線（<code>user_login.html</code> 経由）、管理画面ログイン、共通ヘッダー・フッター、<code>user_settings_staff.html</code>、<code>user_activity_log.html</code>、<code>user_visitor_detail.html</code> の参加・不参加表示等を現行モックに合わせて反映。</p>
   <p><strong>更新（2026年4月9日）:</strong> 共通ヘッダー <code>user_header.html</code> のログインユーザー表示は<strong>ナビバー右の1箇所のみ</strong>とし、オフキャンバスメニュー内の人アイコン・氏名の重複表示を廃止（イベントリスト等すべてのページで同様）。</p>
+  <p><strong>更新（2026年4月9日・サイト反映）:</strong> イベント配下画面の<strong>黒帯にイベント番号</strong>（例：NBCS2026-M0305）をイベント名の右に表示。<strong>イベント情報登録</strong>はイベント番号必須・参加規模・営業担当者登録（CSVボタン）・プログラムから開催日列削除・来場者リストから営業担当者列削除・備考削除。<strong>イベントトップ</strong>はイベント概要（参加規模・備考なし）・営業担当者カード。<strong>来場・入退場管理</strong>はCSVのみ（PDFなし）・列定義は実装参照。<strong>来場者・名札管理</strong>は来場者表に役職列。<strong>入場者詳細</strong>はサイドメニューなし・イベント識別番号・役職・参加不参加は行ごとに編集／保存。<strong>メール管理</strong>タブを目次に追記。</p>
   <p><strong>対象デバイス:</strong> デスクトップ・タブレット（表示幅 1024px 以上を想定。例：iPad Pro 1024×1366px）</p>
   <p><strong>対応ブラウザ:</strong> Google Chrome、Safari、Microsoft Edge の各ブラウザについて、リリースから1年以内のバージョンを対象とする（例：2026年2月時点では各ブラウザの直近1年分のメジャーバージョン）。</p>
   <p><strong>注意:</strong> 受付アプリ（スマートフォン向け）の要件定義は <code>user_site/requirements_specification.html</code> を参照してください。</p>
@@ -34,7 +35,8 @@
     <li><a href="#page1">user_project_list.html - イベントリスト</a></li>
     <li><a href="#page2">user_project_create.html - 新規イベント登録</a></li>
     <li><a href="#page3">user_project_detail.html - イベントトップ（ダッシュボード）</a></li>
-    <li><a href="#page3b">user_project_detail_mail_print.html - 来場者・メール・名札</a></li>
+    <li><a href="#page3m">user_project_detail_mail.html - メール管理</a></li>
+    <li><a href="#page3b">user_project_detail_mail_print.html - 来場者・名札管理</a></li>
     <li><a href="#page4">user_project_detail_report.html - 来場者・入退室</a></li>
     <li><a href="#page5">user_visitor_detail.html - 入場者詳細</a></li>
     <li><a href="#page6">user_staff_detail.html - 担当者別詳細</a></li>
@@ -111,7 +113,7 @@
     <tr>
       <td>イベントテーブル</td>
       <td>データ行のクリック（削除ボタン以外）で <code>user_project_detail.html</code>（同一ディレクトリ・相対パス） へ遷移。行末に削除ボタン（確認モーダル後に行削除のモック）。<strong>状況列は置かない。</strong>一覧の<strong>最下段2行</strong>は行全体をグレー背景（#e9ecef）とする。</td>
-      <td>イベント種別番号 / イベント名 / 開催日時 / 終了日時 / 開催場所 / 参加規模 / 担当者 / 削除アイコン</td>
+      <td>イベント種別番号 / イベント名 / 開催日時 / 終了日時 / 開催場所 / 担当者 / 削除アイコン</td>
     </tr>
     <tr class="section-header">
       <td colspan="3">右サイドバー</td>
@@ -136,7 +138,7 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>イベント概要・担当者・プログラム・来場予約を登録するためのフォームページ。ページ上部右に「イベントを登録」ボタン（一覧に戻るの左）。各セクションに保存ボタンがあり、個別に保存可能。CSVアップロードは来場者リストのみ。</td>
+      <td>イベント概要・<strong>営業担当者</strong>・プログラム・メール配信・来場者を登録するフォーム。ページ上部に「イベントを登録」と一覧へ戻る。各セクションに保存あり。<strong>来場者リスト</strong>にCSVアップロード、<strong>営業担当者登録</strong>にもCSVボタン（モーダル＋ファイル選択のモック）。一括登録時の必須チェックはイベント名・イベント番号・開催日時・終了日時。</td>
     </tr>
   </table>
 
@@ -152,19 +154,19 @@
       <td>1</td>
       <td class="feature">イベント概要</td>
       <td>入力フォーム<br>保存ボタン</td>
-      <td>イベント名 <span class="required">*必須</span> / 開催日時 <span class="required">*必須</span> / 終了日時 <span class="required">*必須</span> / 開催場所 / 入場予定数 / セッション参加予定数（自由記述）/ インフォメーション・備考</td>
+      <td>イベント名 <span class="required">*必須</span> / <strong>イベント番号</strong> <span class="required">*必須</span> / 開催日時 <span class="required">*必須</span> / 終了日時 <span class="required">*必須</span> / 開催場所 / <strong>参加規模</strong>（数値・旧称は入場予定数）<br>※備考欄は現行モックでは<strong>なし</strong></td>
     </tr>
     <tr>
       <td>2</td>
-      <td class="feature">担当者登録</td>
-      <td>テーブル入力<br>保存ボタン<br>登録人数バッジ</td>
-      <td>会社名 / 担当者名 / メール<br>※行の追加・削除可能。登録人数をバッジで表示</td>
+      <td class="feature">営業担当者登録</td>
+      <td>テーブル入力<br>保存ボタン<br><strong>CSV</strong>ボタン<br>登録人数バッジ</td>
+      <td>会社名 / 担当者名 / メール。CSVは会社名・担当者名・メール列を想定（モーダル説明）<br>※行の追加・削除可能</td>
     </tr>
     <tr>
       <td>3</td>
       <td class="feature">プログラム登録</td>
       <td>テーブル入力<br>保存ボタン</td>
-      <td>休憩（チェックボックス）/ 講演種別 / 講演タイトル / 内容 / ROOM / 講演者 / 肩書 / 開催日 / 開始時間 / 終了時間<br>※行の追加・削除可能</td>
+      <td>休憩（チェック）/ 講演種別 / 講演タイトル / ROOM / 組織名 / 役職 / 講演者 / 開始時間 / 終了時間<br>※<strong>開催日列は現行モックでは削除済み</strong>。行の追加・削除可能</td>
     </tr>
     <tr>
       <td>3.5</td>
@@ -176,7 +178,7 @@
       <td>4</td>
       <td class="feature">来場者リスト</td>
       <td>テーブル表示（小さめ文字）<br>CSVアップロード<br>保存ボタン<br>登録人数バッジ<br>QRコード表示</td>
-      <td>会社名 / 部門 / 姓 / 名 / 氏名 / 姓（カナ）/ 名（カナ）/ メールアドレス（識別のため）/ 選択セッション / QRコード（クリックでモーダル）/ 営業担当者<br>※CSVアップロードで一括登録可能。QRコードをクリックするとモーダルでQRコードを表示</td>
+      <td>イベント種別番号・抽選・出欠・会社名・部門・役職・氏名・カナ・メール・選択セッション・URL 等（現行テーブルに準拠）。<strong>営業担当者列は現行モックでは削除済み</strong>。QRはクリックでモーダル</td>
     </tr>
   </table>
 
@@ -225,20 +227,21 @@
     </tr>
     <tr>
       <td>概要</td>
-      <td>イベントのダッシュボード。上部の黒帯にイベント名（左）と開催日時（右寄せ・白文字）を表示し、プログラム別の入室予定・実績をテーブルで表示。CSV/PDFボタンは置かない。</td>
+      <td>イベントのダッシュボード。上部黒帯に<strong>イベント名＋イベント番号</strong>（例：NBCS2026-M0305・イベント名の右にサブ表記）と開催日時（右寄せ）。その下に<strong>タブナビ</strong>（左サイドバーではない）。プログラム別の入室・退室実績をテーブルで表示。</td>
     </tr>
   </table>
 
-  <h3>左サイドメニュー（共通）</h3>
+  <h3>イベント配下タブナビ（共通）</h3>
   <table>
     <tr>
       <th width="5%">順</th>
-      <th width="20%">メニュー項目</th>
+      <th width="20%">タブ</th>
       <th width="75%">遷移先</th>
     </tr>
     <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
-    <tr><td>2</td><td>来場者・メール・名札</td><td>user_project_detail_mail_print.html</td></tr>
-    <tr><td>3</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>2</td><td>メール管理</td><td>user_project_detail_mail.html</td></tr>
+    <tr><td>3</td><td>来場者・名札管理</td><td>user_project_detail_mail_print.html</td></tr>
+    <tr><td>4</td><td>来場、入退場管理</td><td>user_project_detail_report.html</td></tr>
   </table>
 
   <h3>メインコンテンツ</h3>
@@ -251,26 +254,39 @@
     </tr>
     <tr>
       <td class="feature">イベントヘッダー</td>
-      <td>イベント名（左）と開催日時テキスト（右寄せ・同一黒帯内・白文字）。星アイコンなし。「イベントトップ」副見出しなし</td>
+      <td>イベント名・イベント番号（左）と開催日時（右・同一黒帯・白文字）。星アイコンなし</td>
       <td>-</td>
       <td>-</td>
     </tr>
     <tr>
       <td class="feature">イベント概要カード</td>
-      <td>開催日時・終了日時・開催場所・来場予定数・セッション参加予定数／担当者テーブル。カード見出し下に小さく <code>updated yyyymmdd:hh:mm 名前</code>（更新日時・更新者のダミー。保存で現在時刻に更新）</td>
+      <td>開催日時・終了日時・開催場所・<strong>参加規模</strong>・来場数実績のテーブル（3列：項目／予定・内容／来場数実績）。<strong>備考なし</strong>。見出し下に <code>updated …</code> メタ。編集トグルでセル入力</td>
       <td>編集・保存</td>
       <td>-</td>
     </tr>
     <tr>
       <td class="feature">プログラムテーブル</td>
-      <td>時間 / ROOM / 講演タイトル・内容 / 講演者 / 入室予定数 / 入室数 / 退室数（進捗表示）。カード見出しは「プログラム」のみ（「（コンテンツ）」表記なし）。見出し行に小さく <code>updated yyyymmdd:hh:mm 名前</code>（保存で更新）。編集・保存ボタンあり</td>
-      <td>テーブル行クリックで来場者・入退室ページへ（実装による）</td>
-      <td>user_project_detail_report.html</td>
+      <td>時間 / ROOM / 講演タイトル（種別バッジ＋タイトル＋講演者行）/ 入室数 / 退室数。カード見出し「プログラム」。編集・保存あり</td>
+      <td>（行クリックの遷移は実装による）</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td class="feature">営業担当者カード</td>
+      <td>会社名・担当者名・メールのテーブル。編集トグルで行入力・新規追加</td>
+      <td>編集・保存</td>
+      <td>-</td>
     </tr>
   </table>
 
-  <!-- ===== ページ3b: 来場者・メール・名札 ===== -->
-  <h2 id="page3b">3b. user_project_detail_mail_print.html - 来場者・メール・名札</h2>
+  <!-- ===== ページ3m: メール管理 ===== -->
+  <h2 id="page3m">3m. user_project_detail_mail.html - メール管理</h2>
+  <table>
+    <tr><th width="15%">項目</th><th width="85%">内容</th></tr>
+    <tr><td>概要</td><td>イベント単位のメール配信管理画面。上記タブの「メール管理」から遷移。黒帯にイベント名・イベント番号・開催日時。本文の詳細は現行HTMLに準拠（配信スケジュール・テンプレート等のモック）。</td></tr>
+  </table>
+
+  <!-- ===== ページ3b: 来場者・名札管理 ===== -->
+  <h2 id="page3b">3b. user_project_detail_mail_print.html - 来場者・名札管理</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -278,24 +294,25 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>イベント管理（来場者・メール・名札）</td>
+      <td>イベント管理（来場者・名札管理）等（現行titleに準拠）</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>メール配信管理・来場者一覧（メール送信・ネームカード印刷）を表示。左サイドメニューはイベントトップ／来場者・メール・名札／来場者・入退室（VIP来場のお知らせはメニューに含めない）。メール配信管理で配信予定数・送信済み・未送信・自動配信設定・内容確認。来場者一覧で検索・絞り込み・追加登録・一括追加CSV・ネームカード印刷。</td>
+      <td>メール配信管理ブロックと来場者リスト（名札・印刷）を同一イベント配下に配置。<strong>タブナビ</strong>はイベントトップ／メール管理／当ページ／来場入退場管理の4つ。来場者テーブルは部門の次に<strong>役職</strong>列あり。検索・絞り込み・追加登録・CSV・編集モード・名札プレビュー等は現行モック参照。</td>
     </tr>
     <tr>
       <td>メイン上部</td>
-      <td>イベント名を黒背景・白文字の帯で表示し、開催日時を同一帯内に配置。星アイコンなし。本文直下の「来場者・メール・名札」見出し行および「来場者一覧（メール送信…）」の説明文は置かない。</td>
+      <td>イベント名・<strong>イベント番号</strong>・開催日時を黒帯に表示（他イベント画面と同様）</td>
     </tr>
   </table>
 
-  <h3>左サイドメニュー</h3>
+  <h3>イベント配下タブナビ（共通）</h3>
   <table>
-    <tr><th width="5%">順</th><th width="25%">メニュー項目</th><th width="70%">遷移先</th></tr>
+    <tr><th width="5%">順</th><th width="25%">タブ</th><th width="70%">遷移先</th></tr>
     <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
-    <tr><td>2</td><td>来場者・メール・名札</td><td>user_project_detail_mail_print.html（当ページ）</td></tr>
-    <tr><td>3</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>2</td><td>メール管理</td><td>user_project_detail_mail.html</td></tr>
+    <tr><td>3</td><td>来場者・名札管理</td><td>user_project_detail_mail_print.html（当ページ）</td></tr>
+    <tr><td>4</td><td>来場、入退場管理</td><td>user_project_detail_report.html</td></tr>
   </table>
 
   <h3>メール配信管理</h3>
@@ -316,7 +333,7 @@
   </table>
 
   <!-- ===== ページ4: 来場者・入退室 ===== -->
-  <h2 id="page4">4. user_project_detail_report.html - 来場者・入退室</h2>
+  <h2 id="page4">4. user_project_detail_report.html - 来場、入退場管理</h2>
   <table>
     <tr>
       <th width="15%">項目</th>
@@ -324,11 +341,11 @@
     </tr>
     <tr>
       <td>ページタイトル</td>
-      <td>イベント管理（来場者・入退出）</td>
+      <td>イベント管理（来場、入退場管理）等（現行に準拠）</td>
     </tr>
     <tr>
       <td>概要</td>
-      <td>来場者・入退出一覧を表示。担当者絞り込み・セッション絞り込みでフィルタ可能。行クリックで入場者詳細へ、担当者名クリックで担当者別詳細へ遷移。</td>
+      <td>来場者一覧・絞り込み・ページネーション。カードヘッダーに<strong>CSV</strong>ボタンのみ（<strong>PDFは置かない</strong>）。CSVは絞り込み結果をUTF-8（BOM）で出力するモック（列定義は実装・イベント識別番号・参加規模・プログラム列など）。行クリックで入場者詳細、担当者名で担当者詳細へ。</td>
     </tr>
   </table>
 
@@ -340,7 +357,7 @@
     </tr>
     <tr>
       <td>ヘッダー</td>
-      <td>イベント名 / 「来場者・入退室」タイトル / 開催日時</td>
+      <td>イベント名・<strong>イベント番号</strong>・開催日時を黒帯に表示（他イベント画面と同様）</td>
     </tr>
     <tr>
       <td class="data">絞り込み</td>
@@ -385,11 +402,11 @@
     </tr>
     <tr>
       <td class="data">基本情報</td>
-      <td>入場者ID / 来場者名 / 会社名 等。カードヘッダーに編集・保存・キャンセル。</td>
+      <td><strong>サイドメニューなし</strong>（全幅1カラム）。項目例：イベント識別番号（U001）・会社名・部門・<strong>役職</strong>・氏名・カナ・メール（「識別のため」表記なし）・選択セッション・QR・営業担当者。カードヘッダーに編集・保存・キャンセル（入退場<strong>時刻</strong>の編集用）。</td>
     </tr>
     <tr>
       <td class="data">参加不参加・入退場ログ</td>
-      <td>プログラム行は「参加済／不参加」をトグル（<code>btn-group</code>、緑／グレー系）で表示・切替（編集モード時も同トグルで操作可能なモック）。イベント入退場行は入場時刻・退場時刻に加え、説明付近に「入場／未入場」バッジ（来場管理画面と同系色）。2回目のみ等の行は参加列に「—」。</td>
+      <td>表見出し「入退場回数」（旧・回）。各行に<strong>編集</strong>／<strong>保存</strong>：通常はバッジ表示のみ、編集でトグル表示→保存で確定して編集に戻る（モック）。イベント入退場は入場／未入場トグル。基本情報の保存とは独立した行単位の保存動作。</td>
     </tr>
     <tr>
       <td>遷移</td>
@@ -451,14 +468,15 @@
     </tr>
   </table>
 
-  <h3>左サイドメニュー</h3>
+  <h3>イベント配下タブナビ（本ページはタブに含めない）</h3>
   <table>
-    <tr><th width="5%">順</th><th width="25%">メニュー項目</th><th width="70%">遷移先</th></tr>
+    <tr><th width="5%">順</th><th width="25%">タブ</th><th width="70%">遷移先</th></tr>
     <tr><td>1</td><td>イベントトップ</td><td>user_project_detail.html</td></tr>
-    <tr><td>2</td><td>来場者・メール・名札</td><td>user_project_detail_mail_print.html</td></tr>
-    <tr><td>3</td><td>来場者・入退室</td><td>user_project_detail_report.html</td></tr>
+    <tr><td>2</td><td>メール管理</td><td>user_project_detail_mail.html</td></tr>
+    <tr><td>3</td><td>来場者・名札管理</td><td>user_project_detail_mail_print.html</td></tr>
+    <tr><td>4</td><td>来場、入退場管理</td><td>user_project_detail_report.html</td></tr>
   </table>
-  <p class="small">本ページ（VIP来場のお知らせ）は左メニューに項目として置かない。他画面と同様の3項目のみ。</p>
+  <p class="small">本ページ（VIP来場のお知らせ）はグローバルナビから開く想定で、<strong>イベント配下の4タブには含めない</strong>（従来どおり）。</p>
 
   <h3>機能詳細</h3>
   <table>
@@ -471,9 +489,9 @@
       <td colspan="3">ヘッダー</td>
     </tr>
     <tr>
-      <td>イベント名</td>
-      <td>ページ上部にイベント名を表示</td>
-      <td>イベント名（例：New Business Creation Strategy 2026）</td>
+      <td>イベント名・番号</td>
+      <td>ページ上部にイベント名と、その右に<strong>イベント番号</strong>（例：NBCS2026-M0305）を表示</td>
+      <td>イベント名 / イベント番号</td>
     </tr>
     <tr>
       <td>ページタイトル</td>
@@ -690,11 +708,11 @@
     </tr>
     <tr>
       <td>レイアウト</td>
-      <td>イベントリスト：左カラム（イベント名リスト）＋中央メイン＋右カラム（お知らせ・VIP来場通知）。イベントトップ・来場者・メール・名札・来場者・入退室：左サイドメニュー（イベントトップ／来場者・メール・名札／来場者・入退室。VIP来場のお知らせはサイドメニューに含めない）＋中央メイン。</td>
+      <td>イベントリスト：左カラム（イベント名リスト）＋中央メイン＋右カラム（お知らせ・VIP来場通知）。<strong>イベント配下各画面</strong>：ページ上部<strong>タブナビ</strong>（イベントトップ／メール管理／来場者・名札管理／来場・入退場管理）＋中央メイン。VIP来場のお知らせ（user_nortification.html）はタブ外。</td>
     </tr>
     <tr>
       <td>現行ファイル</td>
-      <td>本要件定義に記載の画面（目次16項＋共通ヘッダー・フッター）＋ <code>user_login.html</code>。削除済みファイル（report_detail, schedule, overview, drawing, budget, staff, partner, other, work_type, partner設定, chat, user_detail）は対象外。ルート <code>index.html</code> から管理画面へは必ず <code>user_login.html</code> を挟む（2026年4月）。</td>
+      <td>本要件定義に記載の画面（目次17項＋共通ヘッダー・フッター）＋ <code>user_login.html</code>。削除済みファイル（report_detail, schedule, overview, drawing, budget, staff, partner, other, work_type, partner設定, chat, user_detail）は対象外。ルート <code>index.html</code> から管理画面へは必ず <code>user_login.html</code> を挟む（2026年4月）。</td>
     </tr>
   </table>
 

@@ -370,6 +370,14 @@
         <div class="modal-body">
           <p class="mb-2" id="sendUnsentModalIntro"></p>
           <p class="small text-muted mb-2 d-none" id="sendUnsentModalMoreNote"></p>
+          <div class="mb-3">
+            <label for="sendUnsentModalSubject" class="form-label fw-bold">件名</label>
+            <input type="text" class="form-control" id="sendUnsentModalSubject" placeholder="件名を入力">
+          </div>
+          <div class="mb-3">
+            <label for="sendUnsentModalBody" class="form-label fw-bold">メール内容</label>
+            <textarea class="form-control font-monospace" id="sendUnsentModalBody" rows="22" style="font-size: 0.9rem;" placeholder="メール本文を入力"></textarea>
+          </div>
           <div class="table-responsive border rounded" style="max-height: 380px;">
             <table class="table table-sm table-hover mb-0" style="font-size: 0.85rem;">
               <thead class="table-light sticky-top">

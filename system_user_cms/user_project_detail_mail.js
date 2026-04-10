@@ -65,6 +65,8 @@
     var mailSendHistory = { mail1: [], mail2: [], mail3: [], mail4: [] };
     var pendingSendUnsentKey = null;
     var editingDeliveryKey = null;
+    var SEND_UNSENT_DEFAULT_SUBJECT = '【受講証のご案内】●月●日開催_●セミナー名短縮版●';
+    var SEND_UNSENT_DEFAULT_BODY = '{!Lead.Company} \n{!Lead.Name}　様　　　　　　　　　　　　　      　{!Lead.JP__c} \n\nこの度は、「●セミナー名短縮版●」へお申込いただき、\n誠にありがとうございます。\n受講証（二次元コード）及び当日の詳細についてご案内いたします。\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ \n受┃講┃証┃ \n━┛━┛━┛\n{!Lead.QRCodeURL_TEXT__c}\n\n■受　付■ \n当日は●●：●●より●会場名●\n【●F／●部屋名● 前】にて受付を開始いたします。 \n\nご来場の際は、上記受講証URLをクリックして表示される\n【二次元コード】と【お名刺を1枚】ご提示ください。\n受講証の二次元コードで受付を行います。\n\n二次元コードはモバイル画面またはプリントアウトしてお持ちください。\n（二次元コードが表示されるまでに、お時間がかかる場合がございます）\n\n複数人でお申込の場合、受講証はお一人ずつご提示ください。\nそれぞれ皆様にメールにてお送りしております。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n以下に、開催概要についてもご案内いたします。\n\n======================================================\n●セミナー名●\nhttp://www.b-forum.net/●開催概要ＵＲＬ●/\n\n主催：●会社名●\n協力：株式会社ビジネス・フォーラム事務局 \n======================================================\n \n■開催日■ \n20●●年 ●月 ●日（●）●●：●●～●●：●●（受付開始 ●●：●●～）\n\n■会　場■ \n●会場名●　●F／●部屋名●\n●会場住所●\n●会場ＵＲＬ●\n●アクセス●\n\n■講　演■ \n●●：●●より講演を開始いたします。\n\n■プログラム■ \nhttps://www.b-forum.net/event/●ＪＰ●/#program\n\n■代理のご参加■\n当日のご出席がかなわなくなった場合、代理の方のご出席も承っております。\n代理出席をご希望の際は、お手数ですが\n署名欄の連絡先までお問い合わせください。\n\n■キャンセルについて■\n事前登録制のため、キャンセルをご希望の場合は\nお手数ですが、ご一報くださいますようお願い申し上げます。\n\nこの度はお申込み誠にありがとうございました。 \nご来場賜りますこと、心よりお待ち申し上げております。\n\n*********************************************\n株式会社ビジネス・フォーラム事務局\n担当：●Ｊ●/●Ｐ●\nTEL：03-3518-6531　　FAX：03-3518-6534\nE-Mail：customer1@b-forum.net\nhttp://www.b-forum.net\n*********************************************';
 
     var HELP_TEXT = {
       nonCancel: 'メールはキャンセル以外に送信されます。',
@@ -194,6 +196,10 @@
       if (intro) intro.textContent = '「' + label + '」を、以下 ' + Math.min(40, unsent.length) + ' 件の宛先に送信します。';
       var title = document.getElementById('sendUnsentMailModalLabel');
       if (title) title.textContent = '未送信ユーザーへの送信（' + label + '）';
+      var unsentSubject = document.getElementById('sendUnsentModalSubject');
+      var unsentBody = document.getElementById('sendUnsentModalBody');
+      if (unsentSubject) unsentSubject.value = SEND_UNSENT_DEFAULT_SUBJECT;
+      if (unsentBody) unsentBody.value = SEND_UNSENT_DEFAULT_BODY;
       var body = document.getElementById('sendUnsentModalTbody');
       if (body) {
         body.innerHTML = '';

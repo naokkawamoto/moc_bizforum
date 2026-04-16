@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>当日来場者 登録済み詳細</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .section-card { margin-bottom: 1.5rem; }
+    .card-header-actions { background-color: #e9ecef; color: #212529; }
+    .info-table { font-size: 0.85rem; }
+    .info-table th { background-color: #f8f9fa; width: 14rem; max-width: 40%; font-weight: 600; vertical-align: middle; }
+    .info-table td { vertical-align: middle; }
+    .qr-placeholder-mini {
+      width: 72px;
+      height: 72px;
+      background: #e9ecef;
+      border: 1px solid #dee2e6;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      color: #6c757d;
+      flex-shrink: 0;
+    }
+    .qr-note { font-size: 0.78rem; line-height: 1.4; color: #6c757d; }
+    .session-table { font-size: 0.85rem; }
+    .session-table th { background-color: #f8f9fa; }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <div class="container-fluid mt-4 px-4">
+    <div class="row">
+      <main class="col-12 px-3" style="padding-bottom: 80px;">
+        <div class="bg-dark text-white px-3 py-3 mb-4">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <h4 class="mb-0 fw-bold">New Business Creation Strategy 2026 <span class="fs-6 fw-normal text-white-50 ms-2">NBCS2026-M0305</span></h4>
+            <span class="text-white text-end mb-0 ms-auto" style="font-size: 1rem; white-space: nowrap;">2026年3月5日（木）13:00～17:40</span>
+          </div>
+        </div>
+
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="user_project_detail_report.html">来場、入退場管理</a></li>
+            <li class="breadcrumb-item active" aria-current="page">当日来場者 登録済み</li>
+          </ol>
+        </nav>
+
+        <div class="card section-card">
+          <div class="card-header py-2 card-header-actions d-flex justify-content-between align-items-center">
+            <span class="fw-bold">基本情報</span>
+            <span class="badge bg-success">登録済み</span>
+          </div>
+          <div class="card-body p-3">
+            <table class="table table-bordered info-table mb-0">
+              <tbody>
+                <tr><th>イベント識別番号</th><td id="vUserid">U101</td></tr>
+                <tr><th>イベント種別</th><td>当日登録者</td></tr>
+                <tr><th>会社名</th><td id="vCompany">当日登録株式会社</td></tr>
+                <tr><th>部門</th><td id="vDept">営業本部</td></tr>
+                <tr><th>役職</th><td id="vJobTitle">担当</td></tr>
+                <tr><th>氏名</th><td id="vName">当日 来場者</td></tr>
+                <tr><th>姓（カナ）</th><td id="vKanaLast">トウジツ</td></tr>
+                <tr><th>名（カナ）</th><td id="vKanaFirst">ライジョウシャ</td></tr>
+                <tr><th>メールアドレス</th><td id="vEmail">today101@example.com</td></tr>
+                <tr><th>営業担当者</th><td id="vStaff">山田 太郎</td></tr>
+                <tr>
+                  <th>QRコード</th>
+                  <td>
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                      <span class="qr-placeholder-mini"><i class="bi bi-qr-code d-block" style="font-size: 1.3rem;"></i>表示</span>
+                      <button type="button" class="btn btn-outline-primary btn-sm" id="btnPrintNameTag">
+                        <i class="bi bi-printer me-1"></i>印刷
+                      </button>
+                      <span class="qr-note">これはSalesforceのQRではなくオリジナルのQRコードです。</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card section-card">
+          <div class="card-header py-2 card-header-actions">
+            <span class="fw-bold">参加不参加・入退場ログ（すべての入退場を記録）</span>
+          </div>
+          <div class="card-body p-0">
+            <table class="table table-bordered session-table mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>プログラム</th>
+                  <th style="min-width: 100px;">入退場回数</th>
+                  <th>参加・不参加</th>
+                  <th>入場時刻</th>
+                  <th>退場時刻</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>イベント入退場</th>
+                  <td>—</td>
+                  <td><span class="badge bg-success">入場</span></td>
+                  <td>13:10</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <th>基調講演</th>
+                  <td>1回目</td>
+                  <td><span class="badge bg-success">参加済</span></td>
+                  <td>13:12</td>
+                  <td>13:28</td>
+                </tr>
+                <tr>
+                  <th>セッションA</th>
+                  <td>1回目</td>
+                  <td><span class="badge bg-secondary">不参加</span></td>
+                  <td>—</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <a href="user_project_detail_report.html" class="btn btn-outline-secondary">来場者一覧に戻る</a>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal fade" id="nameTagPrintModal" tabindex="-1" aria-labelledby="nameTagPrintModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h5 class="modal-title h6 mb-0" id="nameTagPrintModalLabel">印刷</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          名札が印刷可能です。
+        </div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../style.js"></script>
+  <script>
+    fetch('user_header.html').then(function (r) { return r.text(); }).then(function (html) {
+      var el = document.getElementById('header-container');
+      if (el) el.innerHTML = html;
+    }).catch(function () {});
+    fetch('user_footer.html').then(function (r) { return r.text(); }).then(function (html) {
+      var el = document.getElementById('footer-container');
+      if (el) el.innerHTML = html;
+    }).catch(function () {});
+
+    function readParam(name, fallback) {
+      var params = new URLSearchParams(location.search);
+      var v = (params.get(name) || '').trim();
+      return v || fallback;
+    }
+
+    document.getElementById('vUserid').textContent = readParam('userid', 'U101');
+    document.getElementById('vCompany').textContent = readParam('company', '当日登録株式会社');
+    document.getElementById('vDept').textContent = readParam('dept', '営業本部');
+    document.getElementById('vJobTitle').textContent = readParam('jobTitle', '担当');
+    document.getElementById('vName').textContent = readParam('name', '当日 来場者');
+    document.getElementById('vKanaLast').textContent = readParam('kanaLast', 'トウジツ');
+    document.getElementById('vKanaFirst').textContent = readParam('kanaFirst', 'ライジョウシャ');
+    document.getElementById('vEmail').textContent = readParam('email', 'today101@example.com');
+    document.getElementById('vStaff').textContent = readParam('staffName', '山田 太郎');
+
+    var btnPrint = document.getElementById('btnPrintNameTag');
+    if (btnPrint && typeof bootstrap !== 'undefined') {
+      btnPrint.addEventListener('click', function () {
+        new bootstrap.Modal(document.getElementById('nameTagPrintModal')).show();
+      });
+    }
+  </script>
+</body>
+</html>

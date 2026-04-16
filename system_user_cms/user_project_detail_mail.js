@@ -11,8 +11,14 @@
   }).catch(function () {});
 
   document.addEventListener('DOMContentLoaded', function () {
-    var MAIL_KEYS = ['mail1', 'mail2', 'mail3', 'mail4'];
-    var MAIL_LABELS = { mail1: 'メール1', mail2: 'メール2', mail3: 'メール3', mail4: 'メール4' };
+    var MAIL_KEYS = ['mail1', 'mail2', 'mail3', 'mail4', 'mail5'];
+    var MAIL_LABELS = {
+      mail1: '受講票送付',
+      mail2: '1週間前メール',
+      mail3: '3日前メール',
+      mail4: '前日メール',
+      mail5: '新規メール'
+    };
 
     var names = ['田中 一郎', '高橋 美咲', '伊藤 健太', '渡辺 真理子', '山本 翔', '中村 恵子', '小林 直樹', '加藤 優', '吉田 さくら', '松本 大輔'];
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社'];
@@ -26,6 +32,7 @@
       var mail2Sent = i < 30;
       var mail3Sent = i < 10;
       var mail4Sent = i < 5;
+      var mail5Sent = i < 2;
       visitorData.push({
         userid: 'U' + String(i + 1).padStart(3, '0'),
         attendanceStatus: attendanceStatuses[i % attendanceStatuses.length],
@@ -37,7 +44,8 @@
         mail1Sent: mail1Sent,
         mail2Sent: mail2Sent,
         mail3Sent: mail3Sent,
-        mail4Sent: mail4Sent
+        mail4Sent: mail4Sent,
+        mail5Sent: mail5Sent
       });
     }
 
@@ -46,6 +54,7 @@
     var filterMail2 = document.getElementById('filterMail2');
     var filterMail3 = document.getElementById('filterMail3');
     var filterMail4 = document.getElementById('filterMail4');
+    var filterMail5 = document.getElementById('filterMail5');
     var btnApply = document.getElementById('btnApply');
     var btnReset = document.getElementById('btnReset');
     var perPageSelect = document.getElementById('perPage');
@@ -53,6 +62,12 @@
     var countLabel = document.getElementById('countLabel');
     var pageInfo = document.getElementById('pageInfo');
     var paginationList = document.getElementById('paginationList');
+    var mailDeliveryCard = document.getElementById('mailDeliveryCard');
+    var btnMailDeliveryEdit = document.getElementById('btnMailDeliveryEdit');
+    var btnMailDeliverySave = document.getElementById('btnMailDeliverySave');
+    var btnAddMail5 = document.getElementById('btnAddMail5');
+    var mailRow5 = document.getElementById('mailRow5');
+    var addMailRow = document.getElementById('addMailRow');
     var currentPage = 1;
     var filteredData = [];
 
@@ -60,9 +75,10 @@
       mail1: { year: 2026, month: 2, day: 26, hour: 10, minute: 0 },
       mail2: { year: 2026, month: 3, day: 4, hour: 9, minute: 0 },
       mail3: { year: 2026, month: 3, day: 4, hour: 14, minute: 0 },
-      mail4: { year: 2026, month: 3, day: 5, hour: 8, minute: 0 }
+      mail4: { year: 2026, month: 3, day: 5, hour: 8, minute: 0 },
+      mail5: { year: 2026, month: 3, day: 5, hour: 12, minute: 0 }
     };
-    var mailSendHistory = { mail1: [], mail2: [], mail3: [], mail4: [] };
+    var mailSendHistory = { mail1: [], mail2: [], mail3: [], mail4: [], mail5: [] };
     var pendingSendUnsentKey = null;
     var editingDeliveryKey = null;
     var SEND_UNSENT_DEFAULT_SUBJECT = '【受講証のご案内】●月●日開催_●セミナー名短縮版●';
@@ -85,6 +101,46 @@
         if (el) el.textContent = formatJpDeliveryDatetime(autoDeliverySchedules[k]);
       });
     }
+    function setMailDeliveryEditMode(editing) {
+      if (!mailDeliveryCard) return;
+      if (editing) {
+        mailDeliveryCard.classList.add('delivery-edit-mode');
+        if (btnMailDeliveryEdit) btnMailDeliveryEdit.classList.add('d-none');
+        if (btnMailDeliverySave) btnMailDeliverySave.classList.remove('d-none');
+      } else {
+        mailDeliveryCard.classList.remove('delivery-edit-mode');
+        if (btnMailDeliveryEdit) btnMailDeliveryEdit.classList.remove('d-none');
+        if (btnMailDeliverySave) btnMailDeliverySave.classList.add('d-none');
+      }
+    }
+    function saveMailTypeLabels() {
+      MAIL_KEYS.forEach(function (k) {
+        var suffix = k.charAt(0).toUpperCase() + k.slice(1);
+        var input = document.getElementById('mailTypeInput' + suffix);
+        var view = document.getElementById('mailTypeView' + suffix);
+        if (!input || !view) return;
+        var val = (input.value || '').trim() || MAIL_LABELS[k] || k;
+        input.value = val;
+        view.textContent = val;
+        MAIL_LABELS[k] = val;
+      });
+    }
+    function addMail5Row() {
+      if (!mailRow5) return;
+      mailRow5.classList.remove('d-none');
+      if (addMailRow) addMailRow.classList.add('d-none');
+      var view = document.getElementById('mailTypeViewMail5');
+      var input = document.getElementById('mailTypeInputMail5');
+      if (view && !view.textContent.trim()) view.textContent = '新規メール';
+      if (input && !input.value.trim()) input.value = '新規メール';
+      MAIL_LABELS.mail5 = (view && view.textContent.trim()) || '新規メール';
+      render();
+    }
+    window.toggleMailDeliveryEdit = function (editing) {
+      if (!editing) saveMailTypeLabels();
+      setMailDeliveryEditMode(!!editing);
+      if (!editing) alert('メール配信管理の設定を保存しました。');
+    };
 
     /** 出欠がキャンセルの場合は全メールを未送信扱い */
     function effectiveMailSent(v, k) {
@@ -118,7 +174,8 @@
         mail1: filterMail1 ? filterMail1.value : '',
         mail2: filterMail2 ? filterMail2.value : '',
         mail3: filterMail3 ? filterMail3.value : '',
-        mail4: filterMail4 ? filterMail4.value : ''
+        mail4: filterMail4 ? filterMail4.value : '',
+        mail5: filterMail5 ? filterMail5.value : ''
       };
       return visitorData.filter(function (v) {
         var okName = visitorSearchMatches(v, nameVal);
@@ -259,7 +316,8 @@
       mail1: { subject: '【リマインド】イベントのご案内（メール1）', body: '{{氏名}} 様\n\nメール1本文です。' },
       mail2: { subject: '【ご案内】イベントのご案内（メール2）', body: '{{氏名}} 様\n\nメール2本文です。' },
       mail3: { subject: '【当日】イベントのご案内（メール3）', body: '{{氏名}} 様\n\nメール3本文です。' },
-      mail4: { subject: '【最終】イベントのご案内（メール4）', body: '{{氏名}} 様\n\nメール4本文です。' }
+      mail4: { subject: '【最終】イベントのご案内（メール4）', body: '{{氏名}} 様\n\nメール4本文です。' },
+      mail5: { subject: '【追加】イベントのご案内（メール5）', body: '{{氏名}} 様\n\nメール5本文です。' }
     };
     var currentMailKey = '';
     window.openMailContentModal = function (key) {
@@ -291,12 +349,28 @@
     }
 
     if (btnApply) btnApply.addEventListener('click', function () { currentPage = 1; render(); });
+    if (btnMailDeliveryEdit) {
+      btnMailDeliveryEdit.addEventListener('click', function () {
+        window.toggleMailDeliveryEdit(true);
+      });
+    }
+    if (btnMailDeliverySave) {
+      btnMailDeliverySave.addEventListener('click', function () {
+        window.toggleMailDeliveryEdit(false);
+      });
+    }
+    if (btnAddMail5) {
+      btnAddMail5.addEventListener('click', function () {
+        addMail5Row();
+      });
+    }
     if (btnReset) btnReset.addEventListener('click', function () {
       if (filterName) filterName.value = '';
       if (filterMail1) filterMail1.value = '';
       if (filterMail2) filterMail2.value = '';
       if (filterMail3) filterMail3.value = '';
       if (filterMail4) filterMail4.value = '';
+      if (filterMail5) filterMail5.value = '';
       currentPage = 1;
       render();
     });
@@ -398,6 +472,7 @@
 
     initDeliveryEditForm();
     updateDeliveryDatetimeDisplay();
+    setMailDeliveryEditMode(false);
     render();
   });
 })();

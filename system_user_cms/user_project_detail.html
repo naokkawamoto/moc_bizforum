@@ -49,6 +49,9 @@
     .card-header-actions .btn { font-size: 0.95rem; }
     .event-overview-updated,
     .section-updated-meta { font-size: 0.65rem; color: #6c757d; margin-top: 0.15rem; }
+    #eventOverviewStaffTable .staff-delete-col { display: none; width: 52px; text-align: center; }
+    #eventOverviewStaffTable.staff-edit-mode .staff-delete-col { display: table-cell; }
+    #eventOverviewStaffTable .btn-staff-delete { padding: 0.2rem 0.4rem; line-height: 1; }
   </style>
 </head>
 <body>
@@ -311,6 +314,7 @@
                 <span class="section-updated-meta text-end ms-auto mb-0" id="staffUpdated">updated 2026/03/05 山田 太郎</span>
               </div>
               <div class="d-flex gap-2 flex-shrink-0">
+                <button type="button" class="btn btn-outline-secondary px-3 fw-bold" id="staffCsvRegisterBtn"><i class="bi bi-file-earmark-spreadsheet me-1"></i>CSV登録</button>
                 <button type="button" class="btn btn-outline-primary px-3 fw-bold" id="staffEditToggleBtn" onclick="toggleEditStaff()"><i class="bi bi-pencil-square me-1"></i>編集</button>
               </div>
             </div>
@@ -322,6 +326,7 @@
                   <th>会社名</th>
                   <th>担当者名</th>
                   <th>メール</th>
+                  <th class="staff-delete-col">削除</th>
                 </tr>
               </thead>
               <tbody>
@@ -406,25 +411,42 @@
     function renderStaffReadMode() {
       var table = document.getElementById('eventOverviewStaffTable');
       if (!table) return;
-      table.querySelectorAll('tbody td').forEach(function (td) {
-        var input = td.querySelector('input');
-        if (!input) return;
-        var text = (input.value || '').trim();
-        td.textContent = text;
+      table.classList.remove('staff-edit-mode');
+      table.querySelectorAll('tbody tr').forEach(function (tr) {
+        var cells = tr.querySelectorAll('td');
+        for (var i = 0; i < cells.length && i < 3; i++) {
+          var td = cells[i];
+          var input = td.querySelector('input');
+          if (!input) continue;
+          var text = (input.value || '').trim();
+          td.textContent = text;
+        }
+        var delCell = tr.querySelector('td.staff-delete-col');
+        if (delCell) delCell.remove();
       });
     }
 
     function renderStaffEditMode() {
       var table = document.getElementById('eventOverviewStaffTable');
       if (!table) return;
+      table.classList.add('staff-edit-mode');
       var placeholders = ['会社名', '担当者名', 'メール'];
       table.querySelectorAll('tbody tr').forEach(function (tr) {
-        tr.querySelectorAll('td').forEach(function (td, idx) {
+        var tds = tr.querySelectorAll('td');
+        for (var idx = 0; idx < 3 && idx < tds.length; idx++) {
+          var td = tds[idx];
           var text = td.textContent.replace(/\s+/g, ' ').trim();
           var type = idx === 2 ? 'email' : 'text';
           var ph = placeholders[idx] || '';
           td.innerHTML = '<input type="' + type + '" class="form-control form-control-sm" placeholder="' + ph + '" value="' + text.replace(/"/g, '&quot;') + '">';
-        });
+        }
+        var delCell = tr.querySelector('td.staff-delete-col');
+        if (!delCell) {
+          delCell = document.createElement('td');
+          delCell.className = 'staff-delete-col';
+          delCell.innerHTML = '<button type="button" class="btn btn-outline-danger btn-sm btn-staff-delete" onclick="removeStaffRow(this)" aria-label="行を削除"><i class="bi bi-trash"></i></button>';
+          tr.appendChild(delCell);
+        }
       });
     }
 
@@ -528,9 +550,16 @@
       tr.innerHTML =
         '<td><input type="text" class="form-control form-control-sm" placeholder="会社名"></td>' +
         '<td><input type="text" class="form-control form-control-sm" placeholder="担当者名"></td>' +
-        '<td><input type="email" class="form-control form-control-sm" placeholder="メール"></td>';
+        '<td><input type="email" class="form-control form-control-sm" placeholder="メール"></td>' +
+        '<td class="staff-delete-col"><button type="button" class="btn btn-outline-danger btn-sm btn-staff-delete" onclick="removeStaffRow(this)" aria-label="行を削除"><i class="bi bi-trash"></i></button></td>';
       tbody.appendChild(tr);
     }
+    function removeStaffRow(btn) {
+      if (!staffEditMode) return;
+      var tr = btn && btn.closest ? btn.closest('tr') : null;
+      if (tr) tr.remove();
+    }
+    window.removeStaffRow = removeStaffRow;
     function toggleEditStaff() {
       if (staffEditMode) saveStaffCard();
       else setStaffEditMode(true);
@@ -538,6 +567,12 @@
     function saveStaffCard() {
       setStaffEditMode(false);
       refreshStaffUpdated();
+    }
+    var staffCsvRegisterBtn = document.getElementById('staffCsvRegisterBtn');
+    if (staffCsvRegisterBtn) {
+      staffCsvRegisterBtn.addEventListener('click', function () {
+        alert('営業担当者CSV登録（ダミー）');
+      });
     }
 
     var programEditMode = false;

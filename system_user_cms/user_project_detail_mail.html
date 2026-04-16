@@ -15,6 +15,7 @@
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem 1rem; }
     .card-header-actions { background-color: #e9ecef; color: #212529; }
     .card-header-actions .btn { font-size: 0.95rem; }
+    .section-updated-meta { font-size: 0.65rem; color: #6c757d; margin-top: 0.15rem; }
     .delivery-datetime-inline { font-size: 0.8rem; line-height: 1.4; font-weight: 600; color: #212529; white-space: nowrap; }
     .table-mail-delivery { table-layout: fixed; width: 100%; }
     .table-mail-delivery .col-timing { width: 10%; }
@@ -25,6 +26,13 @@
     .table-mail-delivery .col-history-btn { width: 13%; }
     .btn-help-icon { line-height: 1; padding: 0 0.15rem; vertical-align: middle; color: #6c757d; }
     .btn-help-icon:hover, .btn-help-icon:focus { color: #0d6efd; }
+    #mailDeliveryCard .btn-edit-delivery { display: none; }
+    #mailDeliveryCard.delivery-edit-mode .btn-edit-delivery { display: inline-block; }
+    #mailDeliveryCard .timing-form { display: none; }
+    #mailDeliveryCard.delivery-edit-mode .timing-view { display: none; }
+    #mailDeliveryCard.delivery-edit-mode .timing-form { display: block; }
+    #mailDeliveryCard .add-mail-row { display: none; }
+    #mailDeliveryCard.delivery-edit-mode .add-mail-row { display: table-row; }
   </style>
 </head>
 <body>
@@ -47,18 +55,23 @@
         </ul>
 
         <!-- メール配信管理 -->
-        <div class="card mb-4">
+        <div class="card mb-4" id="mailDeliveryCard">
           <div class="card-header py-2 card-header-actions d-flex align-items-center flex-wrap gap-2">
             <span class="fw-bold d-inline-flex align-items-center gap-1 mb-0">メール配信管理
               <button type="button" class="btn btn-link btn-sm p-0 btn-help-icon mail-help-btn" data-help="nonCancel" title="説明" aria-label="メール配信の説明"><i class="bi bi-question-circle"></i></button>
             </span>
+            <div class="ms-auto d-flex align-items-center gap-2">
+              <span class="section-updated-meta text-end mb-0">updated 20260305:14:30 山田 太郎</span>
+              <button type="button" class="btn btn-outline-primary btn-sm" id="btnMailDeliveryEdit" onclick="window.toggleMailDeliveryEdit && window.toggleMailDeliveryEdit(true)">編集</button>
+              <button type="button" class="btn btn-primary btn-sm d-none" id="btnMailDeliverySave" onclick="window.toggleMailDeliveryEdit && window.toggleMailDeliveryEdit(false)">保存</button>
+            </div>
           </div>
           <div class="card-body p-3">
             <div class="table-responsive">
               <table class="table table-bordered table-sm mb-0 table-mail-delivery" style="font-size: 0.85rem;">
                 <thead class="table-light">
                   <tr>
-                    <th class="col-timing">タイミング</th>
+                    <th class="col-timing">メール種別</th>
                     <th class="col-delivery-at text-center">配信日時</th>
                     <th class="col-mail-count text-center">配信予定数</th>
                     <th class="col-mail-count text-center">送信済み</th>
@@ -71,7 +84,10 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="fw-bold">メール1</td>
+                    <td class="fw-bold">
+                      <span class="timing-view" id="mailTypeViewMail1">受講票送付</span>
+                      <input type="text" class="form-control form-control-sm timing-form" id="mailTypeInputMail1" value="受講票送付">
+                    </td>
                     <td class="align-middle text-center">
                       <div class="d-flex flex-wrap justify-content-center align-items-center gap-1">
                         <div class="delivery-datetime-inline" id="deliveryDatetimeMail1">2026年2月26日10時00分</div>
@@ -92,7 +108,10 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="fw-bold">メール2</td>
+                    <td class="fw-bold">
+                      <span class="timing-view" id="mailTypeViewMail2">1週間前メール</span>
+                      <input type="text" class="form-control form-control-sm timing-form" id="mailTypeInputMail2" value="1週間前メール">
+                    </td>
                     <td class="align-middle text-center">
                       <div class="d-flex flex-wrap justify-content-center align-items-center gap-1">
                         <div class="delivery-datetime-inline" id="deliveryDatetimeMail2">2026年3月4日9時00分</div>
@@ -113,7 +132,10 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="fw-bold">メール3</td>
+                    <td class="fw-bold">
+                      <span class="timing-view" id="mailTypeViewMail3">3日前メール</span>
+                      <input type="text" class="form-control form-control-sm timing-form" id="mailTypeInputMail3" value="3日前メール">
+                    </td>
                     <td class="align-middle text-center">
                       <div class="d-flex flex-wrap justify-content-center align-items-center gap-1">
                         <div class="delivery-datetime-inline" id="deliveryDatetimeMail3">2026年3月4日14時00分</div>
@@ -134,7 +156,10 @@
                     </td>
                   </tr>
                   <tr>
-                    <td class="fw-bold">メール4</td>
+                    <td class="fw-bold">
+                      <span class="timing-view" id="mailTypeViewMail4">前日メール</span>
+                      <input type="text" class="form-control form-control-sm timing-form" id="mailTypeInputMail4" value="前日メール">
+                    </td>
                     <td class="align-middle text-center">
                       <div class="d-flex flex-wrap justify-content-center align-items-center gap-1">
                         <div class="delivery-datetime-inline" id="deliveryDatetimeMail4">2026年3月5日8時00分</div>
@@ -152,6 +177,37 @@
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail4" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                    </td>
+                  </tr>
+                  <tr id="mailRow5" class="d-none">
+                    <td class="fw-bold">
+                      <span class="timing-view" id="mailTypeViewMail5">新規メール</span>
+                      <input type="text" class="form-control form-control-sm timing-form" id="mailTypeInputMail5" value="新規メール">
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex flex-wrap justify-content-center align-items-center gap-1">
+                        <div class="delivery-datetime-inline" id="deliveryDatetimeMail5">2026年3月5日12時00分</div>
+                        <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2 btn-edit-delivery" data-mail-key="mail5">編集</button>
+                      </div>
+                    </td>
+                    <td class="text-center"><span id="mailTotalCountMail5">0</span>件</td>
+                    <td class="text-center"><span id="mailSentCountMail5">0</span>件</td>
+                    <td class="text-center">
+                      <span id="mailUnsentCountMail5">0</span>件
+                      <button type="button" class="btn btn-primary btn-sm ms-2 btn-send-unsent-mail5" title="未送信ユーザーに送信"><i class="bi bi-send me-1"></i>未送信ユーザーに送信</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="openMailContentModal('mail5')"><i class="bi bi-eye me-1"></i>内容確認</button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-outline-secondary btn-sm btn-mail-send-history" data-key="mail5" title="送信履歴を表示"><i class="bi bi-clock-history me-1"></i>送信履歴</button>
+                    </td>
+                  </tr>
+                  <tr class="add-mail-row" id="addMailRow">
+                    <td colspan="7" class="text-center">
+                      <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddMail5">
+                        <i class="bi bi-plus-circle me-1"></i>新規メールを追加
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -207,6 +263,14 @@
                   </select>
                 </div>
                 <div class="col-auto">
+                  <label class="form-label small mb-0">メール5</label>
+                  <select class="form-select form-select-sm" id="filterMail5" style="min-width: 120px;">
+                    <option value="">すべて</option>
+                    <option value="sent">配信済み</option>
+                    <option value="unsent">未配信</option>
+                  </select>
+                </div>
+                <div class="col-auto">
                   <label class="form-label small mb-0">表示</label>
                   <select class="form-select form-select-sm" id="perPage" style="width: auto;">
                     <option value="50" selected>50件</option>
@@ -233,6 +297,7 @@
                     <th style="width: 100px;" class="text-center">メール2</th>
                     <th style="width: 100px;" class="text-center">メール3</th>
                     <th style="width: 100px;" class="text-center">メール4</th>
+                    <th style="width: 100px;" class="text-center">メール5</th>
                   </tr>
                 </thead>
                 <tbody id="visitorTbody">

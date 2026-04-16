@@ -152,6 +152,7 @@
         kanaFirst: kanaFirstPool[i % kanaFirstPool.length],
         staffId: s.id,
         staffName: s.name,
+        registrationType: '事前',
         present: present,
         keynote: present ? (Math.random() < 0.5 ? 2 : 0) : 0,
         sa: present ? (Math.random() < 0.5 ? 2 : 0) : 0,
@@ -190,6 +191,39 @@
       }
       visitorData.push(v);
     }
+    visitorData.unshift({
+      userid: 'U101',
+      name: '当日 来場者',
+      lastName: '当日',
+      firstName: '来場者',
+      company: '当日登録株式会社',
+      dept: '営業本部',
+      email: 'today101@example.com',
+      kanaLast: 'トウジツ',
+      kanaFirst: 'ライジョウシャ',
+      staffId: 'yamada',
+      staffName: '山田 太郎',
+      registrationType: '当日',
+      present: true,
+      keynote: 2,
+      sa: 0,
+      sb: 0,
+      sc: 0,
+      sd: 0,
+      dialog: 0,
+      net: 0,
+      eventEntryTime: '13:10',
+      eventExitTime: '',
+      programSlots: [
+        { joinLabel: '参加', enterAt: '13:10', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' },
+        { joinLabel: '不参加', enterAt: '', exitAt: '' }
+      ]
+    });
 
     var filterStaff = document.getElementById('filterStaff');
     var filterSession = document.getElementById('filterSession');
@@ -223,6 +257,10 @@
       tr.setAttribute('data-net', v.net);
       tr.onclick = function () { window.goVisitor(v.userid); };
       var raichoHtml = v.present ? '<span class="badge bg-success">入場</span>' : '<span class="badge bg-secondary">未入場</span>';
+      var taijoHtml = v.eventExitTime ? '<span class="badge bg-danger">退場</span>' : '<span class="badge bg-secondary">未退場</span>';
+      var regTypeHtml = (v.registrationType === '当日')
+        ? '<span class="badge bg-warning text-dark">当日</span>'
+        : '<span class="badge bg-secondary">事前</span>';
       var staffCell = '<td onclick="event.stopPropagation(); window.goStaff(\'' + v.staffId + '\')"><a href="user_staff_detail.html?id=' + encodeURIComponent(v.staffId) + '" class="staff-link">' + v.staffName + '</a></td>';
       var k0 = v.present ? v.keynote : 0;
       var sa0 = v.present ? v.sa : 0;
@@ -231,7 +269,7 @@
       var sd0 = v.present ? v.sd : 0;
       var d0 = v.present ? v.dialog : 0;
       var n0 = v.present ? v.net : 0;
-      tr.innerHTML = '<td>' + v.userid + '</td><td>' + v.company + '</td><td>' + v.name + '</td>' + staffCell +
+      tr.innerHTML = '<td>' + v.userid + '</td><td class="text-center">' + regTypeHtml + '</td><td>' + v.company + '</td><td>' + v.name + '</td>' + staffCell +
         '<td class="text-center">' + raichoHtml + '</td>' +
         '<td class="text-center">' + badgeStatus(k0) + '</td>' +
         '<td class="text-center">' + badgeStatus(sa0) + '</td>' +
@@ -239,7 +277,8 @@
         '<td class="text-center">' + badgeStatus(sc0) + '</td>' +
         '<td class="text-center">' + badgeStatus(sd0) + '</td>' +
         '<td class="text-center">' + badgeStatus(d0) + '</td>' +
-        '<td class="text-center">' + badgeStatus(n0) + '</td>';
+        '<td class="text-center">' + badgeStatus(n0) + '</td>' +
+        '<td class="text-center">' + taijoHtml + '</td>';
       return tr;
     }
 
@@ -333,6 +372,12 @@
     if (perPageSelect) perPageSelect.addEventListener('change', function () { currentPage = 1; render(); });
 
     var btnCsv = document.getElementById('btnCsv');
+    var btnAddTodayVisitor = document.getElementById('btnAddTodayVisitor');
+    if (btnAddTodayVisitor) {
+      btnAddTodayVisitor.addEventListener('click', function () {
+        location.href = 'user_visitor_create_today.html';
+      });
+    }
     if (btnCsv) {
       btnCsv.addEventListener('click', function () {
         var list = getFiltered();

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>読み取り - 総合退場 - 受付アプリ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../brand.css">
+  <style>
+    html { height: 100%; }
+    body { margin: 0; width: 100%; max-width: 393px; margin-left: auto; margin-right: auto; min-height: 100dvh; display: flex; flex-direction: column; overflow: hidden; background: #fff1f1; }
+    .read-root { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+    .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
+    .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
+    .event-header-back-btn { font-size: 0.78rem; font-weight: 700; padding: 0.22rem 0.55rem; border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 0.35rem; color: #fff; text-decoration: none; white-space: nowrap; }
+    .event-header-back-btn:hover, .event-header-back-btn:focus { color: #fff; background: rgba(255, 255, 255, 0.14); }
+    .main { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; padding: 0 0.5rem; }
+    .overview-card { overflow: hidden; border-radius: 0.25rem; margin-bottom: 0.5rem; }
+    .overview-event-title { background: #dc3545; color: #fff; font-size: 0.8rem; font-weight: 600; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #b02a37; }
+    .program-compact-line { font-size: 0.78rem; line-height: 1.45; margin-bottom: 0; font-weight: 600; color: #212529; }
+    .program-compact-stats { font-size: 0.68rem; color: #6c757d; margin-top: 0.35rem; line-height: 1.4; margin-bottom: 0; }
+    .read-ui-scan { flex: 1 1 auto; min-height: 0; width: 100%; position: relative; overflow: hidden; border-radius: 0.375rem; background: #4a1414; border: 2px solid #dc3545; }
+    .read-scan-mock-img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center center; pointer-events: none; }
+    .read-scan-actions { position: absolute; inset: 0; z-index: 7; pointer-events: none; }
+    .read-scan-actions-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; justify-content: center; gap: 0.65rem; max-width: calc(100% - 1.5rem); pointer-events: auto; }
+    .read-scan-hit-btn { margin: 0; padding: 0.65rem 1.15rem; font-size: 0.92rem; font-weight: 700; line-height: 1.2; letter-spacing: 0.04em; color: #fff; background: #dc3545; border: 1px solid #dc3545; border-radius: 0.45rem; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35), 0 4px 18px rgba(0, 0, 0, 0.55); cursor: pointer; }
+    .read-scan-hit-btn:hover { background: #bb2d3b; color: #fff; }
+    .read-scan-hit-btn--complete { min-width: 6.25rem; min-height: 2.65rem; }
+    .read-complete-modal .modal-content { border-radius: 0.5rem; max-width: 340px; margin: 0 auto; }
+    .read-complete-modal .btn-next { font-size: 1.1rem; padding: 0.9rem 1rem; }
+    .read-complete-modal .btn-cancel { font-size: 1.05rem; padding: 0.9rem 1rem; }
+    #footer-container { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; z-index: 5; background: transparent; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .read-ui-scan #footer-container .vip-footer-bar { border-radius: 0 0 0.3rem 0.3rem; }
+  </style>
+</head>
+<body>
+  <div class="read-root">
+    <div class="container-fluid px-0 flex-shrink-0">
+      <div class="event-header bf-bg-brand text-white py-2 px-3 mb-2 d-flex align-items-center justify-content-between gap-2">
+        <h4 class="mb-0 fw-bold text-white flex-grow-1 text-truncate" style="min-width: 0;">受付VIP管理アプリ</h4>
+        <a href="site_project_detail.html" class="event-header-back-btn flex-shrink-0" aria-label="戻る" title="戻る">
+          <i class="bi bi-arrow-left-short"></i>戻る
+        </a>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="card overview-card">
+        <div class="overview-event-title">New Business Creation Strategy 2026</div>
+        <div class="card-body py-2 px-3">
+          <p class="program-compact-line">総合退場QR読み取り</p>
+          <p class="program-compact-stats">退場実績 0 件</p>
+        </div>
+      </div>
+      <div class="read-ui-scan">
+        <img src="images/read_scan_area_mock.png" alt="" class="read-scan-mock-img" width="470" height="1024" decoding="async" loading="lazy">
+        <div class="read-scan-actions">
+          <div class="read-scan-actions-inner">
+            <button type="button" class="read-scan-hit-btn read-scan-hit-btn--complete" id="readCompleteBtn">総合退場</button>
+          </div>
+        </div>
+        <div id="footer-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade read-complete-modal" id="readCompleteModal" tabindex="-1" aria-labelledby="readCompleteTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center py-4 px-3 position-relative">
+          <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" style="font-size: 0.6rem;" data-bs-dismiss="modal" aria-label="キャンセル"></button>
+          <h2 class="h4 fw-bold mb-4" id="readCompleteTitle">総合退場完了</h2>
+          <div class="text-start mb-3">
+            <div class="small text-muted mb-1">社名</div>
+            <div class="fs-6 fw-semibold">株式会社ビジネスフォーラム</div>
+          </div>
+          <div class="text-start mb-4">
+            <div class="small text-muted mb-1">名前</div>
+            <div class="fs-6 fw-semibold">山田 太郎</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary btn-cancel flex-fill fw-bold" data-bs-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-danger btn-next flex-fill fw-bold" data-bs-dismiss="modal">退場完了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    fetch('site_footer_vip.html').then(function (r) { return r.text(); }).then(function (html) {
+      var e = document.getElementById('footer-container');
+      if (e) e.innerHTML = html;
+    }).catch(function () {});
+    (function () {
+      if (typeof bootstrap === 'undefined') return;
+      var completeBtn = document.getElementById('readCompleteBtn');
+      var completeModalEl = document.getElementById('readCompleteModal');
+      if (completeBtn && completeModalEl) {
+        var completeModal = new bootstrap.Modal(completeModalEl);
+        completeBtn.addEventListener('click', function () { completeModal.show(); });
+      }
+    })();
+  </script>
+</body>
+</html>

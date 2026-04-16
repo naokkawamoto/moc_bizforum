@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>読み取り - 基調講演 - 受付アプリ</title>
+  <title>読み取り - 基調講演退室 - 受付アプリ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet"/>
@@ -21,32 +21,12 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: #eef5ff;
+      background: #fff1f1;
     }
-    .read-keynote-root {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      padding-bottom: 0;
-      box-sizing: border-box;
-    }
-    .read-keynote-main {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
+    .read-keynote-root { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+    .read-keynote-main { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; padding-left: 0.5rem; padding-right: 0.5rem; }
     .read-keynote-overview { flex: 0 0 auto; }
-    .read-scan-block {
-      flex: 1 1 auto;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 0;
-    }
+    .read-scan-block { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-bottom: 0; }
     .read-ui-scan {
       flex: 1 1 auto;
       min-height: 0;
@@ -56,26 +36,11 @@
       overflow: hidden;
       isolation: isolate;
       border-radius: 0.375rem;
-      background: #102746;
-      border: 2px solid #0d6efd;
+      background: #4a1414;
+      border: 2px solid #dc3545;
     }
-    .read-scan-mock-img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center center;
-      pointer-events: none;
-      position: relative;
-      z-index: 0;
-    }
-    /* 受付ボタンは画像・フッターより手前 */
-    .read-scan-actions {
-      position: absolute;
-      inset: 0;
-      z-index: 7;
-      pointer-events: none;
-    }
+    .read-scan-mock-img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center center; pointer-events: none; position: relative; z-index: 0; }
+    .read-scan-actions { position: absolute; inset: 0; z-index: 7; pointer-events: none; }
     .read-scan-actions-inner {
       position: absolute;
       top: 50%;
@@ -89,9 +54,7 @@
       max-width: calc(100% - 1.5rem);
       pointer-events: auto;
     }
-    /* 黒 20% 透過（rgba 0.2）＋白文字。暗い余白上でも枠で識別可能 */
     .read-scan-hit-btn {
-      position: relative;
       margin: 0;
       padding: 0.65rem 1.15rem;
       font-size: 0.92rem;
@@ -99,48 +62,24 @@
       line-height: 1.2;
       letter-spacing: 0.04em;
       color: #fff;
-      background: #0d6efd;
-      border: 1px solid #0d6efd;
+      background: #dc3545;
+      border: 1px solid #dc3545;
       border-radius: 0.45rem;
-      box-shadow:
-        0 0 0 2px rgba(255, 255, 255, 0.35),
-        0 4px 18px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35), 0 4px 18px rgba(0, 0, 0, 0.55);
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
       cursor: pointer;
-      flex: 0 0 auto;
       -webkit-tap-highlight-color: transparent;
-    }
-    .read-scan-hit-btn:hover { background: #0b5ed7; color: #fff; }
-    .read-scan-hit-btn:focus-visible {
-      outline: 2px solid rgba(255, 255, 255, 0.95);
-      outline-offset: 3px;
-    }
-    .read-scan-hit-btn--complete {
       min-width: 6.25rem;
       min-height: 2.65rem;
     }
-    .read-cancel-modal .modal-content { border-radius: 0.5rem; max-width: 340px; margin: 0 auto; }
-    .read-cancel-modal .modal-body { color: #c41212; }
-    .read-cancel-modal .read-cancel-label { font-size: 0.75rem; opacity: 0.9; margin-bottom: 0.2rem; }
-    .read-cancel-modal .read-cancel-value { font-size: 1rem; font-weight: 600; color: #c41212; }
-    .read-cancel-modal .btn-confirm-cancel {
-      font-size: 1.05rem;
-      padding: 0.85rem 1rem;
-      font-weight: 700;
-      border-radius: 0.375rem;
-      background-color: #c41212;
-      border-color: #c41212;
-      color: #fff;
-    }
-    .read-cancel-modal .btn-confirm-cancel:hover { filter: brightness(0.95); color: #fff; background-color: #a50f0f; border-color: #a50f0f; }
+    .read-scan-hit-btn:hover { background: #bb2d3b; color: #fff; }
     .read-complete-modal .modal-content { border-radius: 0.5rem; max-width: 340px; margin: 0 auto; }
-    .read-complete-modal .btn-next { font-size: 1.1rem; padding: 0.9rem 1rem; background-color: #0d6efd; border-color: #0d6efd; color: #fff; }
-    .read-complete-modal .btn-next:hover { filter: brightness(0.92); border-color: #0b5ed7; background-color: #0b5ed7; color: #fff; }
+    .read-complete-modal .btn-next { font-size: 1.1rem; padding: 0.9rem 1rem; background-color: var(--header-footer-brand, #E60012); border-color: var(--header-footer-brand, #E60012); }
     .read-complete-modal .btn-cancel { font-size: 1.05rem; padding: 0.9rem 1rem; }
+    .read-complete-modal .modal-action-row { display: flex; gap: 0.5rem; }
+    .read-complete-modal .modal-action-row > .btn { flex: 1 1 0; min-width: 0; }
     .event-header { width: 100%; max-width: 393px; margin: 0 auto; }
     .event-header h4 { font-size: 1.1rem; line-height: 1.3; }
-    .event-header .event-header-back { color: #fff; opacity: 0.92; line-height: 1; padding: 0.25rem; }
-    .event-header .event-header-back:hover, .event-header .event-header-back:focus { color: #fff; opacity: 1; }
     .event-header .event-header-back-btn {
       font-size: 0.78rem;
       font-weight: 700;
@@ -151,32 +90,14 @@
       text-decoration: none;
       white-space: nowrap;
     }
-    .event-header .event-header-back-btn:hover, .event-header .event-header-back-btn:focus {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.14);
-    }
-    /* 読み取り枠内では画像下端に重ねる（下の .read-ui-scan ルール） */
-    #footer-container { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 393px; z-index: 1000; background: #fff; }
-    .read-ui-scan #footer-container {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transform: none;
-      width: 100%;
-      max-width: none;
-      z-index: 5;
-      background: transparent;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-    .read-ui-scan #footer-container .vip-footer-bar {
-      border-radius: 0 0 0.3rem 0.3rem;
-    }
+    .event-header .event-header-back-btn:hover, .event-header .event-header-back-btn:focus { color: #fff; background: rgba(255, 255, 255, 0.14); }
+    #footer-container { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; z-index: 5; background: transparent; padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .read-ui-scan #footer-container .vip-footer-bar { border-radius: 0 0 0.3rem 0.3rem; }
     .overview-card { overflow: hidden; border-radius: 0.25rem; }
-    .overview-event-title { background: #0d6efd; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #0a58ca; }
+    .overview-event-title { background: #dc3545; color: #fff; font-size: 0.8rem; font-weight: 600; text-align: left; line-height: 1.35; padding: 0.5rem 0.65rem; border-bottom: 1px solid #b02a37; }
     .program-compact-card .card-body { padding: 0.5rem 0.65rem; }
     .program-compact-line { font-size: 0.78rem; line-height: 1.45; word-break: break-word; margin-bottom: 0; font-weight: 600; color: #212529; }
-    .program-compact-stats { font-size: 0.68rem; color: #6c757d; margin-top: 0.35rem; line-height: 1.4; }
+    .program-compact-stats { font-size: 0.68rem; color: #6c757d; margin-top: 0.35rem; line-height: 1.4; margin-bottom: 0; }
     .read-session-alert-tile {
       display: block;
       width: 100%;
@@ -191,10 +112,7 @@
       border: 1px solid transparent;
       transition: filter 0.15s ease;
     }
-    .read-session-alert-tile:focus-visible {
-      outline: 2px solid rgba(13, 110, 253, 0.65);
-      outline-offset: 2px;
-    }
+    .read-session-alert-tile:focus-visible { outline: 2px solid rgba(220, 53, 69, 0.45); outline-offset: 2px; }
     .read-session-alert-tile:active { filter: brightness(0.97); }
     .read-session-alert-tile--danger {
       color: #a50f0f;
@@ -220,14 +138,13 @@
         <div class="card overview-card program-compact-card mb-0">
           <div class="overview-event-title">New Business Creation Strategy 2026</div>
           <div class="card-body">
-            <p class="program-compact-line mb-0">13:00～13:30／基調講演／メインホール</p>
+            <p class="program-compact-line mb-0">13:00～13:30／基調講演／メインホール（退室）</p>
             <p class="program-compact-stats mb-0">入室0・退室0</p>
           </div>
         </div>
       </div>
-
-      <button type="button" class="read-session-alert-tile read-session-alert-tile--danger mb-2" id="sessionBeforeAlertBtn" aria-haspopup="dialog" aria-controls="sessionBeforeStartModal">
-        セッション開始予定前
+      <button type="button" class="read-session-alert-tile read-session-alert-tile--danger mb-2" id="sessionOverdueAlertBtn" aria-haspopup="dialog" aria-controls="sessionOverdueExplainModal">
+        セッション終了予定時間超過
       </button>
 
       <div class="read-scan-block">
@@ -235,7 +152,7 @@
           <img src="images/read_scan_area_mock.png" alt="" class="read-scan-mock-img" width="470" height="1024" decoding="async" loading="lazy">
           <div class="read-scan-actions">
             <div class="read-scan-actions-inner">
-              <button type="button" class="read-scan-hit-btn read-scan-hit-btn--complete" id="readCompleteBtn" aria-label="受付完了を表示">受付</button>
+              <button type="button" class="read-scan-hit-btn" id="readCompleteBtn" aria-label="退室完了を表示">退室</button>
             </div>
           </div>
           <div id="footer-container"></div>
@@ -244,18 +161,18 @@
     </div>
   </div>
 
-  <div class="modal fade read-session-time-modal" id="sessionBeforeStartModal" tabindex="-1" aria-labelledby="sessionBeforeStartModalTitle" aria-hidden="true">
+  <div class="modal fade read-session-time-modal" id="sessionOverdueExplainModal" tabindex="-1" aria-labelledby="sessionOverdueExplainModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow">
         <div class="modal-header border-0 pb-0">
-          <h2 class="modal-title h5 fw-bold text-danger" id="sessionBeforeStartModalTitle">セッション開始予定前</h2>
+          <h2 class="modal-title h5 fw-bold text-danger" id="sessionOverdueExplainModalTitle">セッション終了予定時間超過</h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
         </div>
         <div class="modal-body pt-2">
-          <p class="small text-muted mb-0">実装メモ：現在時刻 &lt; セッション開始予定時刻のときにバナー表示。受付可否の業務ルールは別途。</p>
+          <p class="small text-muted mb-0">実装メモ：現在時刻 &gt; セッション終了予定時刻のときにバナー表示。延長時の扱いは別途。</p>
         </div>
         <div class="modal-footer border-0 pt-0">
-          <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">閉じる</button>
+          <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
@@ -266,18 +183,18 @@
       <div class="modal-content border-0 shadow">
         <div class="modal-body text-center py-4 px-3 position-relative">
           <button type="button" class="btn-close position-absolute top-0 end-0 mt-2 me-2" style="font-size: 0.6rem;" data-bs-dismiss="modal" aria-label="キャンセル"></button>
-          <h2 class="h4 fw-bold mb-4" id="readCompleteTitle">受付完了</h2>
+          <h2 class="h4 fw-bold mb-4" id="readCompleteTitle">退室完了</h2>
           <div class="text-start mb-3">
             <div class="small text-muted mb-1">社名</div>
-            <div class="fs-6 fw-semibold" id="modalCompanyName">株式会社ビジネスフォーラム</div>
+            <div class="fs-6 fw-semibold">株式会社ビジネスフォーラム</div>
           </div>
           <div class="text-start mb-4">
             <div class="small text-muted mb-1">名前</div>
-            <div class="fs-6 fw-semibold" id="modalVisitorName">山田 太郎</div>
+            <div class="fs-6 fw-semibold">山田 太郎</div>
           </div>
-          <div class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary btn-cancel flex-fill fw-bold" data-bs-dismiss="modal">キャンセル</button>
-            <button type="button" class="btn btn-primary btn-next flex-fill fw-bold" data-bs-dismiss="modal">受付</button>
+          <div class="modal-action-row">
+            <button type="button" class="btn btn-outline-secondary btn-cancel fw-bold" data-bs-dismiss="modal">キャンセル</button>
+            <button type="button" class="btn btn-primary btn-next fw-bold" data-bs-dismiss="modal">退室</button>
           </div>
         </div>
       </div>
@@ -286,7 +203,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    fetch('site_footer_vip.html').then(r=>r.text()).then(html=>{var e=document.getElementById('footer-container');if(e)e.innerHTML=html;}).catch(function(){});
+    fetch('site_footer_vip.html').then(function (r) { return r.text(); }).then(function (html) {
+      var e = document.getElementById('footer-container');
+      if (e) e.innerHTML = html;
+    }).catch(function () {});
     (function () {
       var modalEl = document.getElementById('readCompleteModal');
       var completeBtn = document.getElementById('readCompleteBtn');
@@ -298,14 +218,13 @@
           modal.show();
         });
       }
-
-      var beforeModalEl = document.getElementById('sessionBeforeStartModal');
-      var beforeAlertBtn = document.getElementById('sessionBeforeAlertBtn');
-      if (beforeModalEl && beforeAlertBtn) {
-        var beforeModal = new bootstrap.Modal(beforeModalEl);
-        beforeAlertBtn.addEventListener('click', function (e) {
+      var overdueExplainEl = document.getElementById('sessionOverdueExplainModal');
+      var overdueAlertBtn = document.getElementById('sessionOverdueAlertBtn');
+      if (overdueExplainEl && overdueAlertBtn) {
+        var overdueExplainModal = new bootstrap.Modal(overdueExplainEl);
+        overdueAlertBtn.addEventListener('click', function (e) {
           e.preventDefault();
-          beforeModal.show();
+          overdueExplainModal.show();
         });
       }
     })();

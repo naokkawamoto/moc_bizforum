@@ -23,9 +23,22 @@
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社', '株式会社未来創研', 'ベンチャーキャピタル株式会社', '株式会社スタートアップラボ', '株式会社イノベーション', 'テクノロジー株式会社', '株式会社グロース', '株式会社ネクスト', '株式会社ビジョン', '株式会社フューチャー', '株式会社クリエイト', '株式会社ソリューション', '株式会社パートナーズ', '株式会社ビジネス開発', '株式会社新規事業', '株式会社戦略企画'];
     var visitorDepts = ['マーケティング部', '開発本部', '人事総務', '研究開発室', '海外営業'];
     var visitorJobTitles = ['部長', '課長', '主任', 'マネージャー', '担当', '室長'];
-    var visitorSessions = ['セッションA', 'ネットワーキング', '基調講演', 'ダイアログ', 'セッションB'];
-    var lotteryResults = ['当選', 'ブランク'];
-    var attendanceStatuses = ['本人出席', '欠席', 'キャンセル'];
+    /** 単一・複数（カンマ区切り）の選択セッション例 */
+    var visitorSessionDisplays = [
+      'セッションA',
+      'セッションB',
+      'セッションA,セッションB,セッションC',
+      'ネットワーキング',
+      '基調講演',
+      'セッションA,セッションB',
+      'ダイアログ',
+      'セッションC,セッションD',
+      'セッションA,セッションB,セッションC,ネットワーキング'
+    ];
+    /** 抽選結果（当選・抽選漏れ・ブランク） */
+    var LOTTERY_OPTIONS = ['当選', '抽選漏れ', 'ブランク'];
+    /** 出欠状況 */
+    var ATTENDANCE_OPTIONS = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ'];
     var salesKeyRotation = ['yamada', 'sato', 'suzuki', 'takahashi', 'watanabe'];
     var kanaLastPool = ['タナカ', 'タカハシ', 'イトウ', 'スズキ', 'ヤマモト', 'ナカムラ', 'コバヤシ', 'サトウ', 'カトウ', 'ヨシダ'];
     var kanaFirstPool = ['イチロウ', 'ミサキ', 'ケンタ', 'マリコ', 'タケシ', 'ユウコ', 'ハナコ', 'リョウ', 'ユミ', 'ダイスケ'];
@@ -47,8 +60,8 @@
       var present = Math.random() < 0.7;
       visitorData.push({
         userid: 'U' + String(i + 1).padStart(3, '0'),
-        lotteryResult: lotteryResults[i % lotteryResults.length],
-        attendanceStatus: attendanceStatuses[i % attendanceStatuses.length],
+        lotteryResult: LOTTERY_OPTIONS[i % LOTTERY_OPTIONS.length],
+        attendanceStatus: ATTENDANCE_OPTIONS[i % ATTENDANCE_OPTIONS.length],
         company: companies[c],
         dept: visitorDepts[i % visitorDepts.length],
         jobTitle: visitorJobTitles[i % visitorJobTitles.length],
@@ -58,7 +71,7 @@
         kanaLast: kanaLastPool[i % kanaLastPool.length],
         kanaFirst: kanaFirstPool[i % kanaFirstPool.length],
         email: 'guest' + String(i + 1).padStart(3, '0') + '@example.com',
-        session: visitorSessions[i % visitorSessions.length],
+        session: visitorSessionDisplays[i % visitorSessionDisplays.length],
         staffId: salesMeta.staffId,
         staffName: salesMeta.name,
         present: present
@@ -74,7 +87,10 @@
     var countLabel = document.getElementById('countLabel');
     var pageInfo = document.getElementById('pageInfo');
     var paginationList = document.getElementById('paginationList');
-    var btnPrintAll = document.getElementById('btnPrintAll');
+    var btnPrintChecked = document.getElementById('btnPrintChecked');
+    var btnCheckAllNameplate = document.getElementById('btnCheckAllNameplate');
+    var btnCheckClearNameplate = document.getElementById('btnCheckClearNameplate');
+    var nameplateCheckedCountEl = document.getElementById('nameplateCheckedCount');
     var btnPrintSettings = document.getElementById('btnPrintSettings');
     var previewModal = document.getElementById('previewModal');
     var btnPrintOne = document.getElementById('btnPrintOne');
@@ -90,6 +106,8 @@
     var addVisitorEmail = document.getElementById('addVisitorEmail');
     var addVisitorSession = document.getElementById('addVisitorSession');
     var addVisitorSalesStaff = document.getElementById('addVisitorSalesStaff');
+    var addVisitorLottery = document.getElementById('addVisitorLottery');
+    var addVisitorAttendance = document.getElementById('addVisitorAttendance');
     var addVisitorSaveBtn = document.getElementById('addVisitorSaveBtn');
     var btnAddVisitor = document.getElementById('btnAddVisitor');
     var btnBulkAddCsv = document.getElementById('btnBulkAddCsv');
@@ -101,6 +119,27 @@
     var filteredData = [];
     var currentPreviewVisitor = null;
     var isVisitorEditMode = false;
+    /** 名札一括印刷の対象（userId）。ページをまたいで保持 */
+    var nameplateCheckedUserIds = new Set();
+
+    function updateNameplateSelectionCount() {
+      if (nameplateCheckedCountEl) nameplateCheckedCountEl.textContent = String(nameplateCheckedUserIds.size);
+    }
+
+    function nameplateCheckCellHtml(v, previewDisabled) {
+      var uidAttr = String(v.userid || '').replace(/"/g, '&quot;');
+      var checked = nameplateCheckedUserIds.has(v.userid) ? ' checked' : '';
+      var prevBtn = previewDisabled
+        ? '<button type="button" class="btn btn-outline-secondary btn-sm" disabled>プレビュー</button>'
+        : '<button type="button" class="btn btn-outline-primary btn-sm btn-preview" data-userid="' + uidAttr + '" data-name="' + String(v.name || '').replace(/"/g, '&quot;') + '" data-company="' + String(v.company || '').replace(/"/g, '&quot;') + '">プレビュー</button>';
+      return (
+        '<td class="text-center cell-nameplate">' +
+        '<div class="d-inline-flex align-items-center justify-content-center gap-2 flex-wrap">' +
+        '<input type="checkbox" class="form-check-input nameplate-check"' + checked + ' data-userid="' + uidAttr + '" aria-label="名札印刷の対象">' +
+        prevBtn +
+        '</div></td>'
+      );
+    }
 
     function escCell(s) {
       if (s == null) return '';
@@ -116,12 +155,23 @@
       return '';
     }
 
+    function lotterySelectHtml(v) {
+      var html = '<select class="form-select form-select-sm js-lottery" data-userid="' + String(v.userid || '').replace(/"/g, '&quot;') + '">';
+      for (var i = 0; i < LOTTERY_OPTIONS.length; i++) {
+        var opt = LOTTERY_OPTIONS[i];
+        var selected = v.lotteryResult === opt ? ' selected' : '';
+        html += '<option value="' + opt + '"' + selected + '>' + opt + '</option>';
+      }
+      html += '</select>';
+      return html;
+    }
+
     function attendanceSelectHtml(v) {
-      var opts = ['本人出席', '欠席', 'キャンセル'];
       var html = '<select class="form-select form-select-sm js-attendance" data-userid="' + String(v.userid || '').replace(/"/g, '&quot;') + '">';
-      for (var i = 0; i < opts.length; i++) {
-        var selected = v.attendanceStatus === opts[i] ? ' selected' : '';
-        html += '<option value="' + opts[i] + '"' + selected + '>' + opts[i] + '</option>';
+      for (var i = 0; i < ATTENDANCE_OPTIONS.length; i++) {
+        var opt = ATTENDANCE_OPTIONS[i];
+        var selected = v.attendanceStatus === opt ? ' selected' : '';
+        html += '<option value="' + opt + '"' + selected + '>' + opt + '</option>';
       }
       html += '</select>';
       return html;
@@ -145,6 +195,7 @@
       if (isVisitorEditMode) {
         tr.innerHTML =
           '<td class="text-nowrap">' + escCell(v.userid) + '</td>' +
+          '<td>' + lotterySelectHtml(v) + '</td>' +
           '<td>' + attendanceSelectHtml(v) + '</td>' +
           '<td>' + escCell(v.company) + '</td>' +
           '<td>' + escCell(v.dept) + '</td>' +
@@ -154,11 +205,12 @@
           '<td>' + escCell(v.kanaFirst) + '</td>' +
           '<td>' + escCell(v.email) + '</td>' +
           '<td>' + escCell(v.session) + '</td>' +
-          '<td class="text-center text-muted">—</td>' +
+          nameplateCheckCellHtml(v, true) +
           '<td>' + staffSelectHtml(v) + '</td>';
       } else {
         tr.innerHTML =
           '<td class="text-nowrap">' + escCell(v.userid) + '</td>' +
+          '<td>' + escCell(v.lotteryResult) + '</td>' +
           '<td>' + escCell(v.attendanceStatus) + '</td>' +
           '<td>' + escCell(v.company) + '</td>' +
           '<td>' + escCell(v.dept) + '</td>' +
@@ -168,16 +220,19 @@
           '<td>' + escCell(v.kanaFirst) + '</td>' +
           '<td>' + escCell(v.email) + '</td>' +
           '<td>' + escCell(v.session) + '</td>' +
-          '<td class="text-center"><button type="button" class="btn btn-outline-primary btn-sm btn-preview" data-userid="' + String(v.userid || '').replace(/"/g, '&quot;') + '" data-name="' + (v.name || '').replace(/"/g, '&quot;') + '" data-company="' + (v.company || '').replace(/"/g, '&quot;') + '">プレビュー</button></td>' +
+          nameplateCheckCellHtml(v, false) +
           '<td>' + escCell(v.staffName) + '</td>';
 
-        tr.querySelector('.btn-preview') && tr.querySelector('.btn-preview').addEventListener('click', function (e) {
-          e.stopPropagation();
-          var uid = this.getAttribute('data-userid');
-          currentPreviewVisitor = visitorData.find(function (x) { return x.userid === uid; });
-          var modal = new bootstrap.Modal(previewModal);
-          modal.show();
-        });
+        var prevBtn = tr.querySelector('.btn-preview');
+        if (prevBtn) {
+          prevBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var uid = this.getAttribute('data-userid');
+            currentPreviewVisitor = visitorData.find(function (x) { return x.userid === uid; });
+            var modal = new bootstrap.Modal(previewModal);
+            modal.show();
+          });
+        }
       }
 
       return tr;
@@ -198,6 +253,11 @@
 
     function saveVisitorInlineEdits() {
       if (!tbody) return;
+      tbody.querySelectorAll('select.js-lottery').forEach(function (el) {
+        var uid = el.getAttribute('data-userid');
+        var v = visitorData.find(function (x) { return x.userid === uid; });
+        if (v) v.lotteryResult = el.value;
+      });
       tbody.querySelectorAll('select.js-attendance').forEach(function (el) {
         var uid = el.getAttribute('data-userid');
         var v = visitorData.find(function (x) { return x.userid === uid; });
@@ -231,7 +291,8 @@
         v.kanaLast || '',
         v.kanaFirst || '',
         v.email || '',
-        v.session || ''
+        v.session || '',
+        v.lotteryResult || ''
       ].join(' ');
       return hay.indexOf(q) >= 0;
     }
@@ -264,6 +325,7 @@
 
       if (tbody) tbody.innerHTML = '';
       if (pageData && tbody) pageData.forEach(function (v) { tbody.appendChild(renderRow(v)); });
+      updateNameplateSelectionCount();
 
       if (paginationList) paginationList.innerHTML = '';
       if (totalPages <= 1 || !paginationList) return;
@@ -304,9 +366,43 @@
     if (filterName) filterName.addEventListener('input', function () { currentPage = 1; render(); });
     if (perPageSelect) perPageSelect.addEventListener('change', function () { currentPage = 1; render(); });
 
-    if (btnPrintAll) btnPrintAll.addEventListener('click', function () {
-      alert('全来場者の名札を印刷します。\n※実際の実装では印刷ダイアログを表示します。');
-    });
+    if (tbody) {
+      tbody.addEventListener('change', function (e) {
+        var t = e.target;
+        if (!t || !t.classList || !t.classList.contains('nameplate-check')) return;
+        var uid = t.getAttribute('data-userid');
+        if (!uid) return;
+        if (t.checked) nameplateCheckedUserIds.add(uid);
+        else nameplateCheckedUserIds.delete(uid);
+        updateNameplateSelectionCount();
+      });
+    }
+
+    if (btnCheckAllNameplate) {
+      btnCheckAllNameplate.addEventListener('click', function () {
+        getFiltered().forEach(function (v) { nameplateCheckedUserIds.add(v.userid); });
+        render();
+      });
+    }
+    if (btnCheckClearNameplate) {
+      btnCheckClearNameplate.addEventListener('click', function () {
+        nameplateCheckedUserIds.clear();
+        render();
+      });
+    }
+    if (btnPrintChecked) {
+      btnPrintChecked.addEventListener('click', function () {
+        var n = nameplateCheckedUserIds.size;
+        if (n === 0) {
+          alert('印刷する行にチェックを付けてください。');
+          return;
+        }
+        var picked = visitorData.filter(function (v) { return nameplateCheckedUserIds.has(v.userid); });
+        var sample = picked.slice(0, 5).map(function (v) { return v.name || v.userid; }).join('、');
+        var more = n > 5 ? '…他 ' + (n - 5) + ' 名' : '';
+        alert('チェックした ' + n + ' 件の名札を印刷します。\n' + sample + more + '\n\n※実際の実装では印刷ダイアログを表示します。');
+      });
+    }
 
     if (btnPrintSettings && printSettingsModal) {
       btnPrintSettings.addEventListener('click', function () {
@@ -329,6 +425,8 @@
         var el = document.getElementById(id);
         if (el) el.value = '';
       });
+      if (addVisitorLottery) addVisitorLottery.value = 'ブランク';
+      if (addVisitorAttendance) addVisitorAttendance.value = '本人出席';
     }
 
     if (btnAddVisitor) btnAddVisitor.addEventListener('click', function () {
@@ -349,6 +447,8 @@
       var email = addVisitorEmail ? addVisitorEmail.value.trim() : '';
       var session = addVisitorSession ? addVisitorSession.value : '';
       var salesKey = addVisitorSalesStaff ? addVisitorSalesStaff.value : '';
+      var lotteryVal = addVisitorLottery && addVisitorLottery.value ? addVisitorLottery.value : 'ブランク';
+      var attendanceVal = addVisitorAttendance && addVisitorAttendance.value ? addVisitorAttendance.value : '本人出席';
 
       if (!company) {
         alert('会社名を入力してください。');
@@ -362,12 +462,13 @@
         alert('メールアドレスを入力してください。');
         return;
       }
-      if (!salesKey || !SALES_STAFF_META[salesKey]) {
-        alert('営業担当者を選択してください。');
-        return;
-      }
       var fullName = fullNameInput || (lastName + ' ' + firstName).trim();
-      var salesMeta = SALES_STAFF_META[salesKey];
+      var staffId = '';
+      var staffName = '';
+      if (salesKey && SALES_STAFF_META[salesKey]) {
+        staffId = SALES_STAFF_META[salesKey].staffId;
+        staffName = SALES_STAFF_META[salesKey].name;
+      }
 
       var maxNum = visitorData.reduce(function (m, v) {
         var n = parseInt((v.userid || '').replace(/\D/g, ''), 10);
@@ -376,8 +477,8 @@
       var newUserid = 'U' + String(maxNum + 1).padStart(3, '0');
       visitorData.push({
         userid: newUserid,
-        lotteryResult: 'ブランク',
-        attendanceStatus: '本人出席',
+        lotteryResult: lotteryVal,
+        attendanceStatus: attendanceVal,
         company: company,
         dept: dept,
         jobTitle: jobTitle,
@@ -388,8 +489,8 @@
         kanaFirst: kanaFirst,
         email: email,
         session: session,
-        staffId: salesMeta.staffId,
-        staffName: salesMeta.name,
+        staffId: staffId,
+        staffName: staffName,
         present: false
       });
       bootstrap.Modal.getInstance(addVisitorModal).hide();

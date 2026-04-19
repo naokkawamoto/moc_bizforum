@@ -15,6 +15,16 @@
     .page-nav-tabs .nav-link { font-size: 0.85rem; }
     .info-table { font-size: 0.85rem; }
     .info-table th { background-color: #f8f9fa; width: 140px; }
+    #eventOverviewPlanTable {
+      table-layout: fixed;
+      width: 100%;
+    }
+    #eventOverviewPlanTable tbody th,
+    #eventOverviewPlanTable tbody td {
+      width: 25%;
+      vertical-align: middle;
+    }
+    #eventOverviewPlanTable .event-overview-stat { text-align: center; font-weight: 600; }
     .program-time { white-space: nowrap; font-weight: 600; color: #0d6efd; }
     .program-room { font-size: 0.8rem; color: #6c757d; }
     .program-title { font-weight: 600; }
@@ -38,7 +48,6 @@
       display: block;
       background-color: #f0f0f0;
     }
-    .attendance-actual { font-size: 1.25rem; font-weight: 700; color: #0d6efd; background-color: #e7f1ff; text-align: center; vertical-align: middle; }
     .program-actual { font-size: 1.1rem; font-weight: 700; color: #0d6efd; background-color: #e7f1ff; text-align: center; vertical-align: middle; min-width: 80px; }
     #programContentTable tbody tr.table-primary,
     #programContentTable tbody tr.table-warning {
@@ -93,33 +102,35 @@
             <div class="row">
               <div class="col-12">
                 <table class="table table-sm table-bordered info-table mb-0" id="eventOverviewPlanTable">
-                  <thead class="table-light">
-                    <tr>
-                      <th style="width: 140px;"></th>
-                      <th>予定・内容</th>
-                      <th style="width: 100px;">来場数実績</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     <tr>
                       <th>開催日時</th>
                       <td><input type="text" class="form-control form-control-sm" id="eventDateTime" value="2026年3月5日（木）13:00" placeholder="開催日時"></td>
-                      <td class="text-center text-muted">—</td>
+                      <th scope="row" class="event-overview-index text-nowrap">
+                        <span class="align-middle">来場予定者数</span>
+                        <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-middle text-decoration-none" data-bs-toggle="modal" data-bs-target="#plannedAttendeesHelpModal" title="算出方法" aria-label="来場予定者数の算出方法を表示">
+                          <i class="bi bi-question-circle-fill text-secondary" aria-hidden="true"></i>
+                        </button>
+                      </th>
+                      <td class="event-overview-stat">100名</td>
                     </tr>
                     <tr>
                       <th>終了日時</th>
                       <td><input type="text" class="form-control form-control-sm" id="eventDateTimeEnd" value="2026年3月5日（木）17:40" placeholder="終了日時"></td>
-                      <td class="text-center text-muted">—</td>
+                      <th scope="row" class="event-overview-index">来場数実績</th>
+                      <td class="event-overview-stat">82名</td>
                     </tr>
                     <tr>
                       <th>開催場所</th>
                       <td><input type="text" class="form-control form-control-sm" id="eventPlace" value="会場開催（東京）" placeholder="開催場所"></td>
-                      <td class="text-center text-muted">—</td>
+                      <th scope="row" class="event-overview-index">来場率</th>
+                      <td class="event-overview-stat">82％</td>
                     </tr>
                     <tr>
                       <th>参加規模</th>
                       <td><input type="number" class="form-control form-control-sm" id="eventPlanned" value="150" placeholder="名"> 名</td>
-                      <td class="attendance-actual">82名</td>
+                      <th scope="row" class="event-overview-index text-muted fw-normal">&nbsp;</th>
+                      <td class="text-center text-muted">—</td>
                     </tr>
                   </tbody>
                 </table>
@@ -309,13 +320,13 @@
         <div class="card mb-4">
           <div class="card-header py-2 card-header-actions">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 w-100">
-              <div class="d-flex justify-content-between align-items-center flex-grow-1 min-w-0 gap-2 me-2">
+              <div class="d-flex align-items-center flex-wrap gap-2 flex-grow-1 min-w-0 me-2">
                 <span class="fw-bold">営業担当者</span>
-                <span class="section-updated-meta text-end ms-auto mb-0" id="staffUpdated">updated 2026/03/05 山田 太郎</span>
+                <button type="button" class="btn btn-outline-primary px-3 fw-bold" id="staffEditToggleBtn" onclick="toggleEditStaff()"><i class="bi bi-pencil-square me-1"></i>編集</button>
+                <span class="section-updated-meta text-muted small mb-0 ms-sm-auto" id="staffUpdated">updated 2026/03/05 山田 太郎</span>
               </div>
               <div class="d-flex gap-2 flex-shrink-0">
                 <button type="button" class="btn btn-outline-secondary px-3 fw-bold" id="staffCsvRegisterBtn"><i class="bi bi-file-earmark-spreadsheet me-1"></i>CSV登録</button>
-                <button type="button" class="btn btn-outline-primary px-3 fw-bold" id="staffEditToggleBtn" onclick="toggleEditStaff()"><i class="bi bi-pencil-square me-1"></i>編集</button>
               </div>
             </div>
           </div>
@@ -347,6 +358,29 @@
         </div>
 
       </main>
+    </div>
+  </div>
+
+  <!-- 来場予定者数の説明 -->
+  <div class="modal fade" id="plannedAttendeesHelpModal" tabindex="-1" aria-labelledby="plannedAttendeesHelpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="plannedAttendeesHelpModalLabel">来場予定者数について</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-2">来場予定者数は、来場者リストの<strong>CSV</strong>を参照し、次の条件をすべて満たす行の人数の<strong>合計</strong>です。</p>
+          <ul class="mb-0 ps-3">
+            <li class="mb-1">抽選結果が「<strong>当選</strong>」または「<strong>ブランク</strong>」であること</li>
+            <li>かつ、出欠状況が「<strong>キャンセル</strong>」および「<strong>申込者</strong>」でないこと</li>
+          </ul>
+          <p class="small text-muted mt-3 mb-0">※抽選結果が「抽選漏れ」の行は、この集計には含めません。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -620,6 +654,17 @@
         if (!tr.getAttribute('data-role')) tr.setAttribute('data-role', parsed.role);
         if (!tr.getAttribute('data-name')) tr.setAttribute('data-name', parsed.name);
       }
+      if (!tr.hasAttribute('data-name2')) tr.setAttribute('data-name2', '');
+      if (!tr.hasAttribute('data-name3')) tr.setAttribute('data-name3', '');
+    }
+
+    function formatProgramSpeakerNames(tr) {
+      var out = [];
+      ['data-name', 'data-name2', 'data-name3'].forEach(function (attr) {
+        var n = (tr.getAttribute(attr) || '').replace(/\s+/g, ' ').trim();
+        if (n) out.push(n + ' 氏');
+      });
+      return out.join('　／　');
     }
 
     function renderProgramReadMode() {
@@ -634,7 +679,7 @@
         var title = tr.getAttribute('data-title') || '';
         var org = tr.getAttribute('data-organization') || '';
         var role = tr.getAttribute('data-role') || '';
-        var name = tr.getAttribute('data-name') || '';
+        var namesLine = formatProgramSpeakerNames(tr);
         tds[0].className = 'program-time';
         tds[0].textContent = tr.getAttribute('data-time') || '';
         tds[1].textContent = tr.getAttribute('data-room') || '';
@@ -642,9 +687,8 @@
           '<span class="session-badge badge bg-secondary me-1">' + (type || '講演') + '</span>' +
           '<span class="program-title">' + title + '</span>' +
           '<p class="program-speaker mb-0 mt-1 small">' +
-          '<span class="text-muted">' + org + '</span>　' +
-          '<span class="text-muted">' + role + '</span>　' +
-          name +
+          (org || role ? '<span class="text-muted">' + org + '</span>　<span class="text-muted">' + role + '</span>' + (namesLine ? '<br>' : '') : '') +
+          namesLine +
           '</p>';
       });
     }
@@ -664,15 +708,19 @@
         var org = tr.getAttribute('data-organization') || '';
         var role = tr.getAttribute('data-role') || '';
         var name = tr.getAttribute('data-name') || '';
+        var name2 = tr.getAttribute('data-name2') || '';
+        var name3 = tr.getAttribute('data-name3') || '';
         tds[0].innerHTML = '<input type="text" class="form-control form-control-sm" value="' + time.replace(/"/g, '&quot;') + '" placeholder="時間">';
         tds[1].innerHTML = '<input type="text" class="form-control form-control-sm" value="' + room.replace(/"/g, '&quot;') + '" placeholder="ROOM">';
         tds[2].innerHTML =
           '<div class="d-grid gap-1">' +
           '<input type="text" class="form-control form-control-sm" data-field="type" value="' + type.replace(/"/g, '&quot;') + '" placeholder="講演種別">' +
           '<input type="text" class="form-control form-control-sm" data-field="title" value="' + title.replace(/"/g, '&quot;') + '" placeholder="講演タイトル">' +
-          '<input type="text" class="form-control form-control-sm" data-field="organization" value="' + org.replace(/"/g, '&quot;') + '" placeholder="組織名">' +
-          '<input type="text" class="form-control form-control-sm" data-field="role" value="' + role.replace(/"/g, '&quot;') + '" placeholder="役職">' +
-          '<input type="text" class="form-control form-control-sm" data-field="name" value="' + name.replace(/"/g, '&quot;') + '" placeholder="氏名">' +
+          '<input type="text" class="form-control form-control-sm" data-field="organization" value="' + org.replace(/"/g, '&quot;') + '" placeholder="会社名">' +
+          '<input type="text" class="form-control form-control-sm" data-field="role" value="' + role.replace(/"/g, '&quot;') + '" placeholder="肩書">' +
+          '<input type="text" class="form-control form-control-sm" data-field="name" value="' + name.replace(/"/g, '&quot;') + '" placeholder="講演者1（氏名）">' +
+          '<input type="text" class="form-control form-control-sm" data-field="name2" value="' + name2.replace(/"/g, '&quot;') + '" placeholder="講演者2（任意）">' +
+          '<input type="text" class="form-control form-control-sm" data-field="name3" value="' + name3.replace(/"/g, '&quot;') + '" placeholder="講演者3（任意）">' +
           '</div>';
       });
     }
@@ -712,6 +760,8 @@
         var orgInput = tds[2].querySelector('input[data-field="organization"]');
         var roleInput = tds[2].querySelector('input[data-field="role"]');
         var nameInput = tds[2].querySelector('input[data-field="name"]');
+        var name2Input = tds[2].querySelector('input[data-field="name2"]');
+        var name3Input = tds[2].querySelector('input[data-field="name3"]');
         if (timeInput) tr.setAttribute('data-time', (timeInput.value || '').trim());
         if (roomInput) tr.setAttribute('data-room', (roomInput.value || '').trim());
         if (typeInput) tr.setAttribute('data-type', (typeInput.value || '').trim());
@@ -719,6 +769,8 @@
         if (orgInput) tr.setAttribute('data-organization', (orgInput.value || '').trim());
         if (roleInput) tr.setAttribute('data-role', (roleInput.value || '').trim());
         if (nameInput) tr.setAttribute('data-name', (nameInput.value || '').trim());
+        if (name2Input) tr.setAttribute('data-name2', (name2Input.value || '').trim());
+        if (name3Input) tr.setAttribute('data-name3', (name3Input.value || '').trim());
       });
       programEditMode = false;
       updateProgramButtons();

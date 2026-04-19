@@ -23,8 +23,22 @@
     var names = ['田中 一郎', '高橋 美咲', '伊藤 健太', '渡辺 真理子', '山本 翔', '中村 恵子', '小林 直樹', '加藤 優', '吉田 さくら', '松本 大輔'];
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社'];
     var visitorDepts = ['マーケティング部', '開発本部', '人事総務', '研究開発室', '海外営業'];
-    var visitorSessions = ['セッションA', 'ネットワーキング', '基調講演', 'ダイアログ', 'セッションB'];
-    var attendanceStatuses = ['本人出席', '欠席', 'キャンセル'];
+    /** 単一・複数（カンマ区切り）の選択セッション例 */
+    var visitorSessionDisplays = [
+      'セッションA',
+      'セッションB',
+      'セッションA,セッションB,セッションC',
+      'ネットワーキング',
+      '基調講演',
+      'セッションA,セッションB',
+      'ダイアログ',
+      'セッションC,セッションD',
+      'セッションA,セッションB,セッションC,ネットワーキング'
+    ];
+    /** 出欠状況の取りうる値 */
+    var attendanceStatuses = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ'];
+    /** 抽選結果の取りうる値 */
+    var lotteryResults = ['当選', '抽選漏れ', 'ブランク'];
 
     var visitorData = [];
     for (var i = 0; i < 100; i++) {
@@ -35,12 +49,13 @@
       var mail5Sent = i < 2;
       visitorData.push({
         userid: 'U' + String(i + 1).padStart(3, '0'),
+        lotteryResult: lotteryResults[i % lotteryResults.length],
         attendanceStatus: attendanceStatuses[i % attendanceStatuses.length],
         company: companies[i % companies.length],
         dept: visitorDepts[i % visitorDepts.length],
         name: names[i % names.length],
         email: 'guest' + String(i + 1).padStart(3, '0') + '@example.com',
-        session: visitorSessions[i % visitorSessions.length],
+        session: visitorSessionDisplays[i % visitorSessionDisplays.length],
         mail1Sent: mail1Sent,
         mail2Sent: mail2Sent,
         mail3Sent: mail3Sent,
@@ -85,9 +100,14 @@
     var SEND_UNSENT_DEFAULT_BODY = '{!Lead.Company} \n{!Lead.Name}　様　　　　　　　　　　　　　      　{!Lead.JP__c} \n\nこの度は、「●セミナー名短縮版●」へお申込いただき、\n誠にありがとうございます。\n受講証（二次元コード）及び当日の詳細についてご案内いたします。\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ \n受┃講┃証┃ \n━┛━┛━┛\n{!Lead.QRCodeURL_TEXT__c}\n\n■受　付■ \n当日は●●：●●より●会場名●\n【●F／●部屋名● 前】にて受付を開始いたします。 \n\nご来場の際は、上記受講証URLをクリックして表示される\n【二次元コード】と【お名刺を1枚】ご提示ください。\n受講証の二次元コードで受付を行います。\n\n二次元コードはモバイル画面またはプリントアウトしてお持ちください。\n（二次元コードが表示されるまでに、お時間がかかる場合がございます）\n\n複数人でお申込の場合、受講証はお一人ずつご提示ください。\nそれぞれ皆様にメールにてお送りしております。\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n以下に、開催概要についてもご案内いたします。\n\n======================================================\n●セミナー名●\nhttp://www.b-forum.net/●開催概要ＵＲＬ●/\n\n主催：●会社名●\n協力：株式会社ビジネス・フォーラム事務局 \n======================================================\n \n■開催日■ \n20●●年 ●月 ●日（●）●●：●●～●●：●●（受付開始 ●●：●●～）\n\n■会　場■ \n●会場名●　●F／●部屋名●\n●会場住所●\n●会場ＵＲＬ●\n●アクセス●\n\n■講　演■ \n●●：●●より講演を開始いたします。\n\n■プログラム■ \nhttps://www.b-forum.net/event/●ＪＰ●/#program\n\n■代理のご参加■\n当日のご出席がかなわなくなった場合、代理の方のご出席も承っております。\n代理出席をご希望の際は、お手数ですが\n署名欄の連絡先までお問い合わせください。\n\n■キャンセルについて■\n事前登録制のため、キャンセルをご希望の場合は\nお手数ですが、ご一報くださいますようお願い申し上げます。\n\nこの度はお申込み誠にありがとうございました。 \nご来場賜りますこと、心よりお待ち申し上げております。\n\n*********************************************\n株式会社ビジネス・フォーラム事務局\n担当：●Ｊ●/●Ｐ●\nTEL：03-3518-6531　　FAX：03-3518-6534\nE-Mail：customer1@b-forum.net\nhttp://www.b-forum.net\n*********************************************';
 
     var HELP_TEXT = {
-      nonCancel: 'メールはキャンセル以外に送信されます。',
+      nonCancel: '出欠がキャンセル・申込者・抽選漏れの来場者にはメールを送りません。その他の出欠は送信対象です。',
       optionalSend: '配信予約時間前の場合、任意の時間に配信可能です。'
     };
+
+    /** 出欠がこれらのときはメール対象外（一覧の送信済／未送信表示も未送信扱い） */
+    function isAttendanceMailSuppressed(status) {
+      return status === 'キャンセル' || status === '申込者' || status === '抽選漏れ';
+    }
 
     function pad2(n) { n = parseInt(n, 10) || 0; return (n < 10 ? '0' : '') + n; }
     function escapeHtml(s) { return s == null ? '' : String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
@@ -142,9 +162,9 @@
       if (!editing) alert('メール配信管理の設定を保存しました。');
     };
 
-    /** 出欠がキャンセルの場合は全メールを未送信扱い */
+    /** 出欠がキャンセル・申込者・抽選漏れの場合は全メールを未送信扱い */
     function effectiveMailSent(v, k) {
-      if (v.attendanceStatus === 'キャンセル') return false;
+      if (isAttendanceMailSuppressed(v.attendanceStatus)) return false;
       return !!v[k + 'Sent'];
     }
 
@@ -192,9 +212,10 @@
       var tr = document.createElement('tr');
       tr.innerHTML =
         '<td>' + v.userid + '</td>' +
+        '<td>' + v.lotteryResult + '</td>' +
         '<td>' + v.attendanceStatus + '</td>' +
-        '<td>' + v.name + '</td>' +
         '<td>' + v.company + '</td>' +
+        '<td>' + v.name + '</td>' +
         MAIL_KEYS.map(function (k) {
           var ok = effectiveMailSent(v, k);
           return '<td class="text-center">' + (ok ? '<span class="badge bg-success">送信済</span>' : '<span class="badge bg-secondary">未送信</span>') + '</td>';
@@ -244,7 +265,7 @@
     function openSendUnsentModal(key) {
       var prop = key + 'Sent';
       var unsent = visitorData.filter(function (v) {
-        return v.attendanceStatus !== 'キャンセル' && !v[prop];
+        return !isAttendanceMailSuppressed(v.attendanceStatus) && !v[prop];
       });
       if (unsent.length === 0) return;
       pendingSendUnsentKey = key;
@@ -274,7 +295,7 @@
       if (!key) return;
       var prop = key + 'Sent';
       var unsent = visitorData.filter(function (v) {
-        return v.attendanceStatus !== 'キャンセル' && !v[prop];
+        return !isAttendanceMailSuppressed(v.attendanceStatus) && !v[prop];
       });
       unsent.forEach(function (v) { v[prop] = true; });
       if (!mailSendHistory[key]) mailSendHistory[key] = [];

@@ -61,12 +61,12 @@
           <div class="card-body">
             <div class="row g-3">
               <div class="col-md-12">
-                <label class="form-label">イベント名 <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="eventName" placeholder="例：New Business Creation Strategy 2026">
-              </div>
-              <div class="col-md-12">
                 <label class="form-label">イベント番号 <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="eventNumber" placeholder="例：NBCS2026-M0305">
+              </div>
+              <div class="col-md-12">
+                <label class="form-label">イベント名 <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="eventName" placeholder="例：New Business Creation Strategy 2026">
               </div>
               <div class="col-md-6">
                 <label class="form-label">開催日時 <span class="text-danger">*</span></label>
@@ -188,14 +188,14 @@
                 <thead class="table-light">
                   <tr>
                     <th style="width: 50px;" class="text-center">休憩</th>
-                    <th style="min-width: 110px;">講演種別</th>
-                    <th style="min-width: 160px;">講演タイトル</th>
-                    <th style="width: 100px;">ROOM</th>
-                    <th style="min-width: 120px;">組織名</th>
-                    <th style="min-width: 100px;">役職</th>
-                    <th style="min-width: 100px;">講演者</th>
-                    <th style="width: 100px;">開始時間</th>
-                    <th style="width: 100px;">終了時間</th>
+                    <th style="min-width: 110px;">講演種別 <span class="text-danger">*</span></th>
+                    <th style="min-width: 160px;">講演タイトル <span class="text-danger">*</span></th>
+                    <th style="width: 100px;">ROOM <span class="text-danger">*</span></th>
+                    <th style="min-width: 120px;">会社名</th>
+                    <th style="min-width: 100px;">肩書</th>
+                    <th style="min-width: 148px;">講演者 <span class="fw-normal text-muted small">（最大3名）</span></th>
+                    <th style="width: 100px;">開始時間 <span class="text-danger">*</span></th>
+                    <th style="width: 100px;">終了時間 <span class="text-danger">*</span></th>
                     <th style="width: 70px;" class="text-center">操作</th>
                   </tr>
                 </thead>
@@ -204,14 +204,20 @@
                     <td class="text-center align-middle">
                       <input type="checkbox" class="form-check-input" name="isBreak" title="休憩">
                     </td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="講演種別"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>
-                    <td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>
-                    <td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>
-                    <td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>
+                    <td><input type="text" class="form-control form-control-sm" data-program-field="type" placeholder="講演種別"></td>
+                    <td><input type="text" class="form-control form-control-sm" data-program-field="title" placeholder="講演タイトル"></td>
+                    <td><input type="text" class="form-control form-control-sm" data-program-field="room" placeholder="ROOM"></td>
+                    <td><input type="text" class="form-control form-control-sm" data-program-field="company" placeholder="会社名"></td>
+                    <td><input type="text" class="form-control form-control-sm" data-program-field="jobTitle" placeholder="肩書"></td>
+                    <td>
+                      <div class="d-flex flex-column gap-1 py-1">
+                        <input type="text" class="form-control form-control-sm" data-program-field="speaker1" placeholder="講演者1（氏名）">
+                        <input type="text" class="form-control form-control-sm" data-program-field="speaker2" placeholder="講演者2（任意）">
+                        <input type="text" class="form-control form-control-sm" data-program-field="speaker3" placeholder="講演者3（任意）">
+                      </div>
+                    </td>
+                    <td><input type="time" class="form-control form-control-sm" data-program-field="start" title="開始時間"></td>
+                    <td><input type="time" class="form-control form-control-sm" data-program-field="end" title="終了時間"></td>
                     <td class="text-center align-middle">
                       <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProgramRow(this)" title="削除"><i class="bi bi-trash"></i></button>
                     </td>
@@ -387,7 +393,7 @@
         <!-- セクション2：来場者リスト + CSVアップロード -->
         <div class="card section-card" id="section-visitors">
           <div class="card-header py-2 d-flex justify-content-between align-items-center flex-wrap gap-2">
-            <span class="text-dark"><i class="bi bi-people me-2"></i>来場者リスト <span class="badge bg-dark ms-2" id="visitorCountBadge">登録人数: 5名</span></span>
+            <span class="text-dark"><i class="bi bi-people me-2"></i>来場者リスト <span class="badge bg-dark ms-2" id="visitorCountBadge">登録人数: 11名</span></span>
             <div class="d-flex gap-2">
               <button type="button" class="btn btn-sm btn-outline-primary" onclick="uploadVisitorCsv()">
                 <i class="bi bi-file-earmark-spreadsheet me-1"></i>CSVアップロード
@@ -402,7 +408,7 @@
               <table class="table table-bordered table-hover table-sm mb-0 visitor-list-table">
                 <thead class="table-light">
                   <tr>
-                    <th style="width: 100px;">イベント種別番号</th>
+                    <th style="width: 100px;">イベント番号</th>
                     <th>抽選結果</th>
                     <th>出欠状況</th>
                     <th>会社名</th>
@@ -433,8 +439,8 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U002</td>
-                    <td>ブランク</td>
-                    <td>欠席</td>
+                    <td>抽選漏れ</td>
+                    <td>代理出席</td>
                     <td>テック東日本株式会社</td>
                     <td>開発本部</td>
                     <td>課長</td>
@@ -447,8 +453,8 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U003</td>
-                    <td>当選</td>
-                    <td>キャンセル</td>
+                    <td>ブランク</td>
+                    <td>当日出席</td>
                     <td>グローバル物流株式会社</td>
                     <td>人事総務</td>
                     <td>主任</td>
@@ -461,8 +467,8 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U004</td>
-                    <td>ブランク</td>
-                    <td>本人出席</td>
+                    <td>当選</td>
+                    <td>交代出席</td>
                     <td>イノベーションラボ株式会社</td>
                     <td>研究開発室</td>
                     <td>マネージャー</td>
@@ -470,12 +476,12 @@
                     <td>イトウ</td>
                     <td>ショウ</td>
                     <td>ito.sho@innov-lab-sample.jp</td>
-                    <td>ダイアログ</td>
+                    <td class="small" style="white-space: normal;">セッションA,セッションB,セッションC</td>
                     <td>URL</td>
                   </tr>
                   <tr>
                     <td class="text-nowrap">U005</td>
-                    <td>当選</td>
+                    <td>抽選漏れ</td>
                     <td>欠席</td>
                     <td>大阪物産株式会社</td>
                     <td>海外営業</td>
@@ -484,7 +490,91 @@
                     <td>ナカムラ</td>
                     <td>ユウコ</td>
                     <td>nakamura@osaka-b-sample.jp</td>
-                    <td>セッションB</td>
+                    <td class="small" style="white-space: normal;">セッションB,ネットワーキング</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U006</td>
+                    <td>ブランク</td>
+                    <td>申込者</td>
+                    <td>株式会社フューチャー企画</td>
+                    <td>事業開発部</td>
+                    <td>室長</td>
+                    <td>小林 大輔</td>
+                    <td>コバヤシ</td>
+                    <td>ダイスケ</td>
+                    <td>kobayashi.d@future-plan-sample.jp</td>
+                    <td>ダイアログ</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U007</td>
+                    <td>当選</td>
+                    <td>キャンセル</td>
+                    <td>デジタルリンク株式会社</td>
+                    <td>マーケティング部</td>
+                    <td>課長</td>
+                    <td>高橋 恵</td>
+                    <td>タカハシ</td>
+                    <td>メグミ</td>
+                    <td>takahashi.m@digital-link-sample.jp</td>
+                    <td>セッションC</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U008</td>
+                    <td>抽選漏れ</td>
+                    <td>抽選漏れ</td>
+                    <td>スタートアップ支援株式会社</td>
+                    <td>コーポレート</td>
+                    <td>マネージャー</td>
+                    <td>渡辺 亮</td>
+                    <td>ワタナベ</td>
+                    <td>リョウ</td>
+                    <td>watanabe.r@startup-support-sample.jp</td>
+                    <td>セッションD</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U009</td>
+                    <td>ブランク</td>
+                    <td>本人出席</td>
+                    <td>ネクストイノベーション株式会社</td>
+                    <td>新規事業室</td>
+                    <td>主任</td>
+                    <td>松本 あかり</td>
+                    <td>マツモト</td>
+                    <td>アカリ</td>
+                    <td>matsumoto.a@next-innov-sample.jp</td>
+                    <td>セッションA,基調講演</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U010</td>
+                    <td>当選</td>
+                    <td>代理出席</td>
+                    <td>ビジネスフォーラム商事株式会社</td>
+                    <td>営業第二部</td>
+                    <td>部長</td>
+                    <td>木村 雄一</td>
+                    <td>キムラ</td>
+                    <td>ユウイチ</td>
+                    <td>kimura.yuichi@bizforum-trading-sample.jp</td>
+                    <td>ネットワーキング</td>
+                    <td>URL</td>
+                  </tr>
+                  <tr>
+                    <td class="text-nowrap">U011</td>
+                    <td>抽選漏れ</td>
+                    <td>当日出席</td>
+                    <td>クリエイトラボ株式会社</td>
+                    <td>研究所</td>
+                    <td>研究員</td>
+                    <td>井上 凛</td>
+                    <td>イノウエ</td>
+                    <td>リン</td>
+                    <td>inoue.r@create-lab-sample.jp</td>
+                    <td class="small" style="white-space: normal;">セッションA,セッションB</td>
                     <td>URL</td>
                   </tr>
                 </tbody>
@@ -565,13 +655,14 @@
           <div class="small text-muted">
             <p class="mb-1 mb-0"><strong>※</strong> 営業担当者は後で追加もできる。</p>
             <p class="mb-1 mb-0">CSVを追加した場合、重複を排除する。</p>
-            <p class="mb-0">抽選結果列の当選だけを抽出する。</p>
+            <p class="mb-0">抽選結果は<strong>当選・抽選漏れ・ブランク</strong>の値をそのまま取り込む（<strong>抽選漏れも除外しない</strong>）。</p>
           </div>
           <hr class="my-3">
           <ul class="small text-muted mb-0 ps-3">
-            <li class="mb-2">一括追加CSVするとき、抽選結果が当選、ブランク、キャンセル、抽選漏れ、申込者、代理出席のうち、抽選漏れは弾き、かつ、キャンセルと申込者はキャンセル表示されるようにしたい。</li>
+            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>。</li>
+            <li class="mb-2">メール配信は、出欠が<strong>キャンセル・申込者・抽選漏れ</strong>の来場者には送らない。</li>
             <li class="mb-2">後からキャンセルになった人は手動でキャンセルにステータス変更したい。</li>
-            <li class="mb-0">※キャンセルの人にはメールは送られない。</li>
+            <li class="mb-0">抽選結果の値は<strong>当選・抽選漏れ・ブランク</strong>（CSVでは上記どおり取り込み）。</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -600,16 +691,16 @@
       .catch(function () {});
 
     function validateOverviewRequired() {
-      var name = document.getElementById('eventName');
-      if (name && !name.value.trim()) {
-        alert('イベント名を入力してください。');
-        if (name.focus) name.focus();
-        return false;
-      }
       var num = document.getElementById('eventNumber');
       if (num && !num.value.trim()) {
         alert('イベント番号を入力してください。');
         if (num.focus) num.focus();
+        return false;
+      }
+      var name = document.getElementById('eventName');
+      if (name && !name.value.trim()) {
+        alert('イベント名を入力してください。');
+        if (name.focus) name.focus();
         return false;
       }
       var dt = document.getElementById('eventDateTime');
@@ -633,6 +724,31 @@
     }
 
     function saveProgramCard() {
+      var rows = document.querySelectorAll('#programTableBody tr.program-row');
+      var labels = {
+        type: '講演種別',
+        title: '講演タイトル',
+        room: 'ROOM',
+        start: '開始時間',
+        end: '終了時間'
+      };
+      for (var ri = 0; ri < rows.length; ri++) {
+        var tr = rows[ri];
+        var breakCb = tr.querySelector('input[name="isBreak"]');
+        if (breakCb && breakCb.checked) continue;
+        var fields = ['type', 'title', 'room', 'start', 'end'];
+        for (var fi = 0; fi < fields.length; fi++) {
+          var key = fields[fi];
+          var el = tr.querySelector('[data-program-field="' + key + '"]');
+          if (!el) continue;
+          var v = String(el.value || '').trim();
+          if (!v) {
+            alert((labels[key] || key) + 'を入力してください。（' + (ri + 1) + '行目）');
+            if (el.focus) el.focus();
+            return;
+          }
+        }
+      }
       alert('プログラムを保存しました。\n※実際の実装ではサーバーに送信します。');
     }
 
@@ -688,14 +804,18 @@
       var tr = document.createElement('tr');
       tr.className = 'program-row';
       tr.innerHTML = '<td class="text-center align-middle"><input type="checkbox" class="form-check-input" name="isBreak" title="休憩"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="講演種別"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="講演タイトル"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="ROOM"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="組織名"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="役職"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" placeholder="講演者"></td>' +
-        '<td><input type="time" class="form-control form-control-sm" placeholder="開始"></td>' +
-        '<td><input type="time" class="form-control form-control-sm" placeholder="終了"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" data-program-field="type" placeholder="講演種別"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" data-program-field="title" placeholder="講演タイトル"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" data-program-field="room" placeholder="ROOM"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" data-program-field="company" placeholder="会社名"></td>' +
+        '<td><input type="text" class="form-control form-control-sm" data-program-field="jobTitle" placeholder="肩書"></td>' +
+        '<td><div class="d-flex flex-column gap-1 py-1">' +
+        '<input type="text" class="form-control form-control-sm" data-program-field="speaker1" placeholder="講演者1（氏名）">' +
+        '<input type="text" class="form-control form-control-sm" data-program-field="speaker2" placeholder="講演者2（任意）">' +
+        '<input type="text" class="form-control form-control-sm" data-program-field="speaker3" placeholder="講演者3（任意）">' +
+        '</div></td>' +
+        '<td><input type="time" class="form-control form-control-sm" data-program-field="start" title="開始時間"></td>' +
+        '<td><input type="time" class="form-control form-control-sm" data-program-field="end" title="終了時間"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProgramRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';
       tbody.appendChild(tr);
     }

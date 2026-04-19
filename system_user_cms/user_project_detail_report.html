@@ -23,6 +23,14 @@
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem 1rem; }
     .card-header-actions { background-color: #e9ecef; color: #212529; }
     .card-header-actions .btn { font-size: 0.95rem; }
+    .filter-staff-bar .form-check { margin-bottom: 0; }
+    .staff-names-cell { white-space: normal; max-width: 14rem; }
+    .sales-staff-line { min-width: 8.5rem; }
+    .sales-staff-editor .btn-remove-sales-staff { flex-shrink: 0; }
+    .visitor-table thead th.col-sortable { white-space: normal !important; vertical-align: top; }
+    .th-col-head { font-size: 0.72rem; line-height: 1.25; font-weight: 600; }
+    .th-col-ctrl .btn { padding: 0.12rem 0.28rem; font-size: 0.68rem; line-height: 1.1; }
+    .th-col-ctrl .btn i { font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -55,14 +63,31 @@
                 <label class="form-label small mb-0">来場者、会社・部門・メール（漢字・かな・カナ）</label>
                 <input type="text" class="form-control form-control-sm" id="filterName" placeholder="氏名・会社・部門・メール・カナなど" style="min-width: 220px;">
               </div>
-              <div class="col-auto">
-                <label class="form-label small mb-0">担当者絞り込み</label>
-                <select class="form-select form-select-sm" id="filterStaff" style="min-width: 160px;">
-                  <option value="">すべて</option>
-                  <option value="yamada">山田 太郎</option>
-                  <option value="sato">佐藤 花子</option>
-                  <option value="suzuki">鈴木 次郎</option>
-                </select>
+              <div class="col-12">
+                <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 filter-staff-bar">
+                  <div>
+                    <label class="form-label small mb-1 d-block">営業担当者（チェックした担当者が<strong>いずれか1人でも</strong>付いた来場者のみ表示）</label>
+                    <div class="d-flex flex-wrap align-items-center gap-3" id="filterStaffCheckboxes">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input filter-staff-cb" type="checkbox" value="yamada" id="filterStaffYamada">
+                        <label class="form-check-label small" for="filterStaffYamada">山田 太郎</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input filter-staff-cb" type="checkbox" value="sato" id="filterStaffSato">
+                        <label class="form-check-label small" for="filterStaffSato">佐藤 花子</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input filter-staff-cb" type="checkbox" value="suzuki" id="filterStaffSuzuki">
+                        <label class="form-check-label small" for="filterStaffSuzuki">鈴木 次郎</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input filter-staff-cb" type="checkbox" value="tanaka" id="filterStaffTanaka">
+                        <label class="form-check-label small" for="filterStaffTanaka">田中 誠</label>
+                      </div>
+                    </div>
+                    <div class="form-text small mb-0">チェックなし＝すべて表示。</div>
+                  </div>
+                </div>
               </div>
               <div class="col-auto">
                 <label class="form-label small mb-0">セッション絞り込み</label>
@@ -105,24 +130,156 @@
             </div>
           </div>
           <div class="card-body p-0">
+            <p class="small text-muted px-3 pt-2 mb-2 mb-lg-1">列見出しの <strong>▲／▼</strong> で昇順・降順ソート、<i class="bi bi-funnel"></i> でその列の値を選んでフィルタ（Excel の列操作に近いモック）します。</p>
             <div class="table-responsive">
               <table class="table table-bordered visitor-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 90px;">イベント識別番号</th>
-                    <th style="width: 70px;" class="text-center">登録</th>
-                    <th style="min-width: 140px;">会社名</th>
-                    <th style="min-width: 100px;">来場者名</th>
-                    <th style="min-width: 110px;">営業担当者</th>
-                    <th style="width: 84px;" class="text-center">総合入場</th>
-                    <th style="width: 72px;" class="text-center">基調講演</th>
-                    <th style="width: 72px;" class="text-center">セッションA</th>
-                    <th style="width: 72px;" class="text-center">セッションB</th>
-                    <th style="width: 72px;" class="text-center">セッションC</th>
-                    <th style="width: 72px;" class="text-center">セッションD</th>
-                    <th style="width: 72px;" class="text-center">ダイアログ</th>
-                    <th style="width: 80px;" class="text-center">ネットワーキング</th>
-                    <th style="width: 84px;" class="text-center">総合退場</th>
+                    <th class="col-sortable" style="width: 92px;" data-col-label="イベント番号">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head text-center">イベント<br>番号</span>
+                        <div class="btn-group th-col-ctrl" role="group" aria-label="イベント番号の並べ替え・フィルタ">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="userid" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="登録">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">登録</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="reg" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="reg" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="reg" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 120px;" data-col-label="会社名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">会社名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="company" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="来場者名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">来場者名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="name" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 168px;" data-col-label="営業担当者">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-1 px-1">
+                          <span class="th-col-head text-center mb-0">営業担当者<br><span class="fw-normal text-muted" style="font-size: 0.65rem;">最大3名</span></span>
+                          <button type="button" class="btn btn-outline-primary btn-sm py-0 flex-shrink-0" id="btnSalesStaffEdit" title="プルダウンで選択し、追加・削除で最大3名まで設定">
+                            <i class="bi bi-pencil-square me-1"></i><span id="btnSalesStaffEditLabel">編集</span>
+                          </button>
+                        </div>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="staff" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="staff" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="staff" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 84px;" data-col-label="総合入場">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">総合<br>入場</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="gateIn" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="gateIn" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="gateIn" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="基調講演">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">基調<br>講演</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="keynote" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="keynote" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="keynote" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="セッションA">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">セッ<br>ションA</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sa" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sa" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="sa" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="セッションB">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">セッ<br>ションB</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sb" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sb" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="sb" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="セッションC">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">セッ<br>ションC</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sc" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sc" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="sc" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="セッションD">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">セッ<br>ションD</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sd" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="sd" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="sd" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 76px;" data-col-label="ダイアログ">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">ダイア<br>ログ</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="dialog" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="dialog" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="dialog" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 80px;" data-col-label="ネットワーキング">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">ネット<br>ワーキング</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="net" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="net" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="net" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 84px;" data-col-label="総合退場">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head">総合<br>退場</span>
+                        <div class="btn-group th-col-ctrl" role="group">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="gateOut" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="gateOut" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-filter" data-col="gateOut" title="値でフィルタ"><i class="bi bi-funnel"></i></button>
+                        </div>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="visitorTbody">
@@ -140,6 +297,25 @@
   </div>
 
   <div id="footer-container"></div>
+
+  <!-- 列フィルタ（Excel 風・値の複数選択） -->
+  <div class="modal fade" id="columnFilterModal" tabindex="-1" aria-labelledby="columnFilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header py-2">
+          <h5 class="modal-title h6 mb-0" id="columnFilterModalLabel">列で絞り込み</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body small" id="columnFilterModalBody"></div>
+        <div class="modal-footer py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="columnFilterSelectAll">すべて選択</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" id="columnFilterSelectNone">すべて解除</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="columnFilterClearCol">この列のフィルタを解除</button>
+          <button type="button" class="btn btn-primary btn-sm" id="columnFilterApply">適用</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../style.js"></script>

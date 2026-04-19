@@ -13,6 +13,8 @@
     .visitor-table { font-size: 0.8rem; }
     .visitor-list-table { font-size: 0.72rem; }
     .visitor-table th { background-color: #f8f9fa; white-space: nowrap; }
+    .visitor-table .cell-nameplate { vertical-align: middle; }
+    .visitor-table .nameplate-check { width: 1.1rem; height: 1.1rem; margin: 0 !important; cursor: pointer; flex-shrink: 0; }
     .filter-bar { background-color: #f8f9fa; border-radius: 0.25rem; padding: 0.75rem 1rem; }
     .card-header-actions { background-color: #e9ecef; color: #212529; }
     .card-header-actions .btn { font-size: 0.95rem; }
@@ -105,14 +107,22 @@
                 </div>
               </div>
             </div>
-            <div class="px-3 py-2 border-bottom d-flex justify-content-end align-items-center" style="background-color: #f8f9fa;">
+            <p class="small text-muted mb-0 px-3 py-2 border-bottom">抽選結果: <strong>当選</strong>・<strong>抽選漏れ</strong>・<strong>ブランク</strong>　／　出欠状況: <strong>本人出席</strong>・<strong>代理出席</strong>・<strong>当日出席</strong>・<strong>交代出席</strong>・<strong>欠席</strong>・<strong>申込者</strong>・<strong>キャンセル</strong>・<strong>抽選漏れ</strong>（編集モードではセル内プルダウンから変更）</p>
+            <div class="px-3 py-2 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2" style="background-color: #f8f9fa;">
+              <div class="d-flex align-items-center flex-wrap gap-2">
+                <span class="small mb-0"><span class="text-muted">名札印刷</span>　<strong id="nameplateCheckedCount" class="text-primary">0</strong> 件選択</span>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnCheckAllNameplate" title="絞り込み結果の全行にチェックを付けます"><i class="bi bi-check2-square me-1"></i>全チェック</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btnCheckClearNameplate" title="チェックをすべて外します"><i class="bi bi-square me-1"></i>全解除</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnPrintChecked"><i class="bi bi-printer me-1"></i>チェックを印刷</button>
+              </div>
               <button type="button" class="btn btn-outline-secondary btn-sm" id="btnPrintSettings"><i class="bi bi-gear me-1"></i>印刷設定</button>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered table-hover table-sm visitor-table visitor-list-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 100px;">イベント種別番号</th>
+                    <th style="width: 100px;">イベント番号</th>
+                    <th style="min-width: 90px;">抽選結果</th>
                     <th style="min-width: 100px;">出欠状況</th>
                     <th style="min-width: 120px;">会社名</th>
                     <th style="min-width: 88px;">部門</th>
@@ -122,7 +132,7 @@
                     <th style="min-width: 72px;">名（カナ）</th>
                     <th style="min-width: 160px;">メールアドレス（識別のため）</th>
                     <th style="min-width: 100px;">選択セッション</th>
-                    <th class="text-center" style="min-width: 120px;">名札印刷 <button type="button" class="btn btn-outline-primary btn-sm ms-1" id="btnPrintAll"><i class="bi bi-printer me-1"></i>全印刷</button></th>
+                    <th class="text-center" style="min-width: 150px;">名札印刷<br><span class="fw-normal text-muted" style="font-size: 0.7rem;">チェック＋プレビュー</span></th>
                     <th style="min-width: 100px;">営業担当者</th>
                   </tr>
                 </thead>
@@ -151,6 +161,31 @@
         <div class="modal-body">
           <p class="small text-muted mb-3">イベント登録画面の来場者リストと同じ項目です。QRコードは登録後に発行されます。</p>
           <div class="add-visitor-form">
+            <div class="add-visitor-form-row">
+              <label for="addVisitorLottery" class="form-label add-visitor-form-label">抽選結果</label>
+              <div class="add-visitor-form-field">
+                <select class="form-select form-select-sm" id="addVisitorLottery" aria-label="抽選結果">
+                  <option value="当選">当選</option>
+                  <option value="抽選漏れ">抽選漏れ</option>
+                  <option value="ブランク" selected>ブランク</option>
+                </select>
+              </div>
+            </div>
+            <div class="add-visitor-form-row">
+              <label for="addVisitorAttendance" class="form-label add-visitor-form-label">出欠状況</label>
+              <div class="add-visitor-form-field">
+                <select class="form-select form-select-sm" id="addVisitorAttendance" aria-label="出欠状況">
+                  <option value="本人出席" selected>本人出席</option>
+                  <option value="代理出席">代理出席</option>
+                  <option value="当日出席">当日出席</option>
+                  <option value="交代出席">交代出席</option>
+                  <option value="欠席">欠席</option>
+                  <option value="申込者">申込者</option>
+                  <option value="キャンセル">キャンセル</option>
+                  <option value="抽選漏れ">抽選漏れ</option>
+                </select>
+              </div>
+            </div>
             <div class="add-visitor-form-row">
               <label for="addVisitorCompany" class="form-label add-visitor-form-label">会社名 <span class="text-danger">*</span></label>
               <div class="add-visitor-form-field">
@@ -223,9 +258,9 @@
               </div>
             </div>
             <div class="add-visitor-form-row mb-0">
-              <label for="addVisitorSalesStaff" class="form-label add-visitor-form-label">営業担当者 <span class="text-danger">*</span></label>
+              <label for="addVisitorSalesStaff" class="form-label add-visitor-form-label">営業担当者</label>
               <div class="add-visitor-form-field">
-                <select class="form-select form-select-sm" id="addVisitorSalesStaff" required>
+                <select class="form-select form-select-sm" id="addVisitorSalesStaff">
                   <option value="">選択してください</option>
                   <option value="yamada">山田 太郎</option>
                   <option value="sato">佐藤 花子</option>
@@ -233,7 +268,7 @@
                   <option value="takahashi">高橋 誠</option>
                   <option value="watanabe">渡辺 直樹</option>
                 </select>
-                <div class="form-text small">担当者絞り込みは山田・佐藤・鈴木の区分に合わせて集計されます。</div>
+                <div class="form-text small">任意です。選択時は担当者絞り込み（山田・佐藤・鈴木の区分）に反映されます。</div>
               </div>
             </div>
           </div>
@@ -267,6 +302,22 @@
             </select>
             <div class="form-text small" id="printDesignHelp">テンプレートを選ぶとレイアウト・配色などのデザインを変更できます。</div>
           </div>
+          <div class="mb-3 border rounded p-3 bg-light">
+            <p class="fw-semibold mb-1">名札テンプレート（1イベント・複数）</p>
+            <p class="small text-muted mb-2">1つのイベントに対して<strong>複数の名札テンプレート</strong>を保持できます。下の<strong>帯（タブ）</strong>でテンプレを切り替え、表示・印刷に使うデザインを選びます（モック表示）。</p>
+            <p class="small text-muted mb-2 mb-0">1イベントあたり<strong>名札テンプレートは5個まで</strong>保持できる想定です（<strong>要確認</strong>）。詳細は <span class="font-monospace text-body">名札テンプレート.pdf</span> を参照してください。</p>
+            <ul class="nav nav-tabs small mt-3 mb-0 flex-wrap" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link active py-1 px-2" disabled aria-current="page">標準</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link py-1 px-2" disabled>VIP向け</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button type="button" class="nav-link py-1 px-2" disabled>スタッフ用</button>
+              </li>
+            </ul>
+          </div>
           <div class="mb-3">
             <p class="fw-semibold mb-1">差し込み印刷要素</p>
             <p class="small text-muted mb-2">名札に差し込める項目です。</p>
@@ -275,7 +326,8 @@
               <li>会社名</li>
               <li>部署</li>
               <li>役職</li>
-              <li>お名前</li>
+              <li><strong>姓＋名</strong>（<strong>姓のみ</strong>でも可。名は任意）</li>
+              <li><strong>選択セッション</strong>（複数ある場合は<strong>段落（改段落）</strong>で区切って差し込み。例：1行目「セッションA」／空行／次行「セッションB」…）</li>
               <li>開催日</li>
               <li>開催場所</li>
               <li>来場受付コード（QRコード）</li>
@@ -360,13 +412,14 @@
           <div class="small text-muted">
             <p class="mb-1 mb-0"><strong>※</strong> 営業担当者は後で追加もできる。</p>
             <p class="mb-1 mb-0">CSVを追加した場合、重複を排除する。</p>
-            <p class="mb-0">抽選結果列の当選だけを抽出する。</p>
+            <p class="mb-0">抽選結果は<strong>当選・抽選漏れ・ブランク</strong>の値をそのまま取り込む（<strong>抽選漏れも除外しない</strong>）。</p>
           </div>
           <hr class="my-3">
           <ul class="small text-muted mb-0 ps-3">
-            <li class="mb-2">一括追加CSVするとき、抽選結果が当選、ブランク、キャンセル、抽選漏れ、申込者、代理出席のうち、抽選漏れは弾き、かつ、キャンセルと申込者はキャンセル表示されるようにしたい。</li>
+            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>。</li>
+            <li class="mb-2">メール配信は、出欠が<strong>キャンセル・申込者・抽選漏れ</strong>の来場者には送らない。</li>
             <li class="mb-2">後からキャンセルになった人は手動でキャンセルにステータス変更したい。</li>
-            <li class="mb-0">※キャンセルの人にはメールは送られない。</li>
+            <li class="mb-0">抽選結果の値は<strong>当選・抽選漏れ・ブランク</strong>（CSVでは上記どおり取り込み）。</li>
           </ul>
         </div>
         <div class="modal-footer">

@@ -45,6 +45,10 @@
       .add-visitor-form .add-visitor-form-row { flex-direction: column; align-items: stretch; }
       .add-visitor-form .add-visitor-form-label { max-width: none; text-align: left; padding-top: 0; }
     }
+    .visitor-table thead th.col-sortable { white-space: normal !important; vertical-align: top; }
+    .th-col-head { font-size: 0.72rem; line-height: 1.25; font-weight: 600; }
+    .th-col-ctrl .btn { padding: 0.12rem 0.28rem; font-size: 0.68rem; line-height: 1.1; }
+    .th-col-ctrl .btn i { font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -107,7 +111,8 @@
                 </div>
               </div>
             </div>
-            <p class="small text-muted mb-0 px-3 py-2 border-bottom">抽選結果: <strong>当選</strong>・<strong>抽選漏れ</strong>・<strong>ブランク</strong>　／　出欠状況: <strong>本人出席</strong>・<strong>代理出席</strong>・<strong>当日出席</strong>・<strong>交代出席</strong>・<strong>欠席</strong>・<strong>申込者</strong>・<strong>キャンセル</strong>・<strong>抽選漏れ</strong>（編集モードではセル内プルダウンから変更）</p>
+            <p class="small text-muted mb-0 px-3 py-2 border-bottom">列見出しの <strong>▲／▼</strong> で昇順・降順に並べ替えられます（来場・入退場管理の来場者リストと同様。編集モード中は並べ替えボタンは無効です）。</p>
+            <p class="small text-muted mb-0 px-3 py-2 border-bottom">抽選結果: <strong>当選</strong>・<strong>抽選漏れ</strong>・<strong>空欄</strong>　／　出欠状況: <strong>本人出席</strong>・<strong>代理出席</strong>・<strong>当日出席</strong>・<strong>交代出席</strong>・<strong>欠席</strong>・<strong>申込者</strong>・<strong>キャンセル</strong>・<strong>抽選漏れ</strong>・<strong>空欄</strong>（編集モードではセル内プルダウンの<strong>－</strong>で空欄。CSV取り込み時も空セルは空欄）</p>
             <div class="px-3 py-2 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2" style="background-color: #f8f9fa;">
               <div class="d-flex align-items-center flex-wrap gap-2">
                 <span class="small mb-0"><span class="text-muted">名札印刷</span>　<strong id="nameplateCheckedCount" class="text-primary">0</strong> 件選択</span>
@@ -121,19 +126,123 @@
               <table class="table table-bordered table-hover table-sm visitor-table visitor-list-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 100px;">イベント番号</th>
-                    <th style="min-width: 90px;">抽選結果</th>
-                    <th style="min-width: 100px;">出欠状況</th>
-                    <th style="min-width: 120px;">会社名</th>
-                    <th style="min-width: 88px;">部門</th>
-                    <th style="min-width: 80px;">役職</th>
-                    <th style="min-width: 100px;">氏名</th>
-                    <th style="min-width: 72px;">姓（カナ）</th>
-                    <th style="min-width: 72px;">名（カナ）</th>
-                    <th style="min-width: 160px;">メールアドレス（識別のため）</th>
-                    <th style="min-width: 100px;">選択セッション</th>
-                    <th class="text-center" style="min-width: 150px;">名札印刷<br><span class="fw-normal text-muted" style="font-size: 0.7rem;">チェック＋プレビュー</span></th>
-                    <th style="min-width: 100px;">営業担当者</th>
+                    <th class="col-sortable" style="width: 100px;" data-col-label="イベント番号">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head text-center">イベント<br>番号</span>
+                        <div class="btn-group th-col-ctrl" role="group" aria-label="イベント番号の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 90px;" data-col-label="抽選結果">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">抽選結果</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="抽選結果の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="lottery" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="lottery" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="出欠状況">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">出欠状況</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="出欠状況の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="attendance" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="attendance" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 120px;" data-col-label="会社名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">会社名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="会社名の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 88px;" data-col-label="部門">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">部門</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="部門の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="dept" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="dept" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 80px;" data-col-label="役職">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">役職</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="役職の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="jobTitle" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="jobTitle" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="氏名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">氏名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="氏名の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 72px;" data-col-label="姓（カナ）">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">姓（カナ）</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="姓（カナ）の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="kanaLast" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="kanaLast" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 72px;" data-col-label="名（カナ）">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">名（カナ）</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="名（カナ）の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="kanaFirst" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="kanaFirst" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 160px;" data-col-label="メールアドレス">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">メールアドレス<br><span class="fw-normal text-muted" style="font-size: 0.65rem;">（識別のため）</span></span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="メールアドレスの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="email" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="email" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="選択セッション">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">選択セッション</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="選択セッションの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="session" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="session" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="min-width: 150px;" data-col-label="名札印刷">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head text-center">名札印刷<br><span class="fw-normal text-muted" style="font-size: 0.65rem;">チェック＋プレビュー</span></span>
+                        <div class="btn-group th-col-ctrl" role="group" aria-label="名札印刷の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="nameplate" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="nameplate" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="営業担当者">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">営業担当者</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="営業担当者の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="staff" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="staff" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="visitorTbody">
@@ -165,9 +274,9 @@
               <label for="addVisitorLottery" class="form-label add-visitor-form-label">抽選結果</label>
               <div class="add-visitor-form-field">
                 <select class="form-select form-select-sm" id="addVisitorLottery" aria-label="抽選結果">
+                  <option value="" selected>－</option>
                   <option value="当選">当選</option>
                   <option value="抽選漏れ">抽選漏れ</option>
-                  <option value="ブランク" selected>ブランク</option>
                 </select>
               </div>
             </div>
@@ -175,6 +284,7 @@
               <label for="addVisitorAttendance" class="form-label add-visitor-form-label">出欠状況</label>
               <div class="add-visitor-form-field">
                 <select class="form-select form-select-sm" id="addVisitorAttendance" aria-label="出欠状況">
+                  <option value="">－</option>
                   <option value="本人出席" selected>本人出席</option>
                   <option value="代理出席">代理出席</option>
                   <option value="当日出席">当日出席</option>
@@ -412,14 +522,16 @@
           <div class="small text-muted">
             <p class="mb-1 mb-0"><strong>※</strong> 営業担当者は後で追加もできる。</p>
             <p class="mb-1 mb-0">CSVを追加した場合、重複を排除する。</p>
-            <p class="mb-0">抽選結果は<strong>当選・抽選漏れ・ブランク</strong>の値をそのまま取り込む（<strong>抽選漏れも除外しない</strong>）。</p>
+            <p class="mb-1 mb-0">抽選結果は<strong>当選</strong>・<strong>抽選漏れ</strong>を取り込みます。セルが空のときは<strong>空欄</strong>として取り込みます（CSVの空セルも空欄）。<strong>抽選漏れは除外しません</strong>。</p>
+            <p class="mb-0">出欠状況は<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>のいずれか、または<strong>空欄</strong>（セル未入力・CSVの空セル）です。</p>
           </div>
           <hr class="my-3">
           <ul class="small text-muted mb-0 ps-3">
-            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>。</li>
+            <li class="mb-2">編集画面のプルダウンでは先頭に<strong>－</strong>があり、<strong>－</strong>を選ぶと抽選結果・出欠状況とも<strong>空欄</strong>として保存されます。</li>
+            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>（または空欄）。</li>
             <li class="mb-2">メール配信は、出欠が<strong>キャンセル・申込者・抽選漏れ</strong>の来場者には送らない。</li>
             <li class="mb-2">後からキャンセルになった人は手動でキャンセルにステータス変更したい。</li>
-            <li class="mb-0">抽選結果の値は<strong>当選・抽選漏れ・ブランク</strong>（CSVでは上記どおり取り込み）。</li>
+            <li class="mb-0">抽選結果・出欠状況は、CSVでも上記のとおり取り込みます（空欄は空セルと対応）。</li>
           </ul>
         </div>
         <div class="modal-footer">

@@ -33,6 +33,10 @@
     #mailDeliveryCard.delivery-edit-mode .timing-form { display: block; }
     #mailDeliveryCard .add-mail-row { display: none; }
     #mailDeliveryCard.delivery-edit-mode .add-mail-row { display: table-row; }
+    .visitor-table thead th.col-sortable { white-space: normal !important; vertical-align: top; }
+    .th-col-head { font-size: 0.72rem; line-height: 1.25; font-weight: 600; }
+    .th-col-ctrl .btn { padding: 0.12rem 0.28rem; font-size: 0.68rem; line-height: 1.1; }
+    .th-col-ctrl .btn i { font-size: 0.75rem; }
   </style>
 </head>
 <body>
@@ -231,7 +235,7 @@
                   <input type="text" class="form-control form-control-sm" id="filterName" placeholder="氏名・会社名・カナなど" style="min-width: 200px;">
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">メール1</label>
+                  <label class="form-label small mb-0 text-nowrap" data-visitor-mail-col="mail1" for="filterMail1" title="受講票送付">受講票...</label>
                   <select class="form-select form-select-sm" id="filterMail1" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
@@ -239,7 +243,7 @@
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">メール2</label>
+                  <label class="form-label small mb-0 text-nowrap" data-visitor-mail-col="mail2" for="filterMail2" title="1週間前メール">1週間...</label>
                   <select class="form-select form-select-sm" id="filterMail2" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
@@ -247,7 +251,7 @@
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">メール3</label>
+                  <label class="form-label small mb-0 text-nowrap" data-visitor-mail-col="mail3" for="filterMail3" title="3日前メール">3日前...</label>
                   <select class="form-select form-select-sm" id="filterMail3" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
@@ -255,7 +259,7 @@
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">メール4</label>
+                  <label class="form-label small mb-0 text-nowrap" data-visitor-mail-col="mail4" for="filterMail4" title="前日メール">前日メ...</label>
                   <select class="form-select form-select-sm" id="filterMail4" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
@@ -263,7 +267,7 @@
                   </select>
                 </div>
                 <div class="col-auto">
-                  <label class="form-label small mb-0">メール5</label>
+                  <label class="form-label small mb-0 text-nowrap" data-visitor-mail-col="mail5" for="filterMail5" title="新規メール">新規メ...</label>
                   <select class="form-select form-select-sm" id="filterMail5" style="min-width: 120px;">
                     <option value="">すべて</option>
                     <option value="sent">配信済み</option>
@@ -283,23 +287,104 @@
                 </div>
               </div>
             </div>
-            <p class="small text-muted mb-0 px-3 py-2 border-bottom">抽選結果: <strong>当選</strong>・<strong>抽選漏れ</strong>・<strong>ブランク</strong>　／　出欠状況: <strong>本人出席</strong>・<strong>代理出席</strong>・<strong>当日出席</strong>・<strong>交代出席</strong>・<strong>欠席</strong>・<strong>申込者</strong>・<strong>キャンセル</strong>・<strong>抽選漏れ</strong>（一覧はモック）。メール列は出欠が<strong>キャンセル・申込者・抽選漏れ</strong>のときは常に未送信表示。</p>
+            <p class="small text-muted mb-0 px-3 py-2 border-bottom">列見出しの <strong>▲／▼</strong> で昇順・降順に並べ替えられます（来場・入退場管理の来場者リストと同様の操作です）。メール列は種別名の先頭3文字＋…表記です（ホバーで全文）。</p>
+            <p class="small text-muted mb-0 px-3 py-2 border-bottom">抽選結果: <strong>当選</strong>・<strong>抽選漏れ</strong>・<strong>空欄</strong>　／　出欠状況: <strong>本人出席</strong>・<strong>代理出席</strong>・<strong>当日出席</strong>・<strong>交代出席</strong>・<strong>欠席</strong>・<strong>申込者</strong>・<strong>キャンセル</strong>・<strong>抽選漏れ</strong>・<strong>空欄</strong>（一覧はモック。空欄は値なし）。メール列は出欠が<strong>キャンセル・申込者・抽選漏れ</strong>のときは常に未送信表示。</p>
             <div class="table-responsive">
               <table class="table table-bordered visitor-table mb-0" id="visitorTable">
                 <thead>
                   <tr>
-                    <th style="width: 90px;">イベント番号</th>
-                    <th style="min-width: 90px;">抽選結果</th>
-                    <th style="min-width: 100px;">出欠状況
-                      <button type="button" class="btn btn-link btn-sm p-0 btn-help-icon mail-help-btn" data-help="nonCancel" title="説明" aria-label="メール配信の説明"><i class="bi bi-question-circle"></i></button>
+                    <th class="col-sortable" style="width: 92px;" data-col-label="イベント番号">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head text-center">イベント<br>番号</span>
+                        <div class="btn-group th-col-ctrl" role="group" aria-label="イベント番号の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="userid" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
                     </th>
-                    <th style="min-width: 140px;">会社名</th>
-                    <th style="min-width: 100px;">来場者名</th>
-                    <th style="width: 100px;" class="text-center">メール1</th>
-                    <th style="width: 100px;" class="text-center">メール2</th>
-                    <th style="width: 100px;" class="text-center">メール3</th>
-                    <th style="width: 100px;" class="text-center">メール4</th>
-                    <th style="width: 100px;" class="text-center">メール5</th>
+                    <th class="col-sortable" style="min-width: 90px;" data-col-label="抽選結果">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">抽選結果</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="抽選結果の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="lottery" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="lottery" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="出欠状況">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">出欠状況
+                          <button type="button" class="btn btn-link btn-sm p-0 btn-help-icon mail-help-btn" data-help="nonCancel" title="説明" aria-label="メール配信の説明"><i class="bi bi-question-circle"></i></button>
+                        </span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="出欠状況の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="attendance" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="attendance" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 140px;" data-col-label="会社名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">会社名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="会社名の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="company" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable" style="min-width: 100px;" data-col-label="来場者名">
+                      <div class="d-flex flex-column align-items-stretch gap-1">
+                        <span class="th-col-head">来場者名</span>
+                        <div class="btn-group th-col-ctrl align-self-center" role="group" aria-label="来場者名の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="name" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 100px;" data-col-mail-key="mail1" data-col-label="受講票送付">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head" data-visitor-mail-col="mail1" title="受講票送付">受講票...</span>
+                        <div class="btn-group th-col-ctrl" role="group" data-mail-sort-group="mail1" aria-label="受講票送付の並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail1" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail1" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 100px;" data-col-mail-key="mail2" data-col-label="1週間前メール">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head" data-visitor-mail-col="mail2" title="1週間前メール">1週間...</span>
+                        <div class="btn-group th-col-ctrl" role="group" data-mail-sort-group="mail2" aria-label="1週間前メールの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail2" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail2" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 100px;" data-col-mail-key="mail3" data-col-label="3日前メール">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head" data-visitor-mail-col="mail3" title="3日前メール">3日前...</span>
+                        <div class="btn-group th-col-ctrl" role="group" data-mail-sort-group="mail3" aria-label="3日前メールの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail3" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail3" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 100px;" data-col-mail-key="mail4" data-col-label="前日メール">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head" data-visitor-mail-col="mail4" title="前日メール">前日メ...</span>
+                        <div class="btn-group th-col-ctrl" role="group" data-mail-sort-group="mail4" aria-label="前日メールの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail4" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail4" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
+                    <th class="col-sortable text-center" style="width: 100px;" data-col-mail-key="mail5" data-col-label="新規メール">
+                      <div class="d-flex flex-column align-items-center gap-1">
+                        <span class="th-col-head" data-visitor-mail-col="mail5" title="新規メール">新規メ...</span>
+                        <div class="btn-group th-col-ctrl" role="group" data-mail-sort-group="mail5" aria-label="新規メールの並べ替え">
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail5" data-dir="asc" title="昇順"><i class="bi bi-caret-up-fill"></i></button>
+                          <button type="button" class="btn btn-light border btn-col-sort" data-col="mail5" data-dir="desc" title="降順"><i class="bi bi-caret-down-fill"></i></button>
+                        </div>
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody id="visitorTbody">

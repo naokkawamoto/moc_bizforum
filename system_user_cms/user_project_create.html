@@ -191,9 +191,7 @@
                     <th style="min-width: 110px;">講演種別 <span class="text-danger">*</span></th>
                     <th style="min-width: 160px;">講演タイトル <span class="text-danger">*</span></th>
                     <th style="width: 100px;">ROOM <span class="text-danger">*</span></th>
-                    <th style="min-width: 120px;">会社名</th>
-                    <th style="min-width: 100px;">肩書</th>
-                    <th style="min-width: 148px;">講演者 <span class="fw-normal text-muted small">（最大3名）</span></th>
+                    <th style="min-width: 220px;">講演者<br><span class="fw-normal text-muted" style="font-size: 0.65rem;">会社名・肩書・氏名を1名分ずつ。「追加」で最大6名</span></th>
                     <th style="width: 100px;">開始時間 <span class="text-danger">*</span></th>
                     <th style="width: 100px;">終了時間 <span class="text-danger">*</span></th>
                     <th style="width: 70px;" class="text-center">操作</th>
@@ -207,13 +205,17 @@
                     <td><input type="text" class="form-control form-control-sm" data-program-field="type" placeholder="講演種別"></td>
                     <td><input type="text" class="form-control form-control-sm" data-program-field="title" placeholder="講演タイトル"></td>
                     <td><input type="text" class="form-control form-control-sm" data-program-field="room" placeholder="ROOM"></td>
-                    <td><input type="text" class="form-control form-control-sm" data-program-field="company" placeholder="会社名"></td>
-                    <td><input type="text" class="form-control form-control-sm" data-program-field="jobTitle" placeholder="肩書"></td>
-                    <td>
-                      <div class="d-flex flex-column gap-1 py-1">
-                        <input type="text" class="form-control form-control-sm" data-program-field="speaker1" placeholder="講演者1（氏名）">
-                        <input type="text" class="form-control form-control-sm" data-program-field="speaker2" placeholder="講演者2（任意）">
-                        <input type="text" class="form-control form-control-sm" data-program-field="speaker3" placeholder="講演者3（任意）">
+                    <td class="align-top p-2">
+                      <div class="program-speakers-editor" data-max-speakers="6">
+                        <div class="program-speaker-block border rounded p-2 mb-1 bg-light">
+                          <div class="d-grid gap-1">
+                            <input type="text" class="form-control form-control-sm" data-spk-field="company" placeholder="会社名">
+                            <input type="text" class="form-control form-control-sm" data-spk-field="jobTitle" placeholder="肩書">
+                            <input type="text" class="form-control form-control-sm" data-spk-field="name" placeholder="氏名">
+                          </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm program-speaker-add"><i class="bi bi-plus-lg"></i> 講演者を追加</button>
+                        <div class="text-muted mt-1" style="font-size: 0.62rem;">最大6名まで追加できます</div>
                       </div>
                     </td>
                     <td><input type="time" class="form-control form-control-sm" data-program-field="start" title="開始時間"></td>
@@ -225,10 +227,11 @@
                 </tbody>
               </table>
             </div>
-            <div class="p-2">
+            <div class="p-2 border-top">
               <button type="button" class="btn btn-outline-primary btn-sm" onclick="addProgramRow()">
                 <i class="bi bi-plus me-1"></i>行を追加
               </button>
+              <p class="small text-muted mb-0 mt-2">講演者は「講演者を追加」で名分追加できます（最大6名。会社名・肩書・氏名は講演者ごとに異なる場合があります）。</p>
             </div>
           </div>
         </div>
@@ -453,7 +456,7 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U003</td>
-                    <td>ブランク</td>
+                    <td></td>
                     <td>当日出席</td>
                     <td>グローバル物流株式会社</td>
                     <td>人事総務</td>
@@ -495,7 +498,7 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U006</td>
-                    <td>ブランク</td>
+                    <td></td>
                     <td>申込者</td>
                     <td>株式会社フューチャー企画</td>
                     <td>事業開発部</td>
@@ -537,7 +540,7 @@
                   </tr>
                   <tr>
                     <td class="text-nowrap">U009</td>
-                    <td>ブランク</td>
+                    <td></td>
                     <td>本人出席</td>
                     <td>ネクストイノベーション株式会社</td>
                     <td>新規事業室</td>
@@ -552,7 +555,7 @@
                   <tr>
                     <td class="text-nowrap">U010</td>
                     <td>当選</td>
-                    <td>代理出席</td>
+                    <td></td>
                     <td>ビジネスフォーラム商事株式会社</td>
                     <td>営業第二部</td>
                     <td>部長</td>
@@ -655,14 +658,16 @@
           <div class="small text-muted">
             <p class="mb-1 mb-0"><strong>※</strong> 営業担当者は後で追加もできる。</p>
             <p class="mb-1 mb-0">CSVを追加した場合、重複を排除する。</p>
-            <p class="mb-0">抽選結果は<strong>当選・抽選漏れ・ブランク</strong>の値をそのまま取り込む（<strong>抽選漏れも除外しない</strong>）。</p>
+            <p class="mb-1 mb-0">抽選結果は<strong>当選</strong>・<strong>抽選漏れ</strong>を取り込みます。セルが空のときは<strong>空欄</strong>として取り込みます（CSVの空セルも空欄）。<strong>抽選漏れは除外しません</strong>。</p>
+            <p class="mb-0">出欠状況は<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>のいずれか、または<strong>空欄</strong>（セル未入力・CSVの空セル）です。</p>
           </div>
           <hr class="my-3">
           <ul class="small text-muted mb-0 ps-3">
-            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>。</li>
+            <li class="mb-2">編集画面のプルダウンでは先頭に<strong>－</strong>があり、<strong>－</strong>を選ぶと抽選結果・出欠状況とも<strong>空欄</strong>として保存されます。</li>
+            <li class="mb-2">出欠状況の値は、<strong>本人出席、代理出席、当日出席、交代出席、欠席、申込者、キャンセル、抽選漏れ</strong>（または空欄）。</li>
             <li class="mb-2">メール配信は、出欠が<strong>キャンセル・申込者・抽選漏れ</strong>の来場者には送らない。</li>
             <li class="mb-2">後からキャンセルになった人は手動でキャンセルにステータス変更したい。</li>
-            <li class="mb-0">抽選結果の値は<strong>当選・抽選漏れ・ブランク</strong>（CSVでは上記どおり取り込み）。</li>
+            <li class="mb-0">抽選結果・出欠状況は、CSVでも上記のとおり取り込みます（空欄は空セルと対応）。</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -799,6 +804,81 @@
       alert('来場者リストを保存しました。\n※実際の実装ではサーバーに送信します。');
     }
 
+    var PROGRAM_SPEAKER_MAX = 6;
+
+    function programSpeakerBlockHtmlCreate(showRemove) {
+      var head = showRemove
+        ? '<div class="d-flex justify-content-end mb-1"><button type="button" class="btn btn-outline-danger btn-sm py-0 px-1 program-speaker-remove" title="この講演者を削除" aria-label="削除"><i class="bi bi-trash"></i></button></div>'
+        : '';
+      return '<div class="program-speaker-block border rounded p-2 mb-1 bg-light">' + head +
+        '<div class="d-grid gap-1">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="company" placeholder="会社名">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="jobTitle" placeholder="肩書">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="name" placeholder="氏名">' +
+        '</div></div>';
+    }
+
+    function programSpeakersEditorCellHtml() {
+      return '<td class="align-top p-2">' +
+        '<div class="program-speakers-editor" data-max-speakers="' + PROGRAM_SPEAKER_MAX + '">' +
+        programSpeakerBlockHtmlCreate(false) +
+        '<button type="button" class="btn btn-outline-primary btn-sm program-speaker-add"><i class="bi bi-plus-lg"></i> 講演者を追加</button>' +
+        '<div class="text-muted mt-1" style="font-size: 0.62rem;">最大' + PROGRAM_SPEAKER_MAX + '名まで追加できます</div>' +
+        '</div></td>';
+    }
+
+    function refreshProgramSpeakerEditor(editor) {
+      if (!editor) return;
+      var max = parseInt(editor.getAttribute('data-max-speakers') || String(PROGRAM_SPEAKER_MAX), 10) || PROGRAM_SPEAKER_MAX;
+      var blocks = editor.querySelectorAll('.program-speaker-block');
+      var n = blocks.length;
+      var addBtn = editor.querySelector('.program-speaker-add');
+      if (addBtn) addBtn.disabled = n >= max;
+      blocks.forEach(function (blk) {
+        var row = blk.querySelector('.d-flex.justify-content-end');
+        if (n <= 1) {
+          if (row) row.remove();
+        } else {
+          if (!row) {
+            row = document.createElement('div');
+            row.className = 'd-flex justify-content-end mb-1';
+            blk.insertBefore(row, blk.firstChild);
+          } else {
+            row.className = 'd-flex justify-content-end mb-1';
+            row.innerHTML = '';
+          }
+          row.innerHTML = '<button type="button" class="btn btn-outline-danger btn-sm py-0 px-1 program-speaker-remove" title="この講演者を削除" aria-label="削除"><i class="bi bi-trash"></i></button>';
+        }
+      });
+    }
+
+    document.getElementById('programTableBody').addEventListener('click', function (e) {
+      var t = e.target;
+      if (t.closest && t.closest('.program-speaker-add')) {
+        var btn = t.closest('.program-speaker-add');
+        var editor = btn && btn.closest('.program-speakers-editor');
+        if (!editor) return;
+        var max = parseInt(editor.getAttribute('data-max-speakers') || String(PROGRAM_SPEAKER_MAX), 10) || PROGRAM_SPEAKER_MAX;
+        var blocks = editor.querySelectorAll('.program-speaker-block');
+        if (blocks.length >= max) return;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = programSpeakerBlockHtmlCreate(true);
+        var newBlock = wrap.firstChild;
+        btn.parentNode.insertBefore(newBlock, btn);
+        refreshProgramSpeakerEditor(editor);
+        return;
+      }
+      if (t.closest && t.closest('.program-speaker-remove')) {
+        var rbtn = t.closest('.program-speaker-remove');
+        var blk = rbtn && rbtn.closest('.program-speaker-block');
+        var ed = blk && blk.closest('.program-speakers-editor');
+        if (!blk || !ed) return;
+        if (ed.querySelectorAll('.program-speaker-block').length <= 1) return;
+        blk.remove();
+        refreshProgramSpeakerEditor(ed);
+      }
+    });
+
     function addProgramRow() {
       var tbody = document.getElementById('programTableBody');
       var tr = document.createElement('tr');
@@ -807,13 +887,7 @@
         '<td><input type="text" class="form-control form-control-sm" data-program-field="type" placeholder="講演種別"></td>' +
         '<td><input type="text" class="form-control form-control-sm" data-program-field="title" placeholder="講演タイトル"></td>' +
         '<td><input type="text" class="form-control form-control-sm" data-program-field="room" placeholder="ROOM"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" data-program-field="company" placeholder="会社名"></td>' +
-        '<td><input type="text" class="form-control form-control-sm" data-program-field="jobTitle" placeholder="肩書"></td>' +
-        '<td><div class="d-flex flex-column gap-1 py-1">' +
-        '<input type="text" class="form-control form-control-sm" data-program-field="speaker1" placeholder="講演者1（氏名）">' +
-        '<input type="text" class="form-control form-control-sm" data-program-field="speaker2" placeholder="講演者2（任意）">' +
-        '<input type="text" class="form-control form-control-sm" data-program-field="speaker3" placeholder="講演者3（任意）">' +
-        '</div></td>' +
+        programSpeakersEditorCellHtml() +
         '<td><input type="time" class="form-control form-control-sm" data-program-field="start" title="開始時間"></td>' +
         '<td><input type="time" class="form-control form-control-sm" data-program-field="end" title="終了時間"></td>' +
         '<td class="text-center align-middle"><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeProgramRow(this)" title="削除"><i class="bi bi-trash"></i></button></td>';

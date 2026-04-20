@@ -20,6 +20,36 @@
       mail5: '新規メール'
     };
 
+    /** メール種別名の先頭3文字＋…（来場者リスト列見出し・絞り込みラベル用） */
+    function abbrevMailTypeLabel(full) {
+      var s = String(full == null ? '' : full).trim();
+      if (!s) return '—';
+      if (s.length <= 3) return s;
+      return s.slice(0, 3) + '...';
+    }
+
+    function getMailTypeDisplayName(key) {
+      var suffix = key.charAt(0).toUpperCase() + key.slice(1);
+      var view = document.getElementById('mailTypeView' + suffix);
+      if (view && view.textContent && String(view.textContent).trim()) return String(view.textContent).trim();
+      return MAIL_LABELS[key] || '';
+    }
+
+    function syncVisitorMailColumnLabels() {
+      MAIL_KEYS.forEach(function (k) {
+        var full = getMailTypeDisplayName(k);
+        var abbr = abbrevMailTypeLabel(full);
+        document.querySelectorAll('[data-visitor-mail-col="' + k + '"]').forEach(function (el) {
+          el.textContent = abbr;
+          el.setAttribute('title', full);
+        });
+        var th = document.querySelector('th[data-col-mail-key="' + k + '"]');
+        if (th) th.setAttribute('data-col-label', full);
+        var group = document.querySelector('.th-col-ctrl[data-mail-sort-group="' + k + '"]');
+        if (group) group.setAttribute('aria-label', full + 'の並べ替え');
+      });
+    }
+
     var names = ['田中 一郎', '高橋 美咲', '伊藤 健太', '渡辺 真理子', '山本 翔', '中村 恵子', '小林 直樹', '加藤 優', '吉田 さくら', '松本 大輔'];
     var companies = ['株式会社サンプル', 'サンプル商事株式会社', '東京テック株式会社', '株式会社グローバル企画', 'デジタルイノベーション株式会社'];
     var visitorDepts = ['マーケティング部', '開発本部', '人事総務', '研究開発室', '海外営業'];
@@ -35,10 +65,10 @@
       'セッションC,セッションD',
       'セッションA,セッションB,セッションC,ネットワーキング'
     ];
-    /** 出欠状況の取りうる値 */
-    var attendanceStatuses = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ'];
-    /** 抽選結果の取りうる値 */
-    var lotteryResults = ['当選', '抽選漏れ', 'ブランク'];
+    /** 出欠状況の取りうる値（空文字は空欄） */
+    var attendanceStatuses = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ', ''];
+    /** 抽選結果の取りうる値（空文字は空欄） */
+    var lotteryResults = ['当選', '抽選漏れ', ''];
 
     var visitorData = [];
     for (var i = 0; i < 100; i++) {
@@ -63,6 +93,9 @@
         mail5Sent: mail5Sent
       });
     }
+    visitorData.forEach(function (v) {
+      if (v.lotteryResult === 'ブランク') v.lotteryResult = '';
+    });
 
     var filterName = document.getElementById('filterName');
     var filterMail1 = document.getElementById('filterMail1');
@@ -144,6 +177,7 @@
         view.textContent = val;
         MAIL_LABELS[k] = val;
       });
+      syncVisitorMailColumnLabels();
     }
     function addMail5Row() {
       if (!mailRow5) return;
@@ -154,6 +188,7 @@
       if (view && !view.textContent.trim()) view.textContent = '新規メール';
       if (input && !input.value.trim()) input.value = '新規メール';
       MAIL_LABELS.mail5 = (view && view.textContent.trim()) || '新規メール';
+      syncVisitorMailColumnLabels();
       render();
     }
     window.toggleMailDeliveryEdit = function (editing) {
@@ -166,6 +201,75 @@
     function effectiveMailSent(v, k) {
       if (isAttendanceMailSuppressed(v.attendanceStatus)) return false;
       return !!v[k + 'Sent'];
+    }
+
+    function displayLotteryCell(v) {
+      var s = v.lotteryResult;
+      if (s == null || s === '' || s === 'ブランク') return '';
+      return String(s);
+    }
+    function displayAttendanceCell(v) {
+      var s = v.attendanceStatus;
+      if (s == null || s === '') return '';
+      return String(s);
+    }
+
+    /** 列ソート（▲▼）。col が null なら未適用 */
+    var sortState = { col: null, dir: 'asc' };
+    var visitorTableEl = document.getElementById('visitorTable');
+
+    function numericUserId(v) {
+      return parseInt(String(v.userid || '').replace(/\D/g, ''), 10) || 0;
+    }
+
+    function getCellStringForSort(v, col) {
+      switch (col) {
+        case 'userid':
+          return v.userid || '';
+        case 'lottery':
+          return displayLotteryCell(v);
+        case 'attendance':
+          return displayAttendanceCell(v);
+        case 'company':
+          return v.company || '';
+        case 'name':
+          return v.name || '';
+        case 'mail1':
+        case 'mail2':
+        case 'mail3':
+        case 'mail4':
+        case 'mail5':
+          return effectiveMailSent(v, col) ? '送信済' : '未送信';
+        default:
+          return '';
+      }
+    }
+
+    function applySort(arr) {
+      if (!sortState || !sortState.col) return arr.slice();
+      var col = sortState.col;
+      var dir = sortState.dir === 'desc' ? -1 : 1;
+      return arr.slice().sort(function (a, b) {
+        var cmp;
+        if (col === 'userid') {
+          cmp = numericUserId(a) - numericUserId(b);
+        } else {
+          cmp = getCellStringForSort(a, col).localeCompare(getCellStringForSort(b, col), 'ja');
+        }
+        if (cmp !== 0) return cmp * dir;
+        return numericUserId(a) - numericUserId(b);
+      });
+    }
+
+    function updateSortUiState() {
+      if (!visitorTableEl) return;
+      visitorTableEl.querySelectorAll('.btn-col-sort').forEach(function (b) {
+        b.classList.remove('btn-primary', 'text-white');
+        var c = b.getAttribute('data-col');
+        if (sortState && sortState.col && sortState.dir && c === sortState.col && b.getAttribute('data-dir') === sortState.dir) {
+          b.classList.add('btn-primary', 'text-white');
+        }
+      });
     }
 
     function setCount(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
@@ -197,7 +301,7 @@
         mail4: filterMail4 ? filterMail4.value : '',
         mail5: filterMail5 ? filterMail5.value : ''
       };
-      return visitorData.filter(function (v) {
+      var base = visitorData.filter(function (v) {
         var okName = visitorSearchMatches(v, nameVal);
         var okMails = MAIL_KEYS.every(function (k) {
           var val = mailVals[k];
@@ -206,14 +310,15 @@
         });
         return okName && okMails;
       });
+      return applySort(base);
     }
 
     function renderRow(v) {
       var tr = document.createElement('tr');
       tr.innerHTML =
         '<td>' + v.userid + '</td>' +
-        '<td>' + v.lotteryResult + '</td>' +
-        '<td>' + v.attendanceStatus + '</td>' +
+        '<td>' + displayLotteryCell(v) + '</td>' +
+        '<td>' + displayAttendanceCell(v) + '</td>' +
         '<td>' + v.company + '</td>' +
         '<td>' + v.name + '</td>' +
         MAIL_KEYS.map(function (k) {
@@ -239,6 +344,7 @@
         pageData.forEach(function (v) { tbody.appendChild(renderRow(v)); });
       }
       updateMailDeliveryCounts();
+      updateSortUiState();
       if (!paginationList) return;
       paginationList.innerHTML = '';
       if (totalPages <= 1) return;
@@ -385,6 +491,16 @@
         addMail5Row();
       });
     }
+    if (visitorTableEl) {
+      visitorTableEl.addEventListener('click', function (e) {
+        var sortBtn = e.target.closest('.btn-col-sort');
+        if (!sortBtn || sortBtn.disabled) return;
+        e.preventDefault();
+        sortState = { col: sortBtn.getAttribute('data-col'), dir: sortBtn.getAttribute('data-dir') };
+        currentPage = 1;
+        render();
+      });
+    }
     if (btnReset) btnReset.addEventListener('click', function () {
       if (filterName) filterName.value = '';
       if (filterMail1) filterMail1.value = '';
@@ -392,6 +508,7 @@
       if (filterMail3) filterMail3.value = '';
       if (filterMail4) filterMail4.value = '';
       if (filterMail5) filterMail5.value = '';
+      sortState = { col: null, dir: 'asc' };
       currentPage = 1;
       render();
     });
@@ -494,6 +611,7 @@
     initDeliveryEditForm();
     updateDeliveryDatetimeDisplay();
     setMailDeliveryEditMode(false);
+    syncVisitorMailColumnLabels();
     render();
   });
 })();

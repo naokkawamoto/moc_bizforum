@@ -312,7 +312,7 @@
                 </tbody>
               </table>
             </div>
-            <p class="small text-muted mb-0 mt-2"><i class="bi bi-box-arrow-in-right me-1"></i>各プログラムの入退室時間は受付アプリで記録・集計されます。</p>
+            <p class="small text-muted mb-0 mt-2"><i class="bi bi-box-arrow-in-right me-1"></i>各プログラムの入退室時間は受付アプリで記録・集計されます。編集時は講演者を「追加」で名分登録できます（最大6名・会社名・肩書・氏名は講演者ごと）。</p>
           </div>
         </div>
 
@@ -629,6 +629,13 @@
       return { organization: organization, role: role, name: name };
     }
 
+    function escapeHtmlProgram(s) {
+      if (s == null) return '';
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    var PROGRAM_SPEAKER_MAX_DETAIL = 6;
+
     function ensureProgramRowData(tr) {
       var tds = tr.querySelectorAll('td');
       if (tds.length < 3) return;
@@ -647,25 +654,131 @@
         var title = titleEl ? titleEl.textContent : tds[2].textContent;
         tr.setAttribute('data-title', cleanProgramTitle(title));
       }
-      if (!tr.getAttribute('data-organization') || !tr.getAttribute('data-role') || !tr.getAttribute('data-name')) {
-        var speakerEl = tds[2].querySelector('.program-speaker');
-        var parsed = parseSpeakerText(speakerEl ? speakerEl.textContent : '');
-        if (!tr.getAttribute('data-organization')) tr.setAttribute('data-organization', parsed.organization);
-        if (!tr.getAttribute('data-role')) tr.setAttribute('data-role', parsed.role);
-        if (!tr.getAttribute('data-name')) tr.setAttribute('data-name', parsed.name);
+      if (!tr.getAttribute('data-speakers')) {
+        if (!tr.getAttribute('data-organization') || !tr.getAttribute('data-role') || !tr.getAttribute('data-name')) {
+          var speakerEl = tds[2].querySelector('.program-speaker');
+          var parsed = parseSpeakerText(speakerEl ? speakerEl.textContent : '');
+          if (!tr.getAttribute('data-organization')) tr.setAttribute('data-organization', parsed.organization);
+          if (!tr.getAttribute('data-role')) tr.setAttribute('data-role', parsed.role);
+          if (!tr.getAttribute('data-name')) tr.setAttribute('data-name', parsed.name);
+        }
+        if (!tr.hasAttribute('data-name2')) tr.setAttribute('data-name2', '');
+        if (!tr.hasAttribute('data-name3')) tr.setAttribute('data-name3', '');
       }
-      if (!tr.hasAttribute('data-name2')) tr.setAttribute('data-name2', '');
-      if (!tr.hasAttribute('data-name3')) tr.setAttribute('data-name3', '');
     }
 
-    function formatProgramSpeakerNames(tr) {
-      var out = [];
-      ['data-name', 'data-name2', 'data-name3'].forEach(function (attr) {
-        var n = (tr.getAttribute(attr) || '').replace(/\s+/g, ' ').trim();
-        if (n) out.push(n + ' 氏');
-      });
-      return out.join('　／　');
+    function getSpeakersArrayFromRow(tr) {
+      var raw = tr.getAttribute('data-speakers');
+      if (raw) {
+        try {
+          var arr = JSON.parse(decodeURIComponent(raw));
+          if (Array.isArray(arr) && arr.length) return arr;
+        } catch (e1) {}
+      }
+      ensureProgramRowData(tr);
+      var org = tr.getAttribute('data-organization') || '';
+      var role = tr.getAttribute('data-role') || '';
+      var n1 = (tr.getAttribute('data-name') || '').trim();
+      var n2 = (tr.getAttribute('data-name2') || '').trim();
+      var n3 = (tr.getAttribute('data-name3') || '').trim();
+      var arr = [];
+      if (n1) arr.push({ company: org, jobTitle: role, name: n1 });
+      if (n2) arr.push({ company: '', jobTitle: '', name: n2 });
+      if (n3) arr.push({ company: '', jobTitle: '', name: n3 });
+      if (arr.length === 0) arr.push({ company: org, jobTitle: role, name: '' });
+      return arr;
     }
+
+    function renderSpeakersReadHtml(speakers) {
+      var lines = speakers.map(function (s) {
+        var name = (s.name || '').trim();
+        var meta = [s.company || '', s.jobTitle || ''].filter(function (x) { return String(x).trim(); }).join('　');
+        if (!name && !meta) return '';
+        return '<p class="program-speaker mb-1 small">' +
+          (name ? escapeHtmlProgram(name) + ' 氏 ' : '') +
+          (meta ? '<span class="text-muted">' + escapeHtmlProgram(meta) + '</span>' : '') +
+          '</p>';
+      }).filter(Boolean);
+      if (lines.length === 0) return '<p class="program-speaker mb-1 small text-muted">—</p>';
+      return lines.join('');
+    }
+
+    function programSpeakerBlockHtmlDetail(data, showRemove) {
+      data = data || { company: '', jobTitle: '', name: '' };
+      var head = showRemove
+        ? '<div class="d-flex justify-content-end mb-1"><button type="button" class="btn btn-outline-danger btn-sm py-0 px-1 program-speaker-remove" title="この講演者を削除" aria-label="削除"><i class="bi bi-trash"></i></button></div>'
+        : '';
+      return '<div class="program-speaker-block border rounded p-2 mb-1 bg-light">' + head +
+        '<div class="d-grid gap-1">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="company" placeholder="会社名" value="' + escapeHtmlProgram(data.company || '') + '">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="jobTitle" placeholder="肩書" value="' + escapeHtmlProgram(data.jobTitle || '') + '">' +
+        '<input type="text" class="form-control form-control-sm" data-spk-field="name" placeholder="氏名" value="' + escapeHtmlProgram(data.name || '') + '">' +
+        '</div></div>';
+    }
+
+    function buildProgramSpeakersEditorHtml(speakers) {
+      var list = speakers && speakers.length ? speakers.slice() : [{ company: '', jobTitle: '', name: '' }];
+      var n = list.length;
+      var html = '<div class="program-speakers-editor mt-1" data-max-speakers="' + PROGRAM_SPEAKER_MAX_DETAIL + '">';
+      for (var i = 0; i < list.length; i++) {
+        html += programSpeakerBlockHtmlDetail(list[i], n > 1);
+      }
+      html += '<button type="button" class="btn btn-outline-primary btn-sm program-speaker-add"><i class="bi bi-plus-lg"></i> 講演者を追加</button>' +
+        '<div class="text-muted mt-1" style="font-size: 0.62rem;">最大' + PROGRAM_SPEAKER_MAX_DETAIL + '名まで追加できます</div></div>';
+      return html;
+    }
+
+    function refreshProgramSpeakerEditorDetail(editor) {
+      if (!editor) return;
+      var max = parseInt(editor.getAttribute('data-max-speakers') || String(PROGRAM_SPEAKER_MAX_DETAIL), 10) || PROGRAM_SPEAKER_MAX_DETAIL;
+      var blocks = editor.querySelectorAll('.program-speaker-block');
+      var n = blocks.length;
+      var addBtn = editor.querySelector('.program-speaker-add');
+      if (addBtn) addBtn.disabled = n >= max;
+      blocks.forEach(function (blk) {
+        var row = blk.querySelector('.d-flex.justify-content-end');
+        if (n <= 1) {
+          if (row) row.remove();
+        } else {
+          if (!row) {
+            row = document.createElement('div');
+            row.className = 'd-flex justify-content-end mb-1';
+            blk.insertBefore(row, blk.firstChild);
+          } else {
+            row.className = 'd-flex justify-content-end mb-1';
+            row.innerHTML = '';
+          }
+          row.innerHTML = '<button type="button" class="btn btn-outline-danger btn-sm py-0 px-1 program-speaker-remove" title="この講演者を削除" aria-label="削除"><i class="bi bi-trash"></i></button>';
+        }
+      });
+    }
+
+    document.getElementById('programContentBody').addEventListener('click', function (e) {
+      if (!programEditMode) return;
+      var t = e.target;
+      if (t.closest && t.closest('.program-speaker-add')) {
+        var btn = t.closest('.program-speaker-add');
+        var editor = btn && btn.closest('.program-speakers-editor');
+        if (!editor) return;
+        var max = parseInt(editor.getAttribute('data-max-speakers') || String(PROGRAM_SPEAKER_MAX_DETAIL), 10) || PROGRAM_SPEAKER_MAX_DETAIL;
+        if (editor.querySelectorAll('.program-speaker-block').length >= max) return;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = programSpeakerBlockHtmlDetail({ company: '', jobTitle: '', name: '' }, true);
+        var newBlock = wrap.firstChild;
+        btn.parentNode.insertBefore(newBlock, btn);
+        refreshProgramSpeakerEditorDetail(editor);
+        return;
+      }
+      if (t.closest && t.closest('.program-speaker-remove')) {
+        var rbtn = t.closest('.program-speaker-remove');
+        var blk = rbtn && rbtn.closest('.program-speaker-block');
+        var ed = blk && blk.closest('.program-speakers-editor');
+        if (!blk || !ed) return;
+        if (ed.querySelectorAll('.program-speaker-block').length <= 1) return;
+        blk.remove();
+        refreshProgramSpeakerEditorDetail(ed);
+      }
+    });
 
     function renderProgramReadMode() {
       var tbody = document.getElementById('programContentBody');
@@ -677,19 +790,15 @@
         if (tds.length < 3) return;
         var type = tr.getAttribute('data-type') || '';
         var title = tr.getAttribute('data-title') || '';
-        var org = tr.getAttribute('data-organization') || '';
-        var role = tr.getAttribute('data-role') || '';
-        var namesLine = formatProgramSpeakerNames(tr);
+        var speakers = getSpeakersArrayFromRow(tr);
+        var speakersHtml = renderSpeakersReadHtml(speakers);
         tds[0].className = 'program-time';
         tds[0].textContent = tr.getAttribute('data-time') || '';
         tds[1].textContent = tr.getAttribute('data-room') || '';
         tds[2].innerHTML =
           '<span class="session-badge badge bg-secondary me-1">' + (type || '講演') + '</span>' +
-          '<span class="program-title">' + title + '</span>' +
-          '<p class="program-speaker mb-0 mt-1 small">' +
-          (org || role ? '<span class="text-muted">' + org + '</span>　<span class="text-muted">' + role + '</span>' + (namesLine ? '<br>' : '') : '') +
-          namesLine +
-          '</p>';
+          '<span class="program-title">' + escapeHtmlProgram(title) + '</span>' +
+          '<div class="mt-1">' + speakersHtml + '</div>';
       });
     }
 
@@ -705,23 +814,17 @@
         var room = tr.getAttribute('data-room') || '';
         var type = tr.getAttribute('data-type') || '';
         var title = tr.getAttribute('data-title') || '';
-        var org = tr.getAttribute('data-organization') || '';
-        var role = tr.getAttribute('data-role') || '';
-        var name = tr.getAttribute('data-name') || '';
-        var name2 = tr.getAttribute('data-name2') || '';
-        var name3 = tr.getAttribute('data-name3') || '';
+        var speakers = getSpeakersArrayFromRow(tr);
         tds[0].innerHTML = '<input type="text" class="form-control form-control-sm" value="' + time.replace(/"/g, '&quot;') + '" placeholder="時間">';
         tds[1].innerHTML = '<input type="text" class="form-control form-control-sm" value="' + room.replace(/"/g, '&quot;') + '" placeholder="ROOM">';
         tds[2].innerHTML =
           '<div class="d-grid gap-1">' +
           '<input type="text" class="form-control form-control-sm" data-field="type" value="' + type.replace(/"/g, '&quot;') + '" placeholder="講演種別">' +
           '<input type="text" class="form-control form-control-sm" data-field="title" value="' + title.replace(/"/g, '&quot;') + '" placeholder="講演タイトル">' +
-          '<input type="text" class="form-control form-control-sm" data-field="organization" value="' + org.replace(/"/g, '&quot;') + '" placeholder="会社名">' +
-          '<input type="text" class="form-control form-control-sm" data-field="role" value="' + role.replace(/"/g, '&quot;') + '" placeholder="肩書">' +
-          '<input type="text" class="form-control form-control-sm" data-field="name" value="' + name.replace(/"/g, '&quot;') + '" placeholder="講演者1（氏名）">' +
-          '<input type="text" class="form-control form-control-sm" data-field="name2" value="' + name2.replace(/"/g, '&quot;') + '" placeholder="講演者2（任意）">' +
-          '<input type="text" class="form-control form-control-sm" data-field="name3" value="' + name3.replace(/"/g, '&quot;') + '" placeholder="講演者3（任意）">' +
+          buildProgramSpeakersEditorHtml(speakers) +
           '</div>';
+        var ed = tds[2].querySelector('.program-speakers-editor');
+        if (ed) refreshProgramSpeakerEditorDetail(ed);
       });
     }
 
@@ -757,20 +860,30 @@
         var roomInput = tds[1].querySelector('input');
         var typeInput = tds[2].querySelector('input[data-field="type"]');
         var titleInput = tds[2].querySelector('input[data-field="title"]');
-        var orgInput = tds[2].querySelector('input[data-field="organization"]');
-        var roleInput = tds[2].querySelector('input[data-field="role"]');
-        var nameInput = tds[2].querySelector('input[data-field="name"]');
-        var name2Input = tds[2].querySelector('input[data-field="name2"]');
-        var name3Input = tds[2].querySelector('input[data-field="name3"]');
+        var editor = tds[2].querySelector('.program-speakers-editor');
         if (timeInput) tr.setAttribute('data-time', (timeInput.value || '').trim());
         if (roomInput) tr.setAttribute('data-room', (roomInput.value || '').trim());
         if (typeInput) tr.setAttribute('data-type', (typeInput.value || '').trim());
         if (titleInput) tr.setAttribute('data-title', (titleInput.value || '').trim());
-        if (orgInput) tr.setAttribute('data-organization', (orgInput.value || '').trim());
-        if (roleInput) tr.setAttribute('data-role', (roleInput.value || '').trim());
-        if (nameInput) tr.setAttribute('data-name', (nameInput.value || '').trim());
-        if (name2Input) tr.setAttribute('data-name2', (name2Input.value || '').trim());
-        if (name3Input) tr.setAttribute('data-name3', (name3Input.value || '').trim());
+        var arr = [];
+        if (editor) {
+          editor.querySelectorAll('.program-speaker-block').forEach(function (blk) {
+            var c = blk.querySelector('[data-spk-field="company"]');
+            var j = blk.querySelector('[data-spk-field="jobTitle"]');
+            var n = blk.querySelector('[data-spk-field="name"]');
+            arr.push({
+              company: c ? (c.value || '').trim() : '',
+              jobTitle: j ? (j.value || '').trim() : '',
+              name: n ? (n.value || '').trim() : ''
+            });
+          });
+        }
+        tr.setAttribute('data-speakers', encodeURIComponent(JSON.stringify(arr)));
+        tr.removeAttribute('data-organization');
+        tr.removeAttribute('data-role');
+        tr.removeAttribute('data-name');
+        tr.removeAttribute('data-name2');
+        tr.removeAttribute('data-name3');
       });
       programEditMode = false;
       updateProgramButtons();

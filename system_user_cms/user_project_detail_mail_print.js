@@ -35,10 +35,10 @@
       'セッションC,セッションD',
       'セッションA,セッションB,セッションC,ネットワーキング'
     ];
-    /** 抽選結果（当選・抽選漏れ・ブランク） */
-    var LOTTERY_OPTIONS = ['当選', '抽選漏れ', 'ブランク'];
-    /** 出欠状況 */
-    var ATTENDANCE_OPTIONS = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ'];
+    /** 抽選結果（空文字は空欄。モック生成で巡回） */
+    var LOTTERY_OPTIONS = ['当選', '抽選漏れ', ''];
+    /** 出欠状況（空文字は空欄） */
+    var ATTENDANCE_OPTIONS = ['本人出席', '代理出席', '当日出席', '交代出席', '欠席', '申込者', 'キャンセル', '抽選漏れ', ''];
     var salesKeyRotation = ['yamada', 'sato', 'suzuki', 'takahashi', 'watanabe'];
     var kanaLastPool = ['タナカ', 'タカハシ', 'イトウ', 'スズキ', 'ヤマモト', 'ナカムラ', 'コバヤシ', 'サトウ', 'カトウ', 'ヨシダ'];
     var kanaFirstPool = ['イチロウ', 'ミサキ', 'ケンタ', 'マリコ', 'タケシ', 'ユウコ', 'ハナコ', 'リョウ', 'ユミ', 'ダイスケ'];
@@ -77,6 +77,9 @@
         present: present
       });
     }
+    visitorData.forEach(function (v) {
+      if (v.lotteryResult === 'ブランク') v.lotteryResult = '';
+    });
 
     var filterStaff = document.getElementById('filterStaff');
     var filterName = document.getElementById('filterName');
@@ -146,6 +149,87 @@
       return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
+    function displayLotteryCell(v) {
+      var s = v.lotteryResult;
+      if (s == null || s === '' || s === 'ブランク') return '';
+      return String(s);
+    }
+
+    function displayAttendanceCell(v) {
+      var s = v.attendanceStatus;
+      if (s == null || s === '') return '';
+      return String(s);
+    }
+
+    /** 列ソート（▲▼）。col が null なら未適用 */
+    var sortState = { col: null, dir: 'asc' };
+    var visitorTableEl = document.getElementById('visitorTable');
+
+    function numericUserId(v) {
+      return parseInt(String(v.userid || '').replace(/\D/g, ''), 10) || 0;
+    }
+
+    function getCellStringForSort(v, col) {
+      switch (col) {
+        case 'userid':
+          return v.userid || '';
+        case 'lottery':
+          return displayLotteryCell(v);
+        case 'attendance':
+          return displayAttendanceCell(v);
+        case 'company':
+          return v.company || '';
+        case 'dept':
+          return v.dept || '';
+        case 'jobTitle':
+          return v.jobTitle || '';
+        case 'name':
+          return v.name || '';
+        case 'kanaLast':
+          return v.kanaLast || '';
+        case 'kanaFirst':
+          return v.kanaFirst || '';
+        case 'email':
+          return v.email || '';
+        case 'session':
+          return v.session || '';
+        case 'nameplate':
+          return nameplateCheckedUserIds.has(v.userid) ? '選択' : '未選択';
+        case 'staff':
+          return v.staffName || '';
+        default:
+          return '';
+      }
+    }
+
+    function applySort(arr) {
+      if (!sortState || !sortState.col) return arr.slice();
+      var col = sortState.col;
+      var dir = sortState.dir === 'desc' ? -1 : 1;
+      return arr.slice().sort(function (a, b) {
+        var cmp;
+        if (col === 'userid') {
+          cmp = numericUserId(a) - numericUserId(b);
+        } else {
+          cmp = getCellStringForSort(a, col).localeCompare(getCellStringForSort(b, col), 'ja');
+        }
+        if (cmp !== 0) return cmp * dir;
+        return numericUserId(a) - numericUserId(b);
+      });
+    }
+
+    function updateSortUiState() {
+      if (!visitorTableEl) return;
+      visitorTableEl.querySelectorAll('.btn-col-sort').forEach(function (b) {
+        b.classList.remove('btn-primary', 'text-white');
+        b.disabled = !!isVisitorEditMode;
+        var c = b.getAttribute('data-col');
+        if (sortState && sortState.col && sortState.dir && c === sortState.col && b.getAttribute('data-dir') === sortState.dir) {
+          b.classList.add('btn-primary', 'text-white');
+        }
+      });
+    }
+
     function getStaffOptionKey(v) {
       var keys = Object.keys(SALES_STAFF_META);
       for (var i = 0; i < keys.length; i++) {
@@ -156,21 +240,27 @@
     }
 
     function lotterySelectHtml(v) {
-      var html = '<select class="form-select form-select-sm js-lottery" data-userid="' + String(v.userid || '').replace(/"/g, '&quot;') + '">';
-      for (var i = 0; i < LOTTERY_OPTIONS.length; i++) {
-        var opt = LOTTERY_OPTIONS[i];
-        var selected = v.lotteryResult === opt ? ' selected' : '';
-        html += '<option value="' + opt + '"' + selected + '>' + opt + '</option>';
-      }
+      var cur = v.lotteryResult;
+      if (cur === 'ブランク' || cur == null) cur = '';
+      var uidAttr = String(v.userid || '').replace(/"/g, '&quot;');
+      var html = '<select class="form-select form-select-sm js-lottery" data-userid="' + uidAttr + '">';
+      html += '<option value=""' + (cur === '' ? ' selected' : '') + '>－</option>';
+      html += '<option value="当選"' + (cur === '当選' ? ' selected' : '') + '>当選</option>';
+      html += '<option value="抽選漏れ"' + (cur === '抽選漏れ' ? ' selected' : '') + '>抽選漏れ</option>';
       html += '</select>';
       return html;
     }
 
     function attendanceSelectHtml(v) {
-      var html = '<select class="form-select form-select-sm js-attendance" data-userid="' + String(v.userid || '').replace(/"/g, '&quot;') + '">';
+      var cur = v.attendanceStatus;
+      if (cur == null) cur = '';
+      var uidAttr = String(v.userid || '').replace(/"/g, '&quot;');
+      var html = '<select class="form-select form-select-sm js-attendance" data-userid="' + uidAttr + '">';
+      html += '<option value=""' + (cur === '' ? ' selected' : '') + '>－</option>';
       for (var i = 0; i < ATTENDANCE_OPTIONS.length; i++) {
         var opt = ATTENDANCE_OPTIONS[i];
-        var selected = v.attendanceStatus === opt ? ' selected' : '';
+        if (opt === '') continue;
+        var selected = cur === opt ? ' selected' : '';
         html += '<option value="' + opt + '"' + selected + '>' + opt + '</option>';
       }
       html += '</select>';
@@ -210,8 +300,8 @@
       } else {
         tr.innerHTML =
           '<td class="text-nowrap">' + escCell(v.userid) + '</td>' +
-          '<td>' + escCell(v.lotteryResult) + '</td>' +
-          '<td>' + escCell(v.attendanceStatus) + '</td>' +
+          '<td>' + escCell(displayLotteryCell(v)) + '</td>' +
+          '<td>' + escCell(displayAttendanceCell(v)) + '</td>' +
           '<td>' + escCell(v.company) + '</td>' +
           '<td>' + escCell(v.dept) + '</td>' +
           '<td>' + escCell(v.jobTitle) + '</td>' +
@@ -300,11 +390,12 @@
     function getFiltered() {
       var staffVal = filterStaff ? filterStaff.value : '';
       var nameVal = filterName ? filterName.value.trim() : '';
-      return visitorData.filter(function (v) {
+      var base = visitorData.filter(function (v) {
         var showStaff = !staffVal || v.staffId === staffVal;
         var showSearch = visitorSearchMatches(v, nameVal);
         return showStaff && showSearch;
       });
+      return applySort(base);
     }
 
     function render() {
@@ -326,6 +417,7 @@
       if (tbody) tbody.innerHTML = '';
       if (pageData && tbody) pageData.forEach(function (v) { tbody.appendChild(renderRow(v)); });
       updateNameplateSelectionCount();
+      updateSortUiState();
 
       if (paginationList) paginationList.innerHTML = '';
       if (totalPages <= 1 || !paginationList) return;
@@ -354,11 +446,22 @@
       paginationList.appendChild(li);
     }
 
+    if (visitorTableEl) {
+      visitorTableEl.addEventListener('click', function (e) {
+        var sortBtn = e.target.closest('.btn-col-sort');
+        if (!sortBtn || sortBtn.disabled) return;
+        e.preventDefault();
+        sortState = { col: sortBtn.getAttribute('data-col'), dir: sortBtn.getAttribute('data-dir') };
+        currentPage = 1;
+        render();
+      });
+    }
     if (btnApply) btnApply.addEventListener('click', function () { currentPage = 1; render(); });
     if (btnReset) {
       btnReset.addEventListener('click', function () {
         if (filterStaff) filterStaff.value = '';
         if (filterName) filterName.value = '';
+        sortState = { col: null, dir: 'asc' };
         currentPage = 1;
         render();
       });
@@ -374,7 +477,12 @@
         if (!uid) return;
         if (t.checked) nameplateCheckedUserIds.add(uid);
         else nameplateCheckedUserIds.delete(uid);
-        updateNameplateSelectionCount();
+        if (sortState && sortState.col === 'nameplate') {
+          currentPage = 1;
+          render();
+        } else {
+          updateNameplateSelectionCount();
+        }
       });
     }
 
@@ -425,7 +533,7 @@
         var el = document.getElementById(id);
         if (el) el.value = '';
       });
-      if (addVisitorLottery) addVisitorLottery.value = 'ブランク';
+      if (addVisitorLottery) addVisitorLottery.value = '';
       if (addVisitorAttendance) addVisitorAttendance.value = '本人出席';
     }
 
@@ -447,8 +555,8 @@
       var email = addVisitorEmail ? addVisitorEmail.value.trim() : '';
       var session = addVisitorSession ? addVisitorSession.value : '';
       var salesKey = addVisitorSalesStaff ? addVisitorSalesStaff.value : '';
-      var lotteryVal = addVisitorLottery && addVisitorLottery.value ? addVisitorLottery.value : 'ブランク';
-      var attendanceVal = addVisitorAttendance && addVisitorAttendance.value ? addVisitorAttendance.value : '本人出席';
+      var lotteryVal = addVisitorLottery ? addVisitorLottery.value : '';
+      var attendanceVal = addVisitorAttendance ? addVisitorAttendance.value : '本人出席';
 
       if (!company) {
         alert('会社名を入力してください。');
